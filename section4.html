@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6; /* Light gray background */
+        }
+        .logo img {
+             height: 50px; /* Adjust height as needed */
+             width: auto; /* Maintain aspect ratio */
+             object-fit: contain; /* Ensure the image scales properly */
+             display: block; /* Remove any unwanted extra space */
+             border-radius: 50%;
+             animation: rotateLogo 30s linear infinite;
+       }
+       @keyframes rotateLogo {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.logo:hover{
+    transform:scale(1.5);
+ }
+        header {
+            background: linear-gradient(135deg, #ff6f61, #ffcc00); /* Gradient background */
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+           
+        }
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        header .search-bar {
+            flex-grow: 1;
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        header .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        header .search-bar input:focus {
+            border: 1px solid #00796b;
+            box-shadow: 0 0 10px rgba(0, 121, 107, 0.5);
+            transform: scale(1.02);
+        }
+        header .nav {
+            display: flex;
+            gap: 20px;
+        }
+        header .nav a {
+            text-decoration: none;
+    color: #fff;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    overflow: hidden;
+        }
+        header .nav a:hover, header .nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(145deg, #1bdaba, #fc25f5); /* Gradient background */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .sidebar .video-item {
+            display: flex;
+            color: #ffffff;
+            text-shadow: #000;
+            font-size: larger;
+            font-weight: bolder;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+         
+        
+        }
+        .sidebar .video-item:hover {
+            background: rgb(16, 15, 15);
+            transform: translateX(5px);
+        }
+        .sidebar .video-item img {
+            width: 70%;
+            height: 90%;
+            border-radius: 4px;
+        }
+        .sidebar .video-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #fff;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .video-player {
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .video-player iframe {
+            width: 100%;
+            height: 300px; /* Reduced height */
+            border: none;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Smaller cards, more columns */
+            gap: 15px;
+        }
+        .video-item {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 150px; /* Smaller height for cards */
+            background-size: cover;
+            background-position: center;
+        }
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .video-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+        }
+        .video-item div {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 10px;
+            color: #fff;
+            z-index: 2;
+        }
+        .video-item p {
+            margin: 0;
+        }
+        .video-item p:first-child {
+            font-weight: bold;
+            font-size: 14px; /* Smaller font size */
+        }
+        .video-item p:last-child {
+            font-size: 12px;
+            color: #ddd;
+        }
+        #noResults {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+        @media (max-width: 768px) {
+            header {
+                overflow: scroll;
+            }
+            .logo:hover{
+        transform:scale(1);
+}
+            .sidebar {
+                display: none; /* Hide sidebar on mobile */
+            }
+            .video-player iframe {
+                height: 200px; /* Further reduced height for mobile */
+            }
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Smaller cards for mobile */
+            }
+            .video-item {
+                height: 120px; /* Smaller height for mobile */
+            }
+            .video-item p:first-child {
+                font-size: 12px; /* Smaller font size for mobile */
+            }
+            .video-item p:last-child {
+                font-size: 10px; /* Smaller font size for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="index.html" ><img src="https://i.pinimg.com/474x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg" alt="logo"></a></div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for videos...">
+        </div>
+        <nav class="nav">
+            <a href="index.html">HOME</a>
+            <a href="section1.1.html">Resources</a>
+            <a href="section2.html">PAPERS</a>
+            <a href="section3.html">BOOKS</a>
+            <a href="section4.html" class="active">VIDEOS</a>
+            <a href="section5.html">Feedback</a>
+        </nav>
+    </header>
+    <main>
+        <aside class="sidebar">
+            <h2>Recently Watched</h2>
+            <div id="recentlyWatched">
+                <!-- Recently watched videos will be inserted here -->
+            </div>
+        </aside>
+        <section class="content">
+            <div class="video-player">
+                <iframe id="videoPlayer" src="https://www.youtube.com/embed/tgbNymZ7vqY" title="video1" allowfullscreen></iframe>
+            </div>
+            <div class="all-videos">
+                <h2>All Videos</h2>
+                <div class="video-grid" id="allVideos">
+                    <!-- Dynamic video items will be inserted here -->
+                </div>
+                <div id="noResults" class="text-center mt-3">No videos found.</div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbwvlUO4I-6fk-fm0iascE1yoiYEi4Jzr-tUIwnjU7mMR4cggwJo4WsyTsI5srishWlRmg/exec";
+    
+        let videos = [];
+        let cacheTime = localStorage.getItem("cacheTime");
+        let cachedVideos = localStorage.getItem("cachedVideos");
+    
+        async function fetchVideos() {
+            let currentTime = new Date().getTime();
+    
+            // Check if cached data exists and is within 1-minute limit
+            if (cachedVideos && cacheTime && currentTime - cacheTime < 60000) {
+                videos = JSON.parse(cachedVideos);
+                console.log("Loaded from cache");
+            } else {
+                try {
+                    const response = await fetch(API_URL);
+                    videos = await response.json();
+                    localStorage.setItem("cachedVideos", JSON.stringify(videos));
+                    localStorage.setItem("cacheTime", currentTime);
+                    console.log("Fetched from API");
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            }
+    
+            renderVideoList(allVideosContainer, videos);
+        }
+    
+        const searchInput = document.getElementById('searchInput');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const allVideosContainer = document.getElementById('allVideos');
+        const recentlyWatchedContainer = document.getElementById('recentlyWatched');
+        const noResults = document.getElementById('noResults');
+    
+        function loadVideo(videoId, title) {
+            videoPlayer.src = `https://www.youtube.com/embed/${videoId}`;
+            const video = videos.find(v => v.id === videoId);
+            if (video) {
+                addRecentlyWatched(videoId, title, video.thumbnail);
+            }
+        }
+    
+        function addRecentlyWatched(videoId, title, thumbnail) {
+            let recentlyWatchedVideos = JSON.parse(localStorage.getItem('recentlyWatched')) || [];
+            recentlyWatchedVideos = recentlyWatchedVideos.filter(video => video.id !== videoId);
+            recentlyWatchedVideos.unshift({ id: videoId, title, thumbnail });
+    
+            if (recentlyWatchedVideos.length > 5) {
+                recentlyWatchedVideos = recentlyWatchedVideos.slice(0, 5);
+            }
+    
+            localStorage.setItem('recentlyWatched', JSON.stringify(recentlyWatchedVideos));
+            renderRecentlyWatched();
+        }
+    
+        function renderVideoList(container, videoList) {
+            container.innerHTML = '';
+            if (videoList.length === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+                videoList.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-item';
+                    videoItem.style.backgroundImage = `url(${video.thumbnail})`;
+                    videoItem.innerHTML = `<div><p>${video.title}</p><p>${video.tags.join(", ")}</p></div>`;
+                    videoItem.addEventListener('click', () => loadVideo(video.id, video.title));
+                    container.appendChild(videoItem);
+                });
+            }
+        }
+    
+        function renderRecentlyWatched() {
+            const recentlyWatchedVideos = JSON.parse(localStorage.getItem('recentlyWatched')) || [];
+            recentlyWatchedContainer.innerHTML = '';
+    
+            if (recentlyWatchedVideos.length === 0) {
+                recentlyWatchedContainer.innerHTML = '<p>No recently watched videos.</p>';
+            } else {
+                recentlyWatchedVideos.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-item';
+                    videoItem.innerHTML = `<img src="${video.thumbnail}" alt="${video.title}"><p>${video.title}</p>`;
+                    videoItem.addEventListener('click', () => loadVideo(video.id, video.title));
+                    recentlyWatchedContainer.appendChild(videoItem);
+                });
+            }
+        }
+    
+        searchInput.addEventListener('input', (event) => {
+            const query = event.target.value.toLowerCase();
+            const filteredVideos = videos.filter(video =>
+                video.title.toLowerCase().includes(query) || video.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+            renderVideoList(allVideosContainer, filteredVideos);
+        });
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchVideos();
+            renderRecentlyWatched();
+        });
+    </script>
+    
+</body>
+</html>

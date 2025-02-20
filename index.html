@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .logo img {
+             height: 40px; /* Adjust height as needed */
+             width: auto; /* Maintain aspect ratio */
+             object-fit: contain; /* Ensure the image scales properly */
+             border-radius: 50%;
+             animation: rotateLogo 30s linear infinite;
+       }
+       @keyframes rotateLogo {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+ .logo:hover{
+    transform:scale(1.5);
+ }
+
+
+
+        .header {
+            background-color: #31ada9;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: background-color 0.3s ease;
+            height: 8vh;
+            
+        }
+        footer{
+            display: none;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .header:hover {
+            background-color: #28a197;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            margin-right: 10px;
+        }
+        .search-logo {
+            margin-left: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .search-logo:hover {
+            transform: scale(1.2);
+        }
+        .search-input {
+            display: none;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on header height */
+            left: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        .search-results ul {
+            list-style: none;
+        }
+        .search-results ul li {
+            margin-bottom: 10px;
+        }
+        nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    overflow: hidden;
+}
+
+/* Hover and Active State */
+nav ul li a.active,
+nav ul li a:hover {
+    background-color: #00796b;
+    color: white;
+    transform: scale(1.1); /* Slight zoom effect */
+    box-shadow: 0px 4px 10px rgba(0, 121, 107, 0.3);
+}
+
+/* Animated Underline Effect */
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+    transform: translateX(-50%);
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 80%;
+}
+
+/* Smooth transition when leaving hover */
+nav ul li a:not(:hover) {
+    transition: all 0.3s ease-in-out;
+}
+
+        .container-fluid {
+            display: flex;
+            flex-wrap: wrap;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .sidebar {
+            flex: 1 1 20%;
+            background-color: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .sidebar .button {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .sidebar .button:nth-child(1) { background-color: #f8bbd0; color: black;}
+        .sidebar .button:nth-child(2) { background-color: #8c9eff; }
+        .sidebar .button:nth-child(3) { background-color: #ffeb3b;color: black;}
+        .sidebar .button:nth-child(4) { background-color: #4caf50; }
+        .sidebar .button:nth-child(5) { background-color: #ff9800; }
+        .sidebar .button:nth-child(6) { background-color: #e1f436; }
+        .sidebar .button:nth-child(7) { background-color: #4caf50; color: #000; }
+        .sidebar .button:hover {
+            transform: translateY(-5px);
+        }
+        .sidebar .social {
+            margin-top: 10px;
+        }
+        .sidebar .social .social-button {
+            display: block;
+            border-radius: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #000;
+            text-align: center;
+            color: #000;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .sidebar .social .social-button:hover {
+            background-color: #000;
+            color: #fff;
+        }
+        .content {
+            flex: 1 1 80%;
+            padding: 10px;
+            box-sizing: border-box;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .content .about, .content .description {
+            background-color: #eae7c6;
+            padding: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .content .about:hover, .content .description:hover {
+            background-color: #c9e4af;
+            transform: translateY(-5px);
+        }
+        .content .updates {
+            background-color: #66bb6a;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            animation: fadeIn 1s ease-in-out;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .content .update-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: inset 2px 2px 0 0 grey;
+        }
+        .content .update-item {
+            display: flex;
+            justify-content: space-between;
+            width: 45%;
+            background: #e3b7f3;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-in-out;
+            border-radius: 20px;
+            position: relative;
+            top:10px;
+        }
+        .content .update-item .date {
+            display: flex;
+            align-items: center;
+        }
+        .content .update-item .description {
+            flex-grow: 1;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+        a{
+            text-decoration: none;
+        }
+        b{
+            font-size: large;
+        }
+        .update-list{
+            display: flex;
+            justify-content:space-evenly;
+        }
+
+        @media (max-width: 768px) {
+    /* Header */
+    header {
+        overflow-x: auto;
+        height: 8vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+        gap: 5px;
+    }
+
+    .sidebar .button {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+
+    /* Content */
+    .content {
+        font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #64def131;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .socialfooter {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .socialfooter .social-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 10vw;
+        height: 10vw;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Different colors for buttons */
+    .socialfooter .social-button:nth-child(1) { background-color: #e91e63; } /* Pink */
+    .socialfooter .social-button:nth-child(2) { background-color: #3f51b5; } /* Blue */
+    .socialfooter .social-button:nth-child(3) { background-color: #ff9800; } /* Orange */
+
+    .socialfooter .social-button:hover {
+        transform: translateY(-3px);
+        opacity: 0.8;
+    }
+
+    /* Updates Section */
+    .updates {
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        background: linear-gradient(45deg, #ff5722, #ff9800);
+        color: white;
+        padding: 8px;
+        border-radius: 5px;
+    }
+
+    .update-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .update-item {
+        background: #f9f9f9;
+        padding: 8px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-size: 12px;
+        border-left: 4px solid #ff9800;
+        display: flex;
+        flex-direction: column; /* Date upar, Description neeche */
+        align-items: center;
+    }
+
+    .update-item .date {
+        font-weight: bold;
+        color: #e91e63;
+        font-size: 13px;
+        margin-bottom: 3px;
+    }
+
+    .update-item .description {
+        font-size: 11px;
+        color: #333;
+    }
+    .social{
+        display: none;
+    }
+    .logo:hover{
+        transform:scale(1);
+}
+
+        
+}      
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+         <img src="https://i.pinimg.com/474x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg" alt="logo">
+            <span class="search-logo">&#128269;</span>
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+        <nav role="navigation">
+            <ul>
+                <li><a href="index.html" class="active">HOME</a></li>
+                <li><a href="section1.1.html">Resources</a></li>
+                <li><a href="section2.html">PAPERS</a></li>
+                <li><a href="section3.html">BOOKS</a></li>
+                <li><a href="section4.html">VIDEOS</a></li>
+                <li><a href="section5.html">Feedback</a></li>
+            </ul>
+        </nav>
+        <div class="search-results">
+            <ul><li>BOOKS</li>
+            </ul>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="sidebar">
+            
+            <a href="section1.1.html" class="button">Resources</a>
+            <a href="section2.html" class="button">PAPERS</a>
+            <a href="section3.html" class="button">BOOKS</a>
+            <a href="section4.html" class="button">VIDEOS</a>
+            <a href="section5.html" class="button">Feedback</a>
+            <!-- <a href="section6.html" class="button"></a> -->
+            
+            <div class="button"><a href="https://forms.gle/XCQnDMBcR6PcihpK7" target="_blank" rel="noopener">Donate Resources</a></div>
+            <div class="social">
+                <a href="#" class="social-button">Social 1</a>
+                <a href="#" class="social-button">Social 2</a>
+                <a href="#" class="social-button">Social 3</a>
+            </div>
+        </div>
+        <div class="content">
+            <div class="about">
+                <h2>Loading information...</b></h2>
+            </div>
+            <div class="description">
+                <h2>Loading information...</h2>
+            </div>
+            <div class="updates">NEW UPDATES</div>
+            <div class="update-list">
+                <div class="update-item">
+                    <div class="date">DATE</div>
+                    <div class="description">Loading information...</div>
+                </div>
+                <div class="update-item">
+                    <div class="date">DATE</div>
+                    <div class="description">Loading information...</div>
+                </div>
+                <div class="update-item">
+                    <div class="date">DATE</div>
+                    <div class="description">Loading information...</div>
+                </div>
+                <div class="update-item">
+                    <div class="date">DATE</div>
+                    <div class="description">Loading information...</div>
+                </div>
+                <div class="update-item">
+                    <div class="date">DATE</div>
+                    <div class="description">Loading information...</div>
+                </div>
+                <div class="update-item">
+                    <div class="date">DATE</div>
+                    <div class="description">Loading information...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    fetch('https://script.google.com/macros/s/AKfycbxo-WlFicj30IyDtzkiaSsVhrKII5vs5WfMxJ7zw-RkNgYv-lPyj-YArYRKacDzQKpgbg/exec')
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.about h2').innerHTML = data.aboutUs;
+            document.querySelector('.description h2').innerHTML = data.description;
+
+            const updateList = document.querySelector('.update-list');
+            updateList.innerHTML = data.updates.map(update => `
+                <div class="update-item">
+                    <div class="date">${formatDate(update.date)}</div> <!-- 🔥 Yahan Fix Kiya -->
+                    <div class="description">${update.content}</div>
+                </div>
+            `).join('');
+
+            setupSearchFeature(data.updates);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+
+function formatDate(isoDate) {
+    const date = new Date(isoDate);
+    if (isNaN(date)) return isoDate; // Agar date invalid ho toh original return kar do
+    return date.toLocaleDateString('en-GB'); // 🔥 DD/MM/YYYY format
+}
+
+function setupSearchFeature(updates) {
+    const searchLogo = document.querySelector('.search-logo');
+    const searchInput = document.querySelector('.search-input');
+    const searchResults = document.querySelector('.search-results');
+    const searchResultsList = document.querySelector('.search-results ul');
+
+    searchLogo.addEventListener('click', function () {
+        searchInput.style.display = searchInput.style.display === 'block' ? 'none' : 'block';
+    });
+
+    searchInput.addEventListener('input', function () {
+        const query = searchInput.value.toLowerCase();
+        if (query.length > 2) {
+            const results = updates.filter(update => update.content.toLowerCase().includes(query));
+            searchResultsList.innerHTML = results.map(result => `
+                <li>${result.content} (${formatDate(result.date)})</li> <!-- 🔥 Yahan Bhi Fix Kiya -->
+            `).join('');
+            searchResults.style.display = 'block';
+        } else {
+            searchResults.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.header')) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+
+
+
+</script>
+<footer>
+    <div class="socialfooter">
+        <a href="#" class="social-button">Social 1</a>
+        <a href="#" class="social-button">Social 2</a>
+        <a href="#" class="social-button">Social 3</a>
+    </div>
+</footer>
+    
+</body>
+</html>

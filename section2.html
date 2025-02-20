@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #83dac4, #8ecdd5);
+        }
+        .logo img {
+             height: 50px; /* Adjust height as needed */
+             width: auto; /* Maintain aspect ratio */
+             object-fit: contain; /* Ensure the image scales properly */
+             display: block; /* Remove any unwanted extra space */
+             border-radius: 50%;
+             animation: rotateLogo 30s linear infinite;
+       }
+       @keyframes rotateLogo {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.logo:hover{
+    transform:scale(1.5);
+ }
+        .header {
+            background-color: #00796b;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: auto;
+            height: 8vh;
+            
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            margin-right: 10px;
+        }
+        nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    overflow: hidden;
+}
+
+/* Hover and Active State */
+nav ul li a.active,
+nav ul li a:hover {
+    background: linear-gradient(135deg, #9740dd, #331c57);
+    transform: scale(1.1);
+    box-shadow: 0px 4px 12px rgba(255, 107, 107, 0.4);
+}
+
+/* Animated Underline Effect */
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 3px;
+    background: white;
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 80%;
+}
+        .filter-section {
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .filter-section h3 {
+            margin-bottom: 20px;
+        }
+        .filter-section select {
+            margin-bottom: 10px;
+        }
+        .table-section {
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: auto;
+        }
+        .table-section table {
+            width: 100%;
+            border-collapse: collapse;
+            
+        }
+        .table-section th, .table-section td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .table-section th {
+            background-color: #00796b;
+            color: white;
+        }
+        .table-section tr:hover {
+            background-color: #f1f1f1;
+        }
+        td:hover{
+            background-color: aquamarine;
+            border-radius: 20px;
+            box-shadow: inset 2px 0 2px 2px rgb(179, 103, 191);
+        }
+        td{
+            font-size: larger;
+        }
+        td a{
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            header{
+        height: 8vh;
+
+
+            }
+            .container-fluid {
+                flex-direction: column;
+            }
+            .logo:hover{
+        transform:scale(1);
+}
+            .filter-section, .table-section {
+                margin: 10px;
+            }
+        }
+        /* Added styles for extended features */
+        .filter-section label {
+            font-weight: bold;
+        }
+        .filter-section .btn {
+            margin-top: 20px;
+        }
+      td{
+        padding: 0;
+        font-size: smaller;
+      }
+      *{
+        font-size: small;
+      }
+      
+    </style>
+</head>
+<body>  
+    <header class="header">
+        <div class="logo">
+            <span><a href="index.html" ><img src="https://i.pinimg.com/474x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg" alt="logo"></a> </div>
+        <nav role="navigation">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="section1.1.html" >Resources</a></li>
+                <li><a href="section2.html" class="active">PAPERS</a></li>
+                <li><a href="section3.html">BOOKS</a></li>
+                <li><a href="section4.html">VIDEOS</a></li>
+                <li><a href="section5.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="filter-section">
+        <h3>FILTER <i class="fas fa-filter"></i></h3>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="university">UNIVERSITY</label>
+                <select id="university" class="form-control">
+                    <option value="ALL">ALL</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="course">COURSE</label>
+                <select id="course" class="form-control">
+                    <option value="ALL">ALL</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="subject">SUBJECT</label>
+                <select id="subject" class="form-control">
+                    <option value="ALL">ALL</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="paper">PAPER</label>
+                <select id="paper" class="form-control">
+                    <option value="ALL">ALL</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+<option value="Loading information...">Loading...</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-success me-2" id="search-filter">Search Filter</button>
+                <button class="btn btn-danger" id="show-all-clear-filter">Show All / Clear Filter</button>
+            </div>
+            <div class="col-md-12 mt-3">
+                <input type="text" id="search-bar" class="form-control" placeholder="Search all items...">
+            </div>
+        </div>
+    </div>
+    <div class="table-section">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Updated on</th>
+                    <th>UNIVERSITY</th>
+                    <th>EXAM TYPE</th>
+                    <th>YEAR</th>
+                    <th>MONTH</th>
+                    <th>COURSE</th>
+                    <th>SUBJECT</th>
+                    <th>PAPER</th>
+                    <th>CODE</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <tr>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td><a href="#">Loading data...</td>
+                    <td>Loading data...</td>
+                </tr>
+                <tr>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td><a href="#">Loading data...</td>
+                    <td>Loading data...</td>
+                </tr> <tr>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td>Loading data...</td>
+                    <td><a href="#">Loading data...</td>
+                    <td>Loading data...</td>
+                </tr>
+                    
+                     
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const filters = {
+        university: 'ALL',
+        course: 'ALL',
+        subject: 'ALL',
+        paper: 'ALL'
+    };
+
+    const fetchSheetData = async () => {
+        try {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbxaI-Jhcxk17c2m2fVkE94YTAul_Ia0ftJntnIKSd3rp63AtJvHgDv_JpAumH4SU85g/exec');
+            const data = await response.json();
+            populateTable(data);
+            updateDropdowns(data);
+        } catch (error) {
+            console.error('Data fetch karte waqt error:', error);
+        }
+    };
+
+    const updateDropdowns = (data) => {
+        let universities = new Set(['ALL']);
+        let courses = new Set(['ALL']);
+        let subjects = new Set(['ALL']);
+        let papers = new Set(['ALL']);
+
+        data.forEach(row => {
+            universities.add(row[1]);
+            courses.add(row[5]);
+            subjects.add(row[6]);
+            papers.add(row[7]);
+        });
+
+        populateDropdown('university', universities);
+        populateDropdown('course', courses);
+        populateDropdown('subject', subjects);
+        populateDropdown('paper', papers);
+    };
+
+    const populateDropdown = (id, items) => {
+        const dropdown = document.getElementById(id);
+        dropdown.innerHTML = '';
+        items.forEach(item => {
+            let option = document.createElement('option');
+            option.value = item.toLowerCase();
+            option.textContent = item;
+            dropdown.appendChild(option);
+        });
+    };
+
+    const populateTable = (data) => {
+        const tableBody = document.getElementById('table-body');
+        tableBody.innerHTML = '';
+
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, index) => {
+                const td = document.createElement('td');
+                if (index === row.length - 1) {
+                    td.style.display = 'none';
+                    td.innerHTML = cell;
+                } else if (index === row.length - 3) {
+                    const link = row[row.length - 1];
+                    td.innerHTML = `<a href="${link}" target="_blank">${cell || 'Link'}</a>`;
+                    td.style.cursor = 'pointer';
+                    td.addEventListener('click', function() {
+                        window.open(link, '_blank');
+                    });
+                } else {
+                    td.innerHTML = cell;
+                }
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        });
+    };
+
+    const filterTable = () => {
+        const rows = document.querySelectorAll('#table-body tr');
+        const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+            const showRow = Object.keys(filters).every(key => {
+                const cellIndex = {
+                    university: 1,
+                    course: 5,
+                    subject: 6,
+                    paper: 7
+                }[key];
+                return filters[key] === 'ALL' || cells[cellIndex].textContent.trim().toLowerCase().includes(filters[key]);
+            }) && rowText.includes(searchTerm);
+
+            row.style.display = showRow ? '' : 'none';
+        });
+    };
+
+    document.querySelectorAll('.filter-section select').forEach(select => {
+        select.addEventListener('change', function() {
+            filters[this.id] = this.value.toLowerCase();
+            filterTable();
+        });
+    });
+    document.getElementById('show-all-clear-filter').addEventListener('click', function() {
+        document.querySelectorAll('.filter-section select').forEach(select => {
+            select.value = 'ALL';
+            filters[select.id] = 'ALL';
+        });
+        document.getElementById('search-bar').value = '';
+        filterTable();
+    });
+    document.getElementById('search-filter').addEventListener('click', function() {
+        filterTable();
+    });
+    document.getElementById('search-bar').addEventListener('input', function() {
+        filterTable();
+    });
+
+    fetchSheetData();
+});
+
+</script>
+</body>
+</html>

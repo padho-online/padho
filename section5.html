@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback & Support</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #b6f0f6;
+            color: #333;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .logo img {
+             height: 50px; /* Adjust height as needed */
+             width: auto; /* Maintain aspect ratio */
+             object-fit: contain; /* Ensure the image scales properly */
+             display: block; /* Remove any unwanted extra space */
+             border-radius: 50%;
+             animation: rotateLogo 5s linear infinite;
+       }
+        header {
+            background-color: #333 ;
+            padding: 1;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+            overflow: scroll;
+          
+            
+        }
+        .logo {
+            color: white;
+            font-size: 24px;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+        }
+        nav ul li a {
+            text-decoration: none;
+    color: #fff;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    overflow: hidden;
+        }
+        nav ul li a:hover,
+        nav ul li .active {
+            color: #f498d8;
+            background-color: white;
+            border-radius: 5px;
+          
+        }
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: right;
+        }
+        nav ul li a:hover::before,
+        nav ul li .active::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgb(121, 131, 113);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .intro h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .intro p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .feedback-form h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .feedback-form form {
+            display: grid;
+            gap: 15px;
+        }
+        .feedback-form label {
+            font-size: 16px;
+        }
+        .feedback-form input,
+        .feedback-form select,
+        .feedback-form textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out;
+        }
+        .feedback-form input:focus,
+        .feedback-form select:focus,
+        .feedback-form textarea:focus {
+            border-color: #0073e6;
+        }
+        .feedback-form button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #0073e6;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .feedback-form button:hover {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+        .support h2 {
+            font-size: 24px;
+            margin-top: 30px;
+        }
+        .faqs ul {
+            list-style: none;
+            padding: 0;
+        }
+        .faqs li {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .contact-info p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            position: fixed;
+            width: 100%;
+           
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: #ffcc00;
+            text-decoration: underline;
+        }
+        /* Media Queries for Mobile Devices */
+    /* General Mobile Styles */
+/* General Mobile Styles */
+@media (max-width: 768px) {
+    body {
+        font-size: 12px;
+        line-height: 1.4;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Header */
+    header {
+        background-color: #3f51b5;
+        padding: 5px 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    nav ul {
+        display: flex;
+        justify-content: space-around;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        position: relative;
+        bottom: 10px;
+    }
+
+    nav ul li {
+        display: inline;
+    }
+
+    nav ul li a {
+        color: white;
+        padding: 8px 10px;
+        text-decoration: none;
+        font-size: 12px;
+    }
+
+    nav ul li a.active {
+        background-color: #e91e63;
+        border-radius: 3px;
+    }
+
+    /* Main Section */
+    main {
+        padding-top: 40px;
+    }
+
+    .intro h1 {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .intro p {
+        font-size: 12px;
+        text-align: center;
+        margin: 0 10px;
+    }
+
+    /* Feedback Form */
+    .feedback-form {
+        padding: 5px;
+        border: black 2px solid;
+        background-color: #5d845d;
+        border-radius: 20px;
+    }
+    
+   
+
+    .feedback-form form {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .feedback-form input,
+    .feedback-form select,
+    .feedback-form textarea {
+        width: 100%;
+        padding: 5px;
+        font-size: 12px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+    }
+
+    .feedback-form button {
+        background-color: #ff9800;
+        color: white;
+        padding: 6px;
+        font-size: 12px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .feedback-form button:hover {
+        background-color: #e67e22;
+    }
+
+    /* Support Section */
+    .support {
+        padding: 5px;
+    }
+
+    .support h2 {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .faqs ul {
+        padding-left: 10px;
+        font-size: 12px;
+    }
+
+    .contact-info {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    /* Footer */
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #222;
+        text-align: center;
+        padding:0;
+        font-size: 10px;
+        color: white;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .footer-links a {
+        color: #ff9800;
+        text-decoration: none;
+        font-size: 10px;
+    }
+
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+}
+
+    </style>        
+</head>
+<body>
+    <header>
+      
+        <nav>
+            <ul>
+                <li><a href="index.html">   HOME</a></li>
+                <li><a href="section1.1.html">Resources</a></li>
+                <li><a href="section2.html">PAPERS</a></li>
+                <li><a href="section3.html">Books</a></li>
+                <li><a href="section4.html">Videos</a></li>
+    
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="intro">
+            <h1>Feedback & Support</h1>
+            <p>We value your feedback! Let us know how we can improve your experience or assist you with any questions.</p>
+        </section>
+        <section class="feedback-form">
+            <h2>Submit Your Feedback</h2>
+            <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdqFiGJ1I4gaZbGxjyAYZhSKMMfI7PzU7QuxNpYonz0L555vw/formResponse" method="POST" target="_blank">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="entry.1998705546" required>
+        
+                <label for="email">Email (optional):</label>
+                <input type="email" id="email" name="entry.405192546">
+        
+                <label for="user-type">I am a:</label>
+                <select id="user-type" name="entry.604599872" required>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="visitor">Visitor</option>
+                </select>
+        
+                <label for="feedback-type">Feedback Type:</label>
+                <select id="feedback-type" name="entry.598220544" required>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="issue">Issue</option>
+                    <option value="praise">Praise</option>
+                    <option value="general">General Inquiry</option>
+                </select>
+        
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="entry.993894101" rows="5" required></textarea>
+        
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+        
+        <section class="support">
+            <h2>Need More Help?</h2>
+            <div class="faqs">
+                <h3>Frequently Asked Questions</h3>
+                <ul>
+                    <li>Why I Can't find my Required file?</li>
+                    <li>How do I contact support?</li>
+                    <li>Where can I find the user guide?</li>
+                    <!-- Add more FAQs as needed -->
+                </ul>
+            </div>
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: eduweb0123@gmail.com</p>
+                <!-- <p> mobile number here</p> -->
+                <p>Follow us on social media: 
+                    <a href="#">Facebook</a>, 
+                    <a href="#">Twitter</a>, 
+                    <a href="#">Instagram</a>
+                </p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 EduWeb. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Site Map</a>
+        </div>
+    </footer>
+    <script>
+        document.querySelector('.feedback-form form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const form = event.target;
+    const formData = new FormData(form); // Get form data
+
+    // Submit the form data using fetch
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors' // Required for Google Forms
+    })
+    .then(() => {
+        // Display success message
+        const successMessage = document.createElement('div');
+        successMessage.textContent = 'Thank you for your feedback! We appreciate it.';
+        successMessage.style.color = 'green';
+        successMessage.style.marginTop = '20px';
+        form.parentNode.insertBefore(successMessage, form.nextSibling);
+
+        // Reset the form
+        form.reset();
+    })
+    .catch((error) => {
+        // Handle errors (optional)
+        console.error('Error submitting feedback:', error);
+        alert('There was an error submitting your feedback. Please try again.');
+    });
+});
+    </script>
+</body>
+</html>
