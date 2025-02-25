@@ -35,20 +35,20 @@
     
         body {
             font-family: Arial, sans-serif;
-            background-color: #b8e0a2; /* Bright Yellow */
+            background-color: #d6d1c9; /* Bright Yellow */
             color: #333;
             transition: background-color 0.5s;
         }
     
         header {
-            background-color: #9b5bc6; /* Vibrant Purple */
-            padding: 9px;
+            background-color:none; /* Vibrant Purple */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
             transition: background-color 0.5s, padding 0.3s;
-            height: 8vh;
+            height: 6vh;
         }
     
         .logo {
@@ -123,25 +123,25 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #fff;
-    padding: 12px 18px;
+    color: rgb(0, 0, 0);
+    background-color: white;
+    padding: 6px 8px;
     font-size: 16px;
     font-weight: 600;
     border-radius: 8px;
     display: inline-block;
     position: relative;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
-    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
+    top: 4px;
 }
 
 /* Hover and Active State */
 nav ul li a.active,
 nav ul li a:hover {
-    background: linear-gradient(135deg, #36d1dc, #5b86e5); /* Cool gradient */
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0px 6px 15px rgba(91, 134, 229, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Sliding Underline Animation */
@@ -179,7 +179,7 @@ nav ul li a:not(:hover) {
             border: 1px solid #d32f2f;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 8px 8px 16px 16px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             text-align: center;
             flex: 1;
@@ -244,6 +244,7 @@ nav ul li a:not(:hover) {
             text-align: center;
             font-weight: bolder;
             text-shadow: whitesmoke;
+           
         
         }
     
@@ -276,11 +277,11 @@ nav ul li a:not(:hover) {
         }
     
         footer {
-            background-color: #9b5bc6;
+            background-color:white;
             width: 100vw;
             padding: 20px;
             text-align: center;
-            color: #fff;
+            color:black;
             transition: background-color 0.5s;
             position: fixed;
             top: 95vh;
@@ -326,7 +327,6 @@ nav ul li a:not(:hover) {
                 flex-direction: column;
                 align-items: flex-start;
                 overflow: scroll;
-        height: 8vh;
 
             }
  
@@ -347,16 +347,11 @@ nav ul li a:not(:hover) {
                 margin-top: 10px;
             }
     
-            nav ul {
-                flex-direction: row;
-                gap: 10px;
-                margin-top: 10px;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
+          
     
             nav ul li a {
-                padding: 8px 12px;
+               position: relative;
+               bottom: 10px;
             }
     
             main {
