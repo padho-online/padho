@@ -13,7 +13,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #83dac4, #8ecdd5);
+            background-color: #d6d1c9;
         }
         .logo img {
              height: 50px; /* Adjust height as needed */
@@ -35,14 +35,15 @@
     transform:scale(1.5);
  }
         .header {
-            background-color: #00796b;
+            background-color:none;
             color: white;
             padding: 20px;
             display: flex;
             justify-content: space-between;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             align-items: center;
             overflow: auto;
-            height: 8vh;
+            height: 6vh;
             
         }
         .logo {
@@ -68,24 +69,25 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #fff;
-    padding: 12px 18px;
+    color:black;
+    background-color: white;
+    padding: 6px 8px;
     font-size: 16px;
     font-weight: 600;
     border-radius: 8px;
     display: inline-block;
     position: relative;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
     overflow: hidden;
 }
 
 /* Hover and Active State */
 nav ul li a.active,
 nav ul li a:hover {
-    background: linear-gradient(135deg, #9740dd, #331c57);
-    transform: scale(1.1);
-    box-shadow: 0px 4px 12px rgba(255, 107, 107, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Animated Underline Effect */
@@ -136,31 +138,29 @@ nav ul li a.active::after {
             padding: 10px;
             text-align: center;
             border: 1px solid #ddd;
+            box-shadow: 0px 4px 10px rgba(28, 30, 28, 0.3);
         }
         .table-section th {
-            background-color: #00796b;
+            background: linear-gradient(90deg, #00796b, #004d40);
             color: white;
         }
         .table-section tr:hover {
             background-color: #f1f1f1;
         }
         td:hover{
-            background-color: aquamarine;
+            background-color:rgb(222, 204, 204);
             border-radius: 20px;
-            box-shadow: inset 2px 0 2px 2px rgb(179, 103, 191);
+            box-shadow: inset 2px 0 2px 2px rgb(183, 165, 186);
         }
         td{
             font-size: larger;
+            
         }
         td a{
             text-decoration: none;
         }
         @media (max-width: 768px) {
-            header{
-        height: 8vh;
-
-
-            }
+          
             .container-fluid {
                 flex-direction: column;
             }
@@ -266,7 +266,7 @@ nav ul li a.active::after {
                     <th>MONTH</th>
                     <th>COURSE</th>
                     <th>SUBJECT</th>
-                    <th>PAPER</th>
+                    <th>PAPER <br> (Click here)</th>
                     <th>CODE</th>
                 </tr>
             </thead>
