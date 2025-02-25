@@ -7,11 +7,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg">
     <style>
+           
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #d6d1c9;
         }
         .logo img {
              height: 40px; /* Adjust height as needed */
@@ -28,29 +30,27 @@
         transform: rotate(360deg);
     }
 }
- .logo:hover{
-    transform:scale(1.5);
- }
-
-
-
-        .header {
-            background-color: #31ada9;
+         .header {
+            background-color: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
             transition: background-color 0.3s ease;
-            height: 8vh;
+            height: 6vh;
             
+        }
+        .about{
+            background-color: white;
         }
         footer{
             display: none;
             box-shadow: inset 2px 2px 0 0 grey;
         }
         .header:hover {
-            background-color: #28a197;
+            
             box-shadow: inset 2px 2px 0 0 grey;
         }
         .logo {
@@ -63,6 +63,7 @@
             margin-right: 10px;
         }
         .search-logo {
+            display: none;
             margin-left: 10px;
             cursor: pointer;
             transition: transform 0.3s ease;
@@ -111,25 +112,25 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #fff;
-    padding: 12px 18px;
+    background-color:white;
+    color: black;
+    padding: 6px 8px;
     font-size: 16px;
     font-weight: 600;
     border-radius: 8px;
     display: inline-block;
     position: relative;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
     overflow: hidden;
 }
 
 /* Hover and Active State */
 nav ul li a.active,
 nav ul li a:hover {
-    background-color: #00796b;
-    color: white;
-    transform: scale(1.1); /* Slight zoom effect */
-    box-shadow: 0px 4px 10px rgba(0, 121, 107, 0.3);
+    background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Animated Underline Effect */
@@ -178,14 +179,15 @@ nav ul li a:not(:hover) {
             text-decoration: none;
             transition: background-color 0.3s ease, transform 0.3s ease;
             box-shadow: inset 2px 2px 0 0 grey;
+            text-decoration: none;
         }
-        .sidebar .button:nth-child(1) { background-color: #f8bbd0; color: black;}
-        .sidebar .button:nth-child(2) { background-color: #8c9eff; }
-        .sidebar .button:nth-child(3) { background-color: #ffeb3b;color: black;}
-        .sidebar .button:nth-child(4) { background-color: #4caf50; }
-        .sidebar .button:nth-child(5) { background-color: #ff9800; }
-        .sidebar .button:nth-child(6) { background-color: #e1f436; }
-        .sidebar .button:nth-child(7) { background-color: #4caf50; color: #000; }
+        .sidebar .button:nth-child(1) { background: #e1d9e4; color: black;}
+        .sidebar .button:nth-child(2) {background: #e1d9e4; color: black;}
+        .sidebar .button:nth-child(3) { background: #e1d9e4;color: black;}
+        .sidebar .button:nth-child(4) { background: #e1d9e4; color: black;}
+        .sidebar .button:nth-child(5) { background: #e1d9e4; color: black;}
+        .sidebar .button:nth-child(6) { background: #e1d9e4; color: black;}
+        .sidebar .button:nth-child(7) {background: #e1d9e4;color: #000; }
         .sidebar .button:hover {
             transform: translateY(-5px);
         }
@@ -203,6 +205,10 @@ nav ul li a:not(:hover) {
             text-decoration: none;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+        .sidebar .button:hover{
+            background-color: white;
+            border: 1px black solid;
+        }
         .sidebar .social .social-button:hover {
             background-color: #000;
             color: #fff;
@@ -214,7 +220,7 @@ nav ul li a:not(:hover) {
             box-shadow: inset 2px 2px 0 0 grey;
         }
         .content .about, .content .description {
-            background-color: #eae7c6;
+            background-color:white;
             padding: 20px;
             margin-bottom: 10px;
             text-align: center;
@@ -223,7 +229,7 @@ nav ul li a:not(:hover) {
             box-shadow: inset 2px 2px 0 0 grey;
         }
         .content .about:hover, .content .description:hover {
-            background-color: #c9e4af;
+            background-color: #e5e9e1;
             transform: translateY(-5px);
         }
         .content .updates {
@@ -246,7 +252,8 @@ nav ul li a:not(:hover) {
             display: flex;
             justify-content: space-between;
             width: 45%;
-            background: #e3b7f3;
+            background: #e1d9e4;
+            border-left:solid 4px #66bb6a;
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -351,7 +358,7 @@ nav ul li a:not(:hover) {
         text-align: center;
         font-size: 14px;
         font-weight: bold;
-        background: linear-gradient(45deg, #ff5722, #ff9800);
+
         color: white;
         padding: 8px;
         border-radius: 5px;
@@ -368,10 +375,10 @@ nav ul li a:not(:hover) {
         background: #f9f9f9;
         padding: 8px;
         border-radius: 5px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
         text-align: center;
         font-size: 12px;
-        border-left: 4px solid #ff9800;
+        border-left:solid 4px #66bb6a;
         display: flex;
         flex-direction: column; /* Date upar, Description neeche */
         align-items: center;
@@ -393,6 +400,9 @@ nav ul li a:not(:hover) {
     }
     .logo:hover{
         transform:scale(1);
+}
+.search-logo{
+    display: none;
 }
 
         
@@ -431,19 +441,19 @@ nav ul li a:not(:hover) {
             <a href="section5.html" class="button">Feedback</a>
             <!-- <a href="section6.html" class="button"></a> -->
             
-            <div class="button"><a href="https://forms.gle/XCQnDMBcR6PcihpK7" target="_blank" rel="noopener">Donate Resources</a></div>
+            <div class="button">Donate Resources</div>
             <div class="social">
-                <a href="#" class="social-button">Social 1</a>
-                <a href="#" class="social-button">Social 2</a>
-                <a href="#" class="social-button">Social 3</a>
+                <a href="error.html" class="social-button">Social 1</a>
+                <a href="error.html" class="social-button">Social 2</a>
+                <a href="error.html" class="social-button">Social 3</a>
             </div>
         </div>
         <div class="content">
             <div class="about">
-                <h2>Loading information...</b></h2>
+                <h2>Welcome to our Digital Library, a free platform offering digital books and educational resources for various courses.</b></h2>
             </div>
             <div class="description">
-                <h2>Loading information...</h2>
+                <h2>All digital books, online papers, and resources in one place—free and easy to access!</h2>
             </div>
             <div class="updates">NEW UPDATES</div>
             <div class="update-list">
@@ -537,9 +547,9 @@ function setupSearchFeature(updates) {
 </script>
 <footer>
     <div class="socialfooter">
-        <a href="#" class="social-button">Social 1</a>
-        <a href="#" class="social-button">Social 2</a>
-        <a href="#" class="social-button">Social 3</a>
+        <a href="error.html" class="social-button">Social 1</a>
+        <a href="error.html" class="social-button">Social 2</a>
+        <a href="error.html" class="social-button">Social 3</a>
     </div>
 </footer>
     
