@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6; /* Light gray background */
+            background-color: #d6d1c9; /* Light gray background */
         }
         .logo img {
              height: 50px; /* Adjust height as needed */
@@ -33,7 +33,7 @@
     transform:scale(1.5);
  }
         header {
-            background: linear-gradient(135deg, #ff6f61, #ffcc00); /* Gradient background */
+            background: none; /* Gradient background */
             display: flex;
             align-items: center;
             padding: 10px 20px;
@@ -41,6 +41,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            background-color: #d6d1c9; /* Light gray background */
+            justify-content: space-between;
            
         }
         header .logo {
@@ -49,13 +51,16 @@
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-        header .search-bar {
+        .search-bar {
             flex-grow: 1;
             margin-left: 20px;
             display: flex;
             align-items: center;
+            position: relative;
+            top: 5px;
+            right: 7px;
         }
-        header .search-bar input {
+        .search-bar input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -73,15 +78,16 @@
         }
         header .nav a {
             text-decoration: none;
-    color: #fff;
-    padding: 12px 18px;
+    color: rgb(0, 0, 0);
+    background-color: white;
+    padding: 6px 8px;
     font-size: 16px;
     font-weight: 600;
     border-radius: 8px;
     display: inline-block;
     position: relative;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
     overflow: hidden;
         }
         header .nav a:hover, header .nav a.active {
@@ -214,6 +220,8 @@
         @media (max-width: 768px) {
             header {
                 overflow: scroll;
+                height: 6vh;
+                padding: 5px;
             }
             .logo:hover{
         transform:scale(1);
@@ -236,15 +244,13 @@
             .video-item p:last-child {
                 font-size: 10px; /* Smaller font size for mobile */
             }
+        
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo"><a href="index.html" ><img src="https://i.pinimg.com/474x/f8/10/1e/f8101e4aa22553d772fea7284599939f.jpg" alt="logo"></a></div>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search for videos...">
-        </div>
         <nav class="nav">
             <a href="index.html">HOME</a>
             <a href="section1.1.html">Resources</a>
@@ -254,6 +260,9 @@
             <a href="section5.html">Feedback</a>
         </nav>
     </header>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for videos...">
+    </div>
     <main>
         <aside class="sidebar">
             <h2>Recently Watched</h2>
