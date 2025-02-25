@@ -12,7 +12,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #b6f0f6;
+            background-color: #d6d1c9;
             color: #333;
             transition: background-color 0.3s ease-in-out;
         }
@@ -25,13 +25,13 @@
              animation: rotateLogo 5s linear infinite;
        }
         header {
-            background-color: #333 ;
             padding: 1;
             position: sticky;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             top: 0;
             z-index: 1000;
             transition: background-color 0.3s ease;
-            overflow: scroll;
+            
           
             
         }
@@ -54,7 +54,9 @@
         }
         nav ul li a {
             text-decoration: none;
-    color: #fff;
+            background-color: white;
+
+            color: black;
     padding: 12px 18px;
     font-size: 16px;
     font-weight: 600;
@@ -62,14 +64,14 @@
     display: inline-block;
     position: relative;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(255, 65, 108, 0.3);
+    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
     overflow: hidden;
         }
         nav ul li a:hover,
         nav ul li .active {
-            color: #f498d8;
-            background-color: white;
-            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
           
         }
         nav ul li a::before {
@@ -93,9 +95,9 @@
             padding: 20px;
             max-width: 800px;
             margin: 20px auto;
-            background-color: rgb(121, 131, 113);
+            background-color: #d6d1c9;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow:  2PX 2PX 6PX 2PX;
         }
         .intro h1 {
             font-size: 28px;
@@ -112,7 +114,9 @@
         .feedback-form form {
             display: grid;
             gap: 15px;
+            
         }
+     
         .feedback-form label {
             font-size: 16px;
         }
@@ -135,7 +139,7 @@
         .feedback-form button {
             padding: 10px 20px;
             border: none;
-            background-color: #0073e6;
+            background-color: #907956;
             color: white;
             font-size: 16px;
             border-radius: 5px;
@@ -143,8 +147,8 @@
             transition: background-color 0.3s, transform 0.3s;
         }
         .feedback-form button:hover {
-            background-color: #005bb5;
             transform: scale(1.05);
+            background-color: #49384a;
         }
         .support h2 {
             font-size: 24px;
@@ -195,16 +199,18 @@
         line-height: 1.4;
         margin: 0;
         padding: 0;
+        background-color: #d6d1c9 !; 
     }
 
     /* Header */
     header {
-        background-color: #3f51b5;
+        background-color:cornsilk;
         padding: 5px 0;
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 1000;
+        overflow: auto;
     }
 
     nav ul {
@@ -222,14 +228,16 @@
     }
 
     nav ul li a {
-        color: white;
+        color: black;
         padding: 8px 10px;
         text-decoration: none;
         font-size: 12px;
+        position:relative;
+        top:10px;
     }
 
     nav ul li a.active {
-        background-color: #e91e63;
+      
         border-radius: 3px;
     }
 
@@ -254,8 +262,9 @@
     .feedback-form {
         padding: 5px;
         border: black 2px solid;
-        background-color: #5d845d;
+        background-color: #f0ebe1f3;
         border-radius: 20px;
+        box-shadow:  2PX 2PX 6PX 2PX;
     }
     
    
@@ -277,7 +286,8 @@
     }
 
     .feedback-form button {
-        background-color: #ff9800;
+        background-color: #907956;
+        box-shadow:  2PX 2PX 6PX 2PX ;
         color: white;
         padding: 6px;
         font-size: 12px;
@@ -287,7 +297,7 @@
     }
 
     .feedback-form button:hover {
-        background-color: #e67e22;
+        background-color: #49384a;
     }
 
     /* Support Section */
@@ -329,7 +339,7 @@
     }
 
     .footer-links a {
-        color: #ff9800;
+      
         text-decoration: none;
         font-size: 10px;
     }
