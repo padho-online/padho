@@ -476,7 +476,7 @@ function renderBooks(filteredBooks) {
             bookElement.innerHTML = `
                 <div class="book-card" style="background-image: url('${book.image}');">
                     <h4>${book.name}</h4>
-                    <p>by ${book.author}</p>
+                    <p> ${book.author}</p>
                     <p>${book.description}</p>
                     <button onclick="window.location.href='${book.link}'">Read/Download</button>
                 </div>
