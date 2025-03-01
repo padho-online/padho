@@ -244,10 +244,22 @@ nav ul li a:not(:hover) {
             text-align: center;
             font-weight: bolder;
             text-shadow: whitesmoke;
+            
            
         
         }
-    
+        .book-card .button-container {
+    margin-bottom: 15px; /* Adjust as needed */
+}
+.book-card {
+    min-height: 210px; /* Adjust based on content */
+}
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
         .book-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -269,33 +281,27 @@ nav ul li a:not(:hover) {
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s;
+          
         }
     
         .book-card button:hover {
             background-color: #b71c1c;
             transform: scale(1.1);
         }
-          .book-card .button-container {
-    margin-bottom: 15px; /* Adjust as needed */
-}
-.book-card {
-    min-height: 210px; /* Adjust based on content */
-}
-.books-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
     
         footer {
             background-color:white;
             width: 100vw;
-            padding: 20px;
+            height: 40PX;
             text-align: center;
             color:black;
             transition: background-color 0.5s;
-            position: fixed;
-            top: 95vh;
+            position: sticky;
+            top: 98vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
         }
     
         #noResults {
@@ -398,7 +404,7 @@ nav ul li a:not(:hover) {
             footer {
                 padding: 15px;
                 font-size: 14px;
-                display:none;
+                display: none;
             }
         }
     </style>
@@ -412,11 +418,11 @@ nav ul li a:not(:hover) {
         </div>
         <nav class="navigation">
             <ul>
-                <li><a href="index.html">HOME</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="section3.html" class="active">Books</a></li>
                 <li><a href="section1.1.html">Resources</a></li>
-                <li><a href="section2.html">PAPERS</a></li>
-                <li><a href="section3.html" class="active">BOOKS</a></li>
-                <li><a href="section4.html">VIDEOS</a></li>
+                <li><a href="section2.html">Papers</a></li>
+                <li><a href="section4.html">Videos</a></li>
                 <li><a href="section5.html">Feedback</a></li>
             </ul>
         </nav>
@@ -433,8 +439,8 @@ nav ul li a:not(:hover) {
         </div>
     </main>
     <footer>
-        <p>© 2024 Your Educational Website</p>
-        <a href="#" class="see-more-footer">See more</a>
+        <p>© 2025 Onliby.xyz</p>
+        <a href="#" class="see-more-footer">Go to search bar</a>
     </footer>
     <script>
         async function fetchBooks() {
@@ -478,14 +484,13 @@ function renderBooks(filteredBooks) {
                     <h4>${book.name}</h4>
                     <p> ${book.author}</p>
                     <p>${book.description}</p>
-                    <button onclick="window.location.href='${book.link}'">Read/Download</button>
+                    <button onclick="window.open('${book.link}', '_blank')">Read/Download</button>
                 </div>
             `;
             booksContainer.appendChild(bookElement);
         });
     }
 }
-
 document.getElementById('searchBar').addEventListener('input', function () {
     const query = this.value.toLowerCase();
     let cachedBooks = localStorage.getItem("booksData");
