@@ -336,10 +336,10 @@ nav ul li a.active::after {
         let papers = new Set(['ALL']);
 
         data.forEach(row => {
-            universities.add(row[1]);
-            courses.add(row[5]);
-            subjects.add(row[6]);
-            papers.add(row[7]);
+            universities.add(row[0]);
+            courses.add(row[4]);
+            subjects.add(row[5]);
+            papers.add(row[6]);
         });
 
         populateDropdown('university', universities);
@@ -394,10 +394,10 @@ nav ul li a.active::after {
             const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
             const showRow = Object.keys(filters).every(key => {
                 const cellIndex = {
-                    university: 1,
-                    course: 5,
-                    subject: 6,
-                    paper: 7
+                    university: 0,
+                    course: 4,
+                    subject: 5,
+                    paper: 6
                 }[key];
                 return filters[key] === 'ALL' || cells[cellIndex].textContent.trim().toLowerCase().includes(filters[key]);
             }) && rowText.includes(searchTerm);
