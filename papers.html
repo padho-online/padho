@@ -374,7 +374,7 @@ nav ul li a.active::after {
         tableBody.innerHTML = "";
         data.forEach(row => {
             let tr = document.createElement("tr");
-            let paperLink = row.LINK.trim() !== "#" ? `<a href="${row.LINK}" target="_blank">View Paper</a>` : "N/A";
+             let paperLink = row.LINK.trim() !== "#" ? `<a href="${row.LINK}" target="_blank">${row["PAPER"]}</a>` : row["PAPER"];
             tr.innerHTML = `
                 <td>${row.UNIVERSITY}</td>
                 <td>${row.EXAM_TYPE}</td>
