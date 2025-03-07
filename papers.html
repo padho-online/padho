@@ -314,125 +314,124 @@ nav ul li a.active::after {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-   document.addEventListener('DOMContentLoaded', function() {
-    const filters = {
-        university: 'ALL',
-        course: 'ALL',
-        subject: 'ALL',
-        paper: 'ALL'
-    };
+  document.addEventListener("DOMContentLoaded", function () {
+    const apiUrl = "https://script.google.com/macros/s/AKfycbz6fx1Ltgft8B7ceWJ7agAQ_SmrGhqmtYeSNoKu1WO1JSFA3eYkzCCDmoiJDTFHKZPS/exec";
+    const tableBody = document.getElementById("table-body");
+    const filterButton = document.getElementById("search-filter");
+    const clearButton = document.getElementById("show-all-clear-filter");
+    const searchBar = document.getElementById("search-bar");
 
-    const fetchSheetData = async () => {
+    const universityDropdown = document.getElementById("university");
+    const courseDropdown = document.getElementById("course");
+    const subjectDropdown = document.getElementById("subject");
+    const paperDropdown = document.getElementById("paper");
+
+    // Fetch data from API
+    async function fetchData() {
         try {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbxaI-Jhcxk17c2m2fVkE94YTAul_Ia0ftJntnIKSd3rp63AtJvHgDv_JpAumH4SU85g/exec');
+            const response = await fetch(apiUrl);
             const data = await response.json();
-            populateTable(data);
+            renderTable(data);
             updateDropdowns(data);
         } catch (error) {
-            console.error('Data fetch karte waqt error:', error);
+            console.error("Error fetching data:", error);
         }
-    };
+    }
 
-    const updateDropdowns = (data) => {
-        let universities = new Set(['ALL']);
-        let courses = new Set(['ALL']);
-        let subjects = new Set(['ALL']);
-        let papers = new Set(['ALL']);
+    // Populate dropdowns dynamically
+    function updateDropdowns(data) {
+        let universities = new Set(["ALL"]);
+        let courses = new Set(["ALL"]);
+        let subjects = new Set(["ALL"]);
+        let papers = new Set(["ALL"]);
 
         data.forEach(row => {
-            universities.add(row[0]);
-            courses.add(row[4]);
-            subjects.add(row[5]);
-            papers.add(row[6]);
+            universities.add(row.UNIVERSITY);
+            courses.add(row.COURSE);
+            subjects.add(row.SUBJECT);
+            papers.add(row.PAPER);
         });
 
-        populateDropdown('university', universities);
-        populateDropdown('course', courses);
-        populateDropdown('subject', subjects);
-        populateDropdown('paper', papers);
-    };
+        populateDropdown(universityDropdown, universities);
+        populateDropdown(courseDropdown, courses);
+        populateDropdown(subjectDropdown, subjects);
+        populateDropdown(paperDropdown, papers);
+    }
 
-    const populateDropdown = (id, items) => {
-        const dropdown = document.getElementById(id);
-        dropdown.innerHTML = '';
+    // Function to populate a dropdown
+    function populateDropdown(dropdown, items) {
+        dropdown.innerHTML = "";
         items.forEach(item => {
-            let option = document.createElement('option');
-            option.value = item.toLowerCase();
+            let option = document.createElement("option");
+            option.value = item;
             option.textContent = item;
             dropdown.appendChild(option);
         });
-    };
+    }
 
-    const populateTable = (data) => {
-        const tableBody = document.getElementById('table-body');
-        tableBody.innerHTML = '';
-
+    // Render table dynamically
+    function renderTable(data) {
+        tableBody.innerHTML = "";
         data.forEach(row => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, index) => {
-                const td = document.createElement('td');
-                if (index === row.length - 1) {
-                    td.style.display = 'none';
-                    td.innerHTML = cell;
-                } else if (index === row.length - 3) {
-                    const link = row[row.length - 1];
-                    td.innerHTML = `<a href="${link}" target="_blank">${cell || 'Link'}</a>`;
-                    td.style.cursor = 'pointer';
-                    td.addEventListener('click', function() {
-                        window.open(link, '_blank');
-                    });
-                } else {
-                    td.innerHTML = cell;
-                }
-                tr.appendChild(td);
-            });
+            let tr = document.createElement("tr");
+            let paperLink = row.LINK.trim() !== "#" ? `<a href="${row.LINK}" target="_blank">View Paper</a>` : "N/A";
+            tr.innerHTML = `
+                <td>${row.UNIVERSITY}</td>
+                <td>${row.EXAM_TYPE}</td>
+                <td>${row.YEAR}</td>
+                <td>${row.MONTH}</td>
+                <td>${row.COURSE}</td>
+                <td>${row.SUBJECT}</td>
+                <td>${paperLink}</td>
+                <td>${row.CODE}</td>
+            `;
             tableBody.appendChild(tr);
         });
-    };
+    }
 
-    const filterTable = () => {
-        const rows = document.querySelectorAll('#table-body tr');
-        const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(' ');
-            const showRow = Object.keys(filters).every(key => {
-                const cellIndex = {
-                    university: 0,
-                    course: 4,
-                    subject: 5,
-                    paper: 6
-                }[key];
-                return filters[key] === 'ALL' || cells[cellIndex].textContent.trim().toLowerCase().includes(filters[key]);
-            }) && rowText.includes(searchTerm);
+    // Filter table based on selected values
+    function filterTable() {
+        let university = universityDropdown.value.toLowerCase();
+        let course = courseDropdown.value.toLowerCase();
+        let subject = subjectDropdown.value.toLowerCase();
+        let paper = paperDropdown.value.toLowerCase();
+        let searchText = searchBar.value.toLowerCase();
 
-            row.style.display = showRow ? '' : 'none';
-        });
-    };
+        document.querySelectorAll("#table-body tr").forEach(row => {
+            let rowUniversity = row.cells[0].textContent.toLowerCase();
+            let rowCourse = row.cells[4].textContent.toLowerCase();
+            let rowSubject = row.cells[5].textContent.toLowerCase();
+            let rowPaper = row.cells[6].textContent.toLowerCase();
+            let rowText = row.textContent.toLowerCase();
 
-    document.querySelectorAll('.filter-section select').forEach(select => {
-        select.addEventListener('change', function() {
-            filters[this.id] = this.value.toLowerCase();
-            filterTable();
+            let match = (university === "all" || rowUniversity.includes(university)) &&
+                        (course === "all" || rowCourse.includes(course)) &&
+                        (subject === "all" || rowSubject.includes(subject)) &&
+                        (paper === "all" || rowPaper.includes(paper)) &&
+                        (searchText === "" || rowText.includes(searchText));
+
+            row.style.display = match ? "" : "none";
         });
-    });
-    document.getElementById('show-all-clear-filter').addEventListener('click', function() {
-        document.querySelectorAll('.filter-section select').forEach(select => {
-            select.value = 'ALL';
-            filters[select.id] = 'ALL';
-        });
-        document.getElementById('search-bar').value = '';
-        filterTable();
-    });
-    document.getElementById('search-filter').addEventListener('click', function() {
-        filterTable();
-    });
-    document.getElementById('search-bar').addEventListener('input', function() {
+    }
+
+    // Event listeners
+    filterButton.addEventListener("click", filterTable);
+    searchBar.addEventListener("input", filterTable);
+
+    clearButton.addEventListener("click", function () {
+        universityDropdown.value = "ALL";
+        courseDropdown.value = "ALL";
+        subjectDropdown.value = "ALL";
+        paperDropdown.value = "ALL";
+        searchBar.value = "";
         filterTable();
     });
 
-    fetchSheetData();
+    // Initial fetch
+    fetchData();
 });
+
+
 
 </script>
 </body>
