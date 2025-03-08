@@ -119,8 +119,16 @@ nav ul li a.active::after {
             margin-bottom: 20px;
         }
         .filter-section select {
-            margin-bottom: 10px;
-        }
+        padding: 8px;
+        border: 2px solid #00796b;
+        border-radius: 5px;
+        outline: none;
+        transition: border 0.3s ease-in-out;
+    }
+    
+    .filter-section select:hover {
+        border: 2px solid #ff6b6b;
+    }
         .table-section {
             margin: 20px;
             background-color: #fff;
