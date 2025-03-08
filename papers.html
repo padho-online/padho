@@ -355,34 +355,34 @@ nav ul li a.active::after {
 
     // Populate dropdowns dynamically
     function updateDropdowns(data) {
-        let universities = new Set(["ALL"]);
-        let courses = new Set(["ALL"]);
-        let subjects = new Set(["ALL"]);
-        let papers = new Set(["ALL"]);
+    let universities = new Set(["ALL"]);
+    let courses = new Set(["ALL"]);
+    let subjects = new Set(["ALL"]);
+    let papers = new Set(["ALL"]);
 
-        data.forEach(row => {
-            universities.add(row.UNIVERSITY);
-            courses.add(row.COURSE);
-            subjects.add(row.SUBJECT);
-            papers.add(row.PAPER);
-        });
+    data.forEach(row => {
+        universities.add(row.UNIVERSITY);
+        courses.add(row.COURSE);
+        subjects.add(row.SUBJECT);
+        papers.add(row.PAPER);
+    });
 
-        populateDropdown(universityDropdown, universities);
-        populateDropdown(courseDropdown, courses);
-        populateDropdown(subjectDropdown, subjects);
-        populateDropdown(paperDropdown, papers);
-    }
+    populateDropdown(universityDropdown, [...universities].sort());
+    populateDropdown(courseDropdown, [...courses].sort());
+    populateDropdown(subjectDropdown, [...subjects].sort());
+    populateDropdown(paperDropdown, [...papers].sort());
+}
 
-    // Function to populate a dropdown
-    function populateDropdown(dropdown, items) {
-        dropdown.innerHTML = "";
-        items.forEach(item => {
-            let option = document.createElement("option");
-            option.value = item;
-            option.textContent = item;
-            dropdown.appendChild(option);
-        });
-    }
+// Function to populate a dropdown
+function populateDropdown(dropdown, items) {
+    dropdown.innerHTML = "";
+    items.forEach(item => {
+        let option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        dropdown.appendChild(option);
+    });
+}
 
     // Render table dynamically
     function renderTable(data) {
