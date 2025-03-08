@@ -364,34 +364,35 @@ nav ul li a.active::after {
     
             // Populate dropdowns dynamically
             function updateDropdowns(data) {
-                let subjects = new Set(["ALL"]);
-                let topics = new Set(["ALL"]);
-                let levels = new Set(["ALL"]);
-                let resources = new Set(["ALL"]);
-    
-                data.forEach(row => {
-                    subjects.add(row.SUBJECT);
-                    topics.add(row.TOPIC);
-                    levels.add(row["COURSE LEVEL"]);
-                    resources.add(row["RESOURCE TYPE"]);
-                });
-    
-                populateDropdown(subjectDropdown, subjects);
-                populateDropdown(topicDropdown, topics);
-                populateDropdown(levelDropdown, levels);
-                populateDropdown(resourceDropdown, resources);
-            }
-    
-            // Function to populate a dropdown
-            function populateDropdown(dropdown, items) {
-                dropdown.innerHTML = "";
-                items.forEach(item => {
-                    let option = document.createElement("option");
-                    option.value = item.toLowerCase();
-                    option.textContent = item;
-                    dropdown.appendChild(option);
-                });
-            }
+    let subjects = new Set(["ALL"]);
+    let topics = new Set(["ALL"]);
+    let levels = new Set(["ALL"]);
+    let resources = new Set(["ALL"]);
+
+    data.forEach(row => {
+        subjects.add(row.SUBJECT);
+        topics.add(row.TOPIC);
+        levels.add(row["COURSE LEVEL"]);
+        resources.add(row["RESOURCE TYPE"]);
+    });
+
+    populateDropdown(subjectDropdown, [...subjects].sort());
+    populateDropdown(topicDropdown, [...topics].sort());
+    populateDropdown(levelDropdown, [...levels].sort());
+    populateDropdown(resourceDropdown, [...resources].sort());
+}
+
+// Function to populate a dropdown
+function populateDropdown(dropdown, items) {
+    dropdown.innerHTML = "";
+    items.forEach(item => {
+        let option = document.createElement("option");
+        option.value = item.toLowerCase();
+        option.textContent = item;
+        dropdown.appendChild(option);
+    });
+}
+
     
             // Render table dynamically
             function renderTable(data) {
