@@ -495,7 +495,8 @@ function renderBooks(filteredBooks) {
                     <h4>${book.name}</h4>
                     <p> ${book.author}</p>
                     <p>${book.description}</p>
-                    <button class="download-btn" data-book="${book.name}" onclick="trackDownload('${book.name}')">Read/Download</button>
+                    <button class="download-btn" data-book="${book.name}" onclick="trackDownload('${book.name}', '${book.fileUrl}')">Read/Download</button>
+
                 </div>
             `;
             booksContainer.appendChild(bookElement);
@@ -520,15 +521,20 @@ document.getElementById('searchBar').addEventListener('input', function () {
 fetchBooks();
 
     </script>
-    <script>
-function trackDownload(bookName) {
+   <script>
+function trackDownload(bookName, fileUrl) {
+    // Google Analytics Tracking
     gtag('event', 'download', {
         'event_category': 'E-Book',
         'event_label': bookName + ' Downloaded',
         'value': 1
     });
+
+    // File Open Karne Ke Liye
+    window.location.href = fileUrl;  
 }
 </script>
+
 
 </body>
 
