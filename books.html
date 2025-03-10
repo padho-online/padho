@@ -495,7 +495,7 @@ function renderBooks(filteredBooks) {
                     <h4>${book.name}</h4>
                     <p> ${book.author}</p>
                     <p>${book.description}</p>
-                    <button class="download-btn" data-book="${book.name}" onclick="trackDownload('${book.name}', '${book.fileUrl}')">Read/Download</button>
+                    <button class="download-btn" data-book="${book.name}" onclick="trackDownload('${book.name}', '${book.link}')">Read/Download</button>
 
                 </div>
             `;
@@ -531,7 +531,7 @@ function trackDownload(bookName, fileUrl) {
     });
 
     // File Open Karne Ke Liye
-    window.location.href = book.fileUrl;  
+    window.location.href = book.link;  
 }
 </script>
 
