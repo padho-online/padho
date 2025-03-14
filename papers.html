@@ -363,8 +363,8 @@ nav ul li a.active::after {
         }
     }
 
-    // Populate dropdowns dynamically
-    function updateDropdowns(data) {
+ // Populate dropdowns dynamically
+function updateDropdowns(data) {
     let universities = new Set(["ALL"]);
     let courses = new Set(["ALL"]);
     let subjects = new Set(["ALL"]);
@@ -381,6 +381,12 @@ nav ul li a.active::after {
     populateDropdown(courseDropdown, [...courses].sort());
     populateDropdown(subjectDropdown, [...subjects].sort());
     populateDropdown(paperDropdown, [...papers].sort());
+
+    // Ensure 'ALL' is selected by default
+    universityDropdown.value = "ALL";
+    courseDropdown.value = "ALL";
+    subjectDropdown.value = "ALL";
+    paperDropdown.value = "ALL";
 }
 
 // Function to populate a dropdown
@@ -393,6 +399,7 @@ function populateDropdown(dropdown, items) {
         dropdown.appendChild(option);
     });
 }
+
 
   
     function getFileId(url) {
