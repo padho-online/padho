@@ -510,7 +510,7 @@ nav ul li a:not(:hover) {
         .then(data => {
             // document.querySelector('.about h2').innerHTML = data.aboutUs;
             // document.querySelector('.description h2').innerHTML = data.description;
-            //Decommect the above 2 lines code to directly fetch of data aboutus and description from data base.
+            //Decomment the above 2 lines code to directly fetch of data aboutus and description from data base.
 
             const updateList = document.querySelector('.update-list');
             updateList.innerHTML = data.updates.map(update => `
