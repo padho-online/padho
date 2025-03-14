@@ -394,12 +394,23 @@ function populateDropdown(dropdown, items) {
     });
 }
 
+  
+    function getFileId(url) {
+        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        return match ? match[1] : null;
+    }
+
     // Render table dynamically
     function renderTable(data) {
+        const tableBody = document.getElementById("table-body");
         tableBody.innerHTML = "";
+
         data.forEach(row => {
             let tr = document.createElement("tr");
-             let paperLink = row.LINK.trim() !== "#" ? `<a href="${row.LINK}" target="_blank">${row["PAPER"]}</a>` : row["PAPER"];
+            let fileId = getFileId(row.LINK);
+            let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : "#";
+            let paperLink = fileId ? `<a href="${viewerLink}" target="_blank">${row.PAPER}</a>` : row.PAPER;
+
             tr.innerHTML = `
                 <td>${row.UNIVERSITY}</td>
                 <td>${row.EXAM_TYPE}</td>
