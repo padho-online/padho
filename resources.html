@@ -371,9 +371,8 @@ nav ul li a.active::after {
                     console.error("Error fetching data:", error);
                 }
             }
-    
-            // Populate dropdowns dynamically
-            function updateDropdowns(data) {
+   // Populate dropdowns dynamically 
+   function updateDropdowns(data) {
     let subjects = new Set(["ALL"]);
     let topics = new Set(["ALL"]);
     let levels = new Set(["ALL"]);
@@ -390,7 +389,14 @@ nav ul li a.active::after {
     populateDropdown(topicDropdown, [...topics].sort());
     populateDropdown(levelDropdown, [...levels].sort());
     populateDropdown(resourceDropdown, [...resources].sort());
+
+    // Ensure 'ALL' is selected by default
+    subjectDropdown.value = "ALL";
+    topicDropdown.value = "ALL";
+    levelDropdown.value = "ALL";
+    resourceDropdown.value = "ALL";
 }
+
 
 // Function to populate a dropdown
 function populateDropdown(dropdown, items) {
