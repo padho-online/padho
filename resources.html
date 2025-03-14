@@ -402,27 +402,38 @@ function populateDropdown(dropdown, items) {
         dropdown.appendChild(option);
     });
 }
+            
+function getFileId(url) {
+    let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : null;
+}
 
+// Render table dynamically
+function renderTable(data) {
+    tableBody.innerHTML = "";
     
-            // Render table dynamically
-            function renderTable(data) {
-                tableBody.innerHTML = "";
-                data.forEach(row => {
-                    let tr = document.createElement("tr");
-                    let link = row.LINK.trim() !== "#" ? row.LINK : "";
-                    tr.innerHTML = `
-                        <td class="subjects">${row.SUBJECT}</td>
-                        <td class="topics">${row.TOPIC}</td>
-                        <td class="sub-topics">${row["SUB-TOPIC"]}</td>
-                        <td class="title">${row.TITLE}</td>
-                        <td class="course-level">${row["COURSE LEVEL"]}</td>
-                        <td class="resource-type">
-                            ${link ? `<a href="${link}" target="_blank">${row["RESOURCE TYPE"]}</a>` : row["RESOURCE TYPE"]}
-                        </td>
-                    `;
-                    tableBody.appendChild(tr);
-                });
-            }
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+
+        // Google Drive File Handling
+        let fileId = getFileId(row.LINK);
+        let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : row.LINK;
+        let resourceLink = row.LINK.trim() !== "#" 
+            ? `<a href="${viewerLink}" target="_blank">${row["RESOURCE TYPE"]}</a>` 
+            : row["RESOURCE TYPE"];
+
+        tr.innerHTML = `
+            <td class="subjects">${row.SUBJECT}</td>
+            <td class="topics">${row.TOPIC}</td>
+            <td class="sub-topics">${row["SUB-TOPIC"]}</td>
+            <td class="title">${row.TITLE}</td>
+            <td class="course-level">${row["COURSE LEVEL"]}</td>
+            <td class="resource-type">${resourceLink}</td>
+        `;
+
+        tableBody.appendChild(tr);
+    });
+}
     
             // Filter table based on selected values
             function filterTable() {
