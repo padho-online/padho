@@ -453,8 +453,13 @@ nav ul li a:not(:hover) {
         <p>© 2025 Onliby.xyz</p>
         <a href="#" class="see-more-footer">Go to search bar</a>
     </footer>
-    <script>
-        async function fetchBooks() {
+   <script>
+        function getFileId(url) {
+    let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : null;
+}
+
+async function fetchBooks() {
     let cachedBooks = localStorage.getItem("booksData");
     let books = [];
 
@@ -490,19 +495,24 @@ function renderBooks(filteredBooks) {
         filteredBooks.forEach(book => {
             const bookElement = document.createElement('div');
             bookElement.classList.add('col-md-4');
+
+            // Google Drive File Handling
+            let fileId = getFileId(book.link);
+            let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : book.link;
+
             bookElement.innerHTML = `
                 <div class="book-card" style="background-image: url('${book.image}');">
                     <h4>${book.name}</h4>
                     <p> ${book.author}</p>
                     <p>${book.description}</p>
-                    <button onclick="window.open('${book.link}', '_blank')">Read/Download</button>
-
+                    <button onclick="window.open('${viewerLink}', '_blank')">Read/Download</button>
                 </div>
             `;
             booksContainer.appendChild(bookElement);
         });
     }
 }
+
 document.getElementById('searchBar').addEventListener('input', function () {
     const query = this.value.toLowerCase();
     let cachedBooks = localStorage.getItem("booksData");
