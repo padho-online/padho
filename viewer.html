@@ -94,33 +94,47 @@
         <iframe id="pdfViewer" src="" title="Onlibry PDF Viewer" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
     <script>
-        let fileId = null;
-        function getFileId(url) {
-            let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-            return match ? match[1] : null;
+    let fileId = null;
+    
+    function getFileId(url) {
+        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        return match ? match[1] : null;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const params = new URLSearchParams(window.location.search);
+        fileId = params.get("fileId");
+        const pdfViewer = document.getElementById("pdfViewer");
+        const downloadBtn = document.getElementById("downloadBtn");
+
+        if (fileId) {
+            document.title = "Onlibry | File Viewer";
+            pdfViewer.src = `https://drive.google.com/file/d/${fileId}/preview#toolbar=0`;
+            downloadBtn.style.display = "block";
+
+            // **Google Analytics Event for PDF View**
+            gtag('event', 'pdf_view', {
+                'event_category': 'Engagement',
+                'event_label': fileId
+            });
+        } else {
+            document.body.innerHTML = "<h2 class='error-message'>Invalid File ID</h2>";
         }
+    });
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const params = new URLSearchParams(window.location.search);
-            fileId = params.get("fileId");
-            const pdfViewer = document.getElementById("pdfViewer");
-            const downloadBtn = document.getElementById("downloadBtn");
+    function downloadFile() {
+        if (fileId) {
+            let downloadLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            window.open(downloadLink, "_blank");
 
-            if (fileId) {
-                document.title = "Onlibry | File Viewer";
-                pdfViewer.src = `https://drive.google.com/file/d/${fileId}/preview#toolbar=0`;
-                downloadBtn.style.display = "block";
-            } else {
-                document.body.innerHTML = "<h2 class='error-message'>Invalid File ID</h2>";
-            }
-        });
-
-        function downloadFile() {
-            if (fileId) {
-                let downloadLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
-                window.open(downloadLink, "_blank");
-            }
+            // **Google Analytics Event for Download Click**
+            gtag('event', 'pdf_download', {
+                'event_category': 'Engagement',
+                'event_label': fileId
+            });
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
