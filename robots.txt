@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://onlibry.xyz/sitemap.xml
