@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer</title>
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+</head>
+<body>
+    <canvas id="pdfCanvas"></canvas>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const fileId = urlParams.get('fileId');
+
+        if (fileId) {
+            const pdfUrl = `https://drive.google.com/uc?id=${fileId}&export=download`;
+            
+            let pdfjsLib = window['pdfjs-dist/build/pdf'];
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                pdf.getPage(1).then(page => {
+                    let canvas = document.getElementById('pdfCanvas');
+                    let context = canvas.getContext('2d');
+
+                    let viewport = page.getViewport({ scale: 1.5 });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    let renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+                    page.render(renderContext);
+                });
+            }).catch(error => {
+                console.error("Error loading PDF:", error);
+                document.body.innerHTML = "<h2>Failed to load PDF</h2>";
+            });
+        } else {
+            document.body.innerHTML = "<h2>No PDF file specified</h2>";
+        }
+    </script>
+</body>
+</html>
