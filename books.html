@@ -488,7 +488,7 @@ function getPdfViewerUrl(driveLink) {
         }
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbzzyjtpV2gZ29ggW5nPjBqoxoDE4gLJiD1oFuFupPFtg0H9spTQkh4FIEh0i7IOUCH_uw/exec");
+            const response = await fetch("https://script.google.com/macros/s/AKfycbyjQjx8TqOjzoMhkOEpYk01-4Raj02uQVQ40xXki091Q7iX1DL8bf90Z53Nb9hx2oAn-g/exec");
             const freshBooks = await response.json();
 
             if (!cachedBooks || JSON.stringify(freshBooks) !== cachedBooks) {
