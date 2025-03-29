@@ -468,16 +468,14 @@ nav ul li a:not(:hover) {
     </footer>
 <script>
     function getFileId(url) {
-        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        return match ? match[1] : null;
-    }
+    let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : null;
+}
 
-    function getPdfViewerUrl(driveUrl) {
-        let fileId = getFileId(driveUrl);
-        return fileId 
-            ? `pdf-viewer.html?fileId=${fileId}`  // ✅ Open in Local PDF.js Viewer
-            : driveUrl;
-    }
+function getPdfViewerUrl(driveLink) {
+    let fileId = getFileId(driveLink);
+    return fileId ? `https://onlibry.xyz/pdfjs/web/viewer.html?file=https://drive.google.com/uc?id=${fileId}` : driveLink;
+}
 
     async function fetchBooks() {
         let cachedBooks = localStorage.getItem("booksData");
