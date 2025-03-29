@@ -16,7 +16,7 @@
         const fileId = urlParams.get('fileId');
 
         if (fileId) {
-            const viewerUrl = `web/viewer.html?file=https://drive.google.com/uc?id=${fileId}`;
+            const viewerUrl = `pdf-viewer.html?file=https://drive.google.com/uc?id=${fileId}`;
             document.write(`<iframe src="${viewerUrl}"></iframe>`);
         } else {
             document.write("<h2 style='text-align:center;'>Invalid PDF Link</h2>");
