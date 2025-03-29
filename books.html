@@ -467,86 +467,84 @@ nav ul li a:not(:hover) {
         <a href="#" class="see-more-footer">Go to search bar</a>
     </footer>
 <script>
-    function getFileId(url) {
+        function getFileId(url) {
     let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
     return match ? match[1] : null;
 }
 
-function getPdfViewerUrl(driveLink) {
-    let fileId = getFileId(driveLink);
-    return fileId ? `https://onlibry.xyz/pdf-viewer.html?file=https://drive.google.com/uc?id=${fileId}` : driveLink;
+async function fetchBooks() {
+    let cachedBooks = localStorage.getItem("booksData");
+    let books = [];
+
+    if (cachedBooks) {
+        console.log("Loading books from cache...");
+        books = JSON.parse(cachedBooks);
+        renderBooks(books);
+    }
+
+    try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbx-TX-D3D-n9KaUOHvEDbBqMQVJEp2D-lq8bCuuD2HrnpBt-1WEWyhAkrnFopHc0d4uNw/exec");
+        const freshBooks = await response.json();
+
+        if (!cachedBooks || JSON.stringify(freshBooks) !== cachedBooks) {
+            console.log("Fetching fresh books...");
+            localStorage.setItem("booksData", JSON.stringify(freshBooks));
+            renderBooks(freshBooks);
+        }
+    } catch (error) {
+        console.error("Error fetching book data:", error);
+    }
 }
 
-    async function fetchBooks() {
-        let cachedBooks = localStorage.getItem("booksData");
-        let books = [];
+function renderBooks(filteredBooks) {
+    const booksContainer = document.getElementById('booksContainer');
+    const noResults = document.getElementById('noResults');
+    booksContainer.innerHTML = '';
 
-        if (cachedBooks) {
-            console.log("Loading books from cache...");
-            books = JSON.parse(cachedBooks);
-            renderBooks(books);
-        }
+    if (filteredBooks.length === 0) {
+        noResults.style.display = 'block';
+    } else {
+        noResults.style.display = 'none';
+        filteredBooks.forEach(book => {
+            const bookElement = document.createElement('div');
+            bookElement.classList.add('col-md-4');
 
-        try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbyRZuOfS3efoDWbES7xaqzIqTr5Jb4vKXdRLXgiAFajyLJMQdenP7RvUN4TeiAuls1TcA/exec);
-            const freshBooks = await response.json();
+            // Google Drive File Handling
+            let fileId = getFileId(book.link);
+            let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : book.link;
 
-            if (!cachedBooks || JSON.stringify(freshBooks) !== cachedBooks) {
-                console.log("Fetching fresh books...");
-                localStorage.setItem("booksData", JSON.stringify(freshBooks));
-                renderBooks(freshBooks);
-            }
-        } catch (error) {
-            console.error("Error fetching book data:", error);
-        }
+            bookElement.innerHTML = `
+                <div class="book-card" style="background-image: url('${book.image}');">
+                    <h4>${book.name}</h4>
+                    <p> ${book.author}</p>
+                    <p>${book.description}</p>
+                    <button onclick="window.open('${viewerLink}', '_blank')">Read/Download</button>
+                </div>
+            `;
+            booksContainer.appendChild(bookElement);
+        });
     }
+}
 
-    function renderBooks(filteredBooks) {
-        const booksContainer = document.getElementById('booksContainer');
-        const noResults = document.getElementById('noResults');
-        booksContainer.innerHTML = '';
+document.getElementById('searchBar').addEventListener('input', function () {
+    const query = this.value.toLowerCase();
+    let cachedBooks = localStorage.getItem("booksData");
 
-        if (filteredBooks.length === 0) {
-            noResults.style.display = 'block';
-        } else {
-            noResults.style.display = 'none';
-            filteredBooks.forEach(book => {
-                const bookElement = document.createElement('div');
-                bookElement.classList.add('col-md-4');
-
-                // ✅ Correct PDF.js Viewer Link
-                let viewerLink = getPdfViewerUrl(book.link);
-
-                bookElement.innerHTML = `
-                    <div class="book-card" style="background-image: url('${book.image}');">
-                        <h4>${book.name}</h4>
-                        <p>${book.author}</p>
-                        <p>${book.description}</p>
-                        <button onclick="window.open('${viewerLink}', '_blank')">Read/Download</button>
-                    </div>
-                `;
-                booksContainer.appendChild(bookElement);
-            });
-        }
+    if (cachedBooks) {
+        const books = JSON.parse(cachedBooks);
+        const filteredBooks = books.filter(book => 
+            book.name.toLowerCase().includes(query) || 
+            book.author.toLowerCase().includes(query) ||
+            book.description.toLowerCase().includes(query)
+        );
+        renderBooks(filteredBooks);
     }
+});
 
-    document.getElementById('searchBar').addEventListener('input', function () {
-        const query = this.value.toLowerCase();
-        let cachedBooks = localStorage.getItem("booksData");
+fetchBooks();
 
-        if (cachedBooks) {
-            const books = JSON.parse(cachedBooks);
-            const filteredBooks = books.filter(book => 
-                book.name.toLowerCase().includes(query) || 
-                book.author.toLowerCase().includes(query) ||
-                book.description.toLowerCase().includes(query)
-            );
-            renderBooks(filteredBooks);
-        }
-    });
+    </script>
 
-    fetchBooks();
-</script>
 
 
 </body>
