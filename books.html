@@ -474,7 +474,7 @@ nav ul li a:not(:hover) {
 
 function getPdfViewerUrl(driveLink) {
     let fileId = getFileId(driveLink);
-    return fileId ? `https://onlibry.xyz/pdfjs/web/viewer.html?file=https://drive.google.com/uc?id=${fileId}` : driveLink;
+    return fileId ? `https://onlibry.xyz/pdf-viewer.html?file=https://drive.google.com/uc?id=${fileId}` : driveLink;
 }
 
     async function fetchBooks() {
@@ -488,7 +488,7 @@ function getPdfViewerUrl(driveLink) {
         }
 
         try {
-            const response = await fetch("https://script.google.com/macros/s/AKfycbyjQjx8TqOjzoMhkOEpYk01-4Raj02uQVQ40xXki091Q7iX1DL8bf90Z53Nb9hx2oAn-g/exec");
+            const response = await fetch("https://script.google.com/macros/s/AKfycbyRZuOfS3efoDWbES7xaqzIqTr5Jb4vKXdRLXgiAFajyLJMQdenP7RvUN4TeiAuls1TcA/exec);
             const freshBooks = await response.json();
 
             if (!cachedBooks || JSON.stringify(freshBooks) !== cachedBooks) {
