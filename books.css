@@ -228,11 +228,13 @@ nav ul li a:not(:hover) {
     margin-bottom: 15px; /* Adjust as needed */
 }
 footer{
-    position: relative;
+    position: fixed;
     padding: 0;
     margin: 0;
     border-top: 1px;
     box-shadow: inset 2px 2px 0 0 grey;
+    width:100vw;
+    top:96vh;
     }
     .fnav{
     display: flex;
