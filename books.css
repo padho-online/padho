@@ -1,0 +1,380 @@
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .logo img {
+             height: 50px; /* Adjust height as needed */
+             width: auto; /* Maintain aspect ratio */
+             object-fit: contain; /* Ensure the image scales properly */
+             display: block; /* Remove any unwanted extra space */
+             border-radius: 50%;
+             animation: rotateLogo 30s linear infinite;
+       }
+       @keyframes rotateLogo {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.logo:hover{
+    transform:scale(1.5);
+ }
+    
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d6d1c9; /* Bright Yellow */
+            color: #333;
+            transition: background-color 0.5s;
+        }
+    
+        header {
+            background-color:none; /* Vibrant Purple */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: background-color 0.5s, padding 0.3s;
+            height: 6vh;
+        }
+    
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            color: #fff;
+        }
+    
+        .logo img {
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+    
+        .search-logo {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #fff;
+            transition: color 0.3s;
+            display: none;
+        }
+    
+        .search-logo:hover {
+            color: #ffeb3b;
+        }
+    
+        .search-input {
+            display: none;
+            margin-left: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #fff;
+            background-color: #e91e63; /* Vibrant Pink */
+            color: #fff;
+            transition: width 0.3s;
+        }
+    
+        .search-results {
+            display: none;
+            position: absolute;
+            top: 60px; /* Adjust based on header height */
+            left: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+    
+        .search-results ul {
+            list-style: none;
+        }
+    
+        .search-results ul li {
+            margin-bottom: 10px;
+        }
+    
+        nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    background-color: white;
+    padding: 6px 8px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
+    top: 4px;
+}
+
+/* Hover and Active State */
+nav ul li a.active,
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Sliding Underline Animation */
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 3px;
+    background: white;
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 80%;
+}
+
+/* Smooth transition for better UX */
+nav ul li a:not(:hover) {
+    transition: all 0.3s ease-in-out;
+}
+
+        main {
+            padding: 20px;
+            animation: fadeInUp 0.5s ease-in-out;
+            
+        }
+    
+        .identity-box,
+        .subject-box {
+            background-color: #ffffff;
+            border: 1px solid #d32f2f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 8px 8px 16px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+    
+        .identity-box:hover,
+        .subject-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    
+        .identity-box h2,
+        .subject-box h3 {
+            margin-bottom: 20px;
+        }
+    
+        ul {
+            list-style: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+    
+        ul li {
+            margin-bottom: 10px;
+        }
+    
+        .hidden-topics {
+            display: none;
+        }
+    
+        .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    
+        .book-card {
+            background-color:transparent;
+            background-attachment:fixed;
+            border: 1px solid #d32f2f;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 10px;
+            text-align: center;
+            font-weight: bolder;
+            text-shadow: whitesmoke;
+        }
+        .book-card .button-container {
+    margin-bottom: 15px; /* Adjust as needed */
+}
+footer{
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border-top: 1px;
+    box-shadow: inset 2px 2px 0 0 grey;
+    top: 80vh;
+    }
+    .fnav{
+    display: flex;
+    justify-content:center;
+    gap: 30px;
+    }
+    .fitem{
+        text-decoration: none;
+        color: black;
+        font-size: 16px;
+        display: inline-block;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
+        overflow: hidden;
+    }
+    .fcopy{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 10px;
+    }
+.book-card {
+    min-height: 210px; /* Adjust based on content */
+}
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    
+        .book-card h4 {
+            margin-bottom: 10px;
+        }
+    
+        .book-card p {
+            margin-bottom: 15px;
+        }
+    
+        .book-card button {
+            background-color: #d32f2f;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+          
+        }
+    
+        .book-card button:hover {
+            background-color: #b71c1c;
+            transform: scale(1.1);
+        }
+    
+       
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                overflow: scroll;
+
+            }
+ 
+    
+            .logo {
+                font-size: 20px;
+                margin-bottom: 10px;
+                display: none;
+            }
+    
+            .search-logo {
+                display: none;
+            }
+    
+            .search-input {
+                display: inline-block;
+                width: 100%;
+                margin-top: 10px;
+            }
+            nav ul li a {
+               position: relative;
+               bottom: 10px;
+            }
+    
+            main {
+                padding: 10px;
+                
+            }
+    
+            #booksContainer {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin: 0;
+                position: relative;
+                right: 20px;
+            }
+    
+            .book-card {
+                padding: 15px;
+                margin: 0;
+                height: 170px;
+            }
+    
+            .book-card h4 {
+                font-size: 16px;
+            }
+    
+            .book-card p {
+                font-size: 12px;
+            }
+    
+            .book-card button {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+    
+        }
