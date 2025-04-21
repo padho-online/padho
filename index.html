@@ -33,425 +33,12 @@
 
   gtag('config', 'G-NH4N1LBHRQ');
 </script>
-    <style>
-           
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #d6d1c9;
-        }
-        .logo img {
-             height: 40px; /* Adjust height as needed */
-             width: auto; /* Maintain aspect ratio */
-             object-fit: contain; /* Ensure the image scales properly */
-             border-radius: 50%;
-             animation: rotateLogo 30s linear infinite;
-       }
-       @keyframes rotateLogo {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-        
-         .header {
-            background-color: none;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            transition: background-color 0.3s ease;
-            height: 6vh;
-            
-        }
-        .about{
-            background-color: white;
-        }
-        .onlibry{
-            color: green;
-            font-weight: bolder;
-            text-decoration: none;
-        }
-        .onlibry a{
-            color: green;
-        }
-        footer{
-            display: none;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .header:hover {
-            
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        .logo img {
-            margin-right: 10px;
-        }
-        .search-logo {
-            display: none;
-            margin-left: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .search-logo:hover {
-            transform: scale(1.2);
-        }
-        .search-input {
-            display: none;
-            margin-left: 10px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            transition: all 0.3s ease;
-        }
-        .search-results {
-            display: none;
-            position: absolute;
-            top: 60px; /* Adjust based on header height */
-            left: 20px;
-            right: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-        .search-results ul {
-            list-style: none;
-        }
-        .search-results ul li {
-            margin-bottom: 10px;
-        }
-        nav ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    padding: 0;
-    margin: 0;
-}
-
-nav ul li {
-    position: relative;
-}
-
-nav ul li a {
-    text-decoration: none;
-    background-color:white;
-    color: black;
-    padding: 6px 8px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 8px;
-    display: inline-block;
-    position: relative;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
-    overflow: hidden;
-}
-
-/* Hover and Active State */
-nav ul li a.active,
-nav ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Animated Underline Effect */
-nav ul li a::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 5px;
-    width: 0;
-    height: 2px;
-    background-color: white;
-    transition: all 0.3s ease-in-out;
-    transform: translateX(-50%);
-}
-
-nav ul li a:hover::after,
-nav ul li a.active::after {
-    width: 80%;
-}
-
-/* Smooth transition when leaving hover */
-nav ul li a:not(:hover) {
-    transition: all 0.3s ease-in-out;
-}
-
-        .container-fluid {
-            display: flex;
-            flex-wrap: wrap;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .sidebar {
-            flex: 1 1 20%;
-            background-color: #fff;
-            padding: 10px;
-            box-sizing: border-box;
-            transition: transform 0.3s ease;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .sidebar .button {
-            display: block;
-            padding: 15px;
-            margin-bottom: 10px;
-            text-align: center;
-            border-radius: 20px;
-            color: #fff;
-            text-decoration: none;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: inset 2px 2px 0 0 grey;
-            text-decoration: none;
-        }
-        .sidebar .button:nth-child(1) { background: #e1d9e4; color: black;}
-        .sidebar .button:nth-child(2) {background: #e1d9e4; color: black;}
-        .sidebar .button:nth-child(3) { background: #e1d9e4;color: black;}
-        .sidebar .button:nth-child(4) { background: #e1d9e4; color: black;}
-        .sidebar .button:nth-child(5) { background: #e1d9e4; color: black;}
-        .sidebar .button:nth-child(6) { background: #e1d9e4; color: black;}
-        .sidebar .button:nth-child(7) {background: #e1d9e4;color: black; }
-        .sidebar .button:nth-child(8) { background: #e1d9e4; color: black;}
-        .sidebar .button:hover {
-            transform: translateY(-5px);
-        }
-        .sidebar .social {
-            margin-top: 10px;
-        }
-        .sidebar .social .social-button {
-            display: block;
-            border-radius: 20px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 2px solid #000;
-            text-align: center;
-            color: #000;
-            text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .sidebar .button:hover{
-            background-color: white;
-            border: 1px black solid;
-        }
-        .sidebar .social .social-button:hover {
-            background-color: #000;
-            color: #fff;
-        }
-        .content {
-            flex: 1 1 80%;
-            padding: 10px;
-            box-sizing: border-box;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .content .about, .content .description {
-            background-color:white;
-            padding: 20px;
-            margin-bottom: 10px;
-            text-align: center;
-            border-radius: 20px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .content .about:hover, .content .description:hover {
-            background-color: #e5e9e1;
-            transform: translateY(-5px);
-        }
-        .content .updates {
-            background-color: #66bb6a;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            animation: fadeIn 1s ease-in-out;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .content .update-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            box-shadow: inset 2px 2px 0 0 grey;
-        }
-        .content .update-item {
-            display: flex;
-            justify-content: space-between;
-            width: 45%;
-            background: #e1d9e4;
-            border-left:solid 4px #66bb6a;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            animation: slideIn 0.5s ease-in-out;
-            border-radius: 20px;
-            position: relative;
-            top:10px;
-        }
-        .content .update-item .date {
-            display: flex;
-            align-items: center;
-        }
-        .content .update-item .description {
-            flex-grow: 1;
-            margin-left: 10px;
-            display: flex;
-            align-items: center;
-        }
-        a{
-            text-decoration: none;
-        }
-        b{
-            font-size: large;
-        }
-        .update-list{
-            display: flex;
-            justify-content:space-evenly;
-        }
-
-        @media (max-width: 768px) {
-    /* Header */
-    header {
-        overflow-x: auto;
-        height: 8vh;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-        gap: 5px;
-    }
-
-    .sidebar .button {
-        width: 100%;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        border-radius: 10px;
-    }
-
-    /* Content */
-    .content {
-        font-size: 14px;
-    }
-
-    /* Footer */
-    footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background-color: #64def131;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .socialfooter {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .socialfooter .social-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 10vw;
-        height: 10vw;
-        border-radius: 10px;
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        text-decoration: none;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    /* Different colors for buttons */
-    .socialfooter .social-button:nth-child(1) { background-color: #e91e63; } /* Pink */
-    .socialfooter .social-button:nth-child(2) { background-color: #3f51b5; } /* Blue */
-    .socialfooter .social-button:nth-child(3) { background-color: #ff9800; } /* Orange */
-
-    .socialfooter .social-button:hover {
-        transform: translateY(-3px);
-        opacity: 0.8;
-    }
-
-    /* Updates Section */
-    .updates {
-        text-align: center;
-        font-size: 14px;
-        font-weight: bold;
-
-        color: white;
-        padding: 8px;
-        border-radius: 5px;
-    }
-
-    .update-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 Columns */
-        gap: 8px;
-        padding: 10px;
-    }
-
-    .update-item {
-        background: #f9f9f9;
-        padding: 8px;
-        border-radius: 5px;
-        box-shadow: 0px 4px 10px rgba(56, 129, 22, 0.3);
-        text-align: center;
-        font-size: 12px;
-        border-left:solid 4px #66bb6a;
-        display: flex;
-        flex-direction: column; /* Date upar, Description neeche */
-        align-items: center;
-    }
-
-    .update-item .date {
-        font-weight: bold;
-        color: #e91e63;
-        font-size: 13px;
-        margin-bottom: 3px;
-    }
-
-    .update-item .description {
-        font-size: 11px;
-        color: #333;
-    }
-    .social{
-        display: none;
-    }
-    .logo:hover{
-        transform:scale(1);
-}
-.search-logo{
-    display: none;
-}
-
-        
-}      
-    </style>
+    <link rel="stylesheet" href="home.css">
 </head>
-<body>
+  <body>
     <header class="header">
         <div class="logo">
-         <img src="logo transparent.png" alt="logo">
-            <span class="search-logo">&#128269;</span>
-            <input type="text" class="search-input" placeholder="Search...">
+         <img src="https://i.pinimg.com/736x/31/2a/9d/312a9dc678934cd0215e1d88a59e076b.jpg" alt="logo">
         </div>
         <nav role="navigation">
             <ul>
@@ -463,27 +50,25 @@ nav ul li a:not(:hover) {
                 <li><a href="feedback.html">Feedback</a></li>
             </ul>
         </nav>
-        <div class="search-results">
-            <ul><li>BOOKS</li>
-            </ul>
-        </div>
     </header>
     <div class="container-fluid">
         <div class="sidebar">
+            <div class="nav2">
             <a href="books.html" class="button">Books</a>
             <a href="resources.html" class="button">Resources</a>
             <a href="papers.html" class="button">Papers</a>
             <a href="videos.html" class="button">Videos</a>
             <a href="feedback.html" class="button">Feedback</a>
-            <a href="https://blog.onlibry.xyz" class="button" target="_blank" rel="noopener">Blog Page</a>
             <a href="https://blog.onlibry.xyz/search/label/News" class="button" target="_blank" rel="noopener">Current Affairs</a>
-            <a href="https://t.me/onlibry" class="button" target="_blank" rel="noopener">JOIN TELEGRAM</a>
+        </div>
             <!-- <a href="section6.html" class="button"></a> -->
             
-            <div class="social" style="display:none;">
-                <a href="error.html" class="social-button">Social 1</a>
-                <a href="error.html" class="social-button">Social 2</a>
-                <a href="error.html" class="social-button">Social 3</a>
+            <div class="social">
+                
+                <a  href="https://t.me/onlibry" class="button" target="_blank" rel="noopener">TELEGRAM</a>
+                <a href="error.html" class="button" target="_blank" rel="noopener">INSTAGRAM</a>
+                <a href="error.html" class="button" target="_blank" rel="noopener">FACEBOOK</a>
+                <a href="https://blog.onlibry.xyz" class="button" target="_blank" rel="noopener">BLOGS</a>
             </div>
         </div>
         <div class="content">
@@ -525,71 +110,40 @@ nav ul li a:not(:hover) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    fetch('https://script.google.com/macros/s/AKfycbxo-WlFicj30IyDtzkiaSsVhrKII5vs5WfMxJ7zw-RkNgYv-lPyj-YArYRKacDzQKpgbg/exec')
-        .then(response => response.json())
-        .then(data => {
-            // document.querySelector('.about h2').innerHTML = data.aboutUs;
-            // document.querySelector('.description h2').innerHTML = data.description;
-            //Decomment the above 2 lines code to directly fetch of data aboutus and description from data base.
-
-            const updateList = document.querySelector('.update-list');
-            updateList.innerHTML = data.updates.map(update => `
-                <div class="update-item">
-                    <div class="date">${formatDate(update.date)}</div> <!-- 🔥 Yahan Fix Kiya -->
-                    <div class="description">${update.content}</div>
-                </div>
-            `).join('');
-
-            setupSearchFeature(data.updates);
-        })
-        .catch(error => console.error('Error fetching data:', error));
-});
-
-function formatDate(isoDate) {
-    const date = new Date(isoDate);
-    if (isNaN(date)) return isoDate; // Agar date invalid ho toh original return kar do
-    return date.toLocaleDateString('en-GB'); // 🔥 DD/MM/YYYY format
-}
-
-function setupSearchFeature(updates) {
-    const searchLogo = document.querySelector('.search-logo');
-    const searchInput = document.querySelector('.search-input');
-    const searchResults = document.querySelector('.search-results');
-    const searchResultsList = document.querySelector('.search-results ul');
-
-    searchLogo.addEventListener('click', function () {
-        searchInput.style.display = searchInput.style.display === 'block' ? 'none' : 'block';
-    });
-
-    searchInput.addEventListener('input', function () {
-        const query = searchInput.value.toLowerCase();
-        if (query.length > 2) {
-            const results = updates.filter(update => update.content.toLowerCase().includes(query));
-            searchResultsList.innerHTML = results.map(result => `
-                <li>${result.content} (${formatDate(result.date)})</li> <!-- 🔥 Yahan Bhi Fix Kiya -->
-            `).join('');
-            searchResults.style.display = 'block';
-        } else {
-            searchResults.style.display = 'none';
+            fetch('https://script.google.com/macros/s/AKfycbxo-WlFicj30IyDtzkiaSsVhrKII5vs5WfMxJ7zw-RkNgYv-lPyj-YArYRKacDzQKpgbg/exec')
+                .then(response => response.json())
+                .then(data => {
+                    // document.querySelector('.about h2').innerHTML = data.aboutUs;
+                    // document.querySelector('.description h2').innerHTML = data.description;
+                    //Decomment the above 2 lines code to directly fetch data aboutus and description from database.
+    
+                    const updateList = document.querySelector('.update-list');
+                    updateList.innerHTML = data.updates.map(update => `
+                        <div class="update-item">
+                            <div class="date">${formatDate(update.date)}</div>
+                            <div class="description">${update.content}</div>
+                        </div>
+                    `).join('');
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            if (isNaN(date)) return isoDate;
+            return date.toLocaleDateString('en-GB'); // DD/MM/YYYY
         }
-    });
-
-    document.addEventListener('click', function (event) {
-        if (!event.target.closest('.header')) {
-            searchResults.style.display = 'none';
-        }
-    });
-}
-
-
-
-</script>
+    </script>
+    
 <footer>
-    <div class="socialfooter">
-        <a href="error.html" class="social-button">Social 1</a>
-        <a href="error.html" class="social-button">Social 2</a>
-        <a href="error.html" class="social-button">Social 3</a>
-    </div>
+    <div class="fnav">
+        <a href="about.html" class="fitem">About Us</a>
+        <a href="privacy.html" class="fitem">Privacy Policy</a>
+        <a href="contact.html" class="fitem">Contact Us</a>
+      </div>
+      <div class="fcopy">
+        <p>&copy; 2025 Onlibry.xyz. All rights reserved.</p>
+      </div>
 </footer>
     
 </body>
