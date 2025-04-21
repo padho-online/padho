@@ -233,7 +233,6 @@ footer{
     margin: 0;
     border-top: 1px;
     box-shadow: inset 2px 2px 0 0 grey;
-    top: 50vh;
     }
     .fnav{
     display: flex;
