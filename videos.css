@@ -241,7 +241,8 @@ overflow: hidden;
 
     @media (max-width: 768px) {
         header {
-            overflow: scroll;
+           overflow-y: hidden;
+           overflow-x: scroll;
             height: 6vh;
             padding: 5px;
         }
