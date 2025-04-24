@@ -206,8 +206,22 @@ overflow: hidden;
         display: none;
         text-align: center;
         margin-top: 20px;
-        color: #777;
+        color: #bb1414;
+        font-size: xx-large;
+        font-weight: bolder;
     }
+    .videos-full{
+        text-align: center;
+        }
+        .onlibry{
+            color: green;
+            font-weight: bolder;
+            text-decoration: none;
+        }
+        .onlibry a{
+            color: green;
+            text-decoration: none;
+        }
 
     footer{
         position: relative;
@@ -241,8 +255,8 @@ overflow: hidden;
 
     @media (max-width: 768px) {
         header {
-           overflow-y: hidden;
-           overflow-x: scroll;
+                overflow-y: hidden;
+                overflow-x: scroll;
             height: 6vh;
             padding: 5px;
         }
