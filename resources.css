@@ -1,3 +1,5 @@
+
+    
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -150,9 +152,7 @@ width: 80%;
     background: linear-gradient(90deg, #00796b, #004d40);
     color: white;
 }
-.table-section{
-    min-height: 50vh;
-}
+
 .table-section tr:hover {
     background-color: #f1f1f1;
     transition: background 0.3s ease-in-out;
@@ -175,6 +175,18 @@ td:hover{
         border-radius: 20px;
         box-shadow: inset 2px 0 2px 2px rgb(183, 165, 186);
 
+    }
+    .resources-intro{
+    text-align: center;
+    }
+    .onlibry{
+        color: green;
+        font-weight: bolder;
+        text-decoration: none;
+    }
+    .onlibry a{
+        color: green;
+        text-decoration: none;
     }
     footer{
         position: relative;
