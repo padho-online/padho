@@ -348,7 +348,7 @@ transform:scale(1);
     display: block;
 
 }
-    .sidebar .button:nth-child(11) { background: #e1d9e4; color: black; display:none;}
+    .social .button:nth-child(5) { background: #e1d9e4; color: black; display: none;}
 .nav2{
     columns: 2;
 }
