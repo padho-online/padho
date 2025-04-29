@@ -30,6 +30,7 @@ transform: rotate(360deg);
     position: relative;
     transition: background-color 0.3s ease;
     height: 6vh;
+     width:100vw;
     
 }
 .header:hover {
@@ -248,6 +249,7 @@ b{
 }
 .home-intro{
     text-align: center;
+    width:100vw;
 }
 footer{
 position: relative;
