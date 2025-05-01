@@ -130,6 +130,47 @@ const CursorTool = {
   HAND: 1,
   ZOOM: 2
 };
+import * as pdfjsLib from './build/pdf.mjs'; // pdf.mjs file ko import karein
+
+// Set the workerSrc for PDF.js
+pdfjsLib.GlobalWorkerOptions.workerSrc = './build/pdf.worker.mjs';
+
+// Function to load the PDF
+function loadPDF(pdfUrl) {
+    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc) {
+        console.log('PDF loaded');
+        renderPage(pdfDoc, 1); // Render the first page
+    }).catch(function(error) {
+        console.error('Error loading PDF:', error);
+    });
+}
+
+// Function to render a page
+function renderPage(pdfDoc, pageNum) {
+    pdfDoc.getPage(pageNum).then(function(page) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: 1.5 }); // Adjust scale for zoom
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        // Render the page on the canvas
+        page.render({
+            canvasContext: context,
+            viewport: viewport
+        });
+
+        // Append the canvas to the #pdfViewer element in the HTML
+        document.getElementById('pdfViewer').appendChild(canvas);
+    }).catch(function(error) {
+        console.error('Error rendering page:', error);
+    });
+}
+
+// Load PDF from a URL (Replace with your PDF file path)
+loadPDF('compressed.tracemonkey-pldi-09.pdf');
+
 const AutoPrintRegExp = /\bprint\s*\(/;
 function scrollIntoView(element, spot, scrollMatches = false) {
   let parent = element.offsetParent;
