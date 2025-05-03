@@ -41,16 +41,130 @@
      crossorigin="anonymous"></script>
 
    <link rel="stylesheet" href="papers.css">
+<style>
+        /* Base styles for all devices */
+        .papers-container {
+          display: grid;
+          gap: 15px;
+          padding: 15px;
+          width: 100%;
+        }
+
+        .paper-card {
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          padding: 15px;
+          transition: all 0.3s ease;
+          border: 1px solid #e0e0e0;
+          break-inside: avoid;
+          text-align: center;
+        }
+
+        /* Title styling - centered and bold */
+        .paper-title {
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 12px;
+          color: #2c3e50;
+          font-size: 1.1rem;
+        }
+
+        /* Paper link styling - bold and green */
+        .paper-link {
+          display: inline-block;
+          padding: 6px 12px;
+          background-color: #28a745;
+          color: white;
+          border-radius: 4px;
+          font-size: 0.85rem;
+          margin-top: 12px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+
+        .paper-link:hover {
+          background-color: #218838;
+          transform: translateY(-2px);
+        }
+
+        /* Meta information styling */
+        .paper-meta {
+          font-size: 0.85rem;
+          color: #6c757d;
+          margin-bottom: 6px;
+          text-align: center;
+        }
+
+        /* Mobile devices (2 columns) */
+        @media (max-width: 767px) {
+          .papers-container {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            padding: 10px;
+          }
+          
+          .paper-card {
+            padding: 12px;
+            min-width: 0;
+          }
+          
+          .paper-title {
+            font-size: 1rem;
+          }
+          
+          .paper-link {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+          }
+        }
+
+        /* Tablets (3 columns) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .papers-container {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        /* Desktop (auto columns) */
+        @media (min-width: 1024px) {
+          .papers-container {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          }
+        }
+
+        /* Very small mobile devices (1 column) */
+        @media (max-width: 480px) {
+          .papers-container {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        /* Filter section styling */
+        .filter-section {
+          background-color: #f8f9fa;
+          padding: 20px;
+          margin-bottom: 20px;
+          border-radius: 8px;
+        }
+
+        /* Onlibry brand color */
+        .onlibry {
+          color: green;
+          font-weight: 600;
+        }
+    </style>
 </head>
 <body>  
     <header class="header">
         <div class="logo">
-            <span><a href="index.html" ><img src="logo transparent.png" alt="logo"></a> </div>
+            <span><a href="index.html"><img src="logo transparent.png" alt="logo"></a> </div>
         <nav role="navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="books.html">Books</a></li>
-                <li><a href="resources.html" >Resources</a></li>
+                <li><a href="resources.html">Resources</a></li>
                 <li><a href="papers.html" class="active">Papers</a></li>
                 <li><a href="videos.html">Videos</a></li>
                 <li><a href="feedback.html">Feedback</a></li>
@@ -64,40 +178,28 @@
                 <label for="university">UNIVERSITY</label>
                 <select id="university" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="course">COURSE</label>
                 <select id="course" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="subject">SUBJECT</label>
                 <select id="subject" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="paper">PAPER</label>
                 <select id="paper" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3 d-flex align-items-end">
@@ -109,237 +211,198 @@
             </div>
         </div>
     </div>
-    <div class="table-section">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                   
-                    <th>UNIVERSITY</th>
-                    <th>EXAM TYPE</th>
-                    <th>YEAR</th>
-                    <th>MONTH</th>
-                    <th>COURSE</th>
-                    <th>SUBJECT</th>
-                    <th>PAPER <br> (Click here)</th>
-                    <th>CODE</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <tr>
-                    
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td><a href="#">Loading data...</td>
-                    <td>Loading data...</td>
-                </tr>
-                <tr>
-                    
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td><a href="#">Loading data...</td>
-                    <td>Loading data...</td>
-                </tr> <tr>
-                   
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td>Loading data...</td>
-                    <td><a href="#">Loading data...</td>
-                    <td>Loading data...</td>
-                </tr>
-                    
-                     
-            </tbody>
-        </table>
+    
+    <div class="papers-container" id="papers-container">
+        <!-- Loading placeholders -->
+        <div class="loading-card">
+            <div>Loading papers...</div>
+        </div>
+        <div class="loading-card">
+            <div>Loading papers...</div>
+        </div>
+        <div class="loading-card">
+            <div>Loading papers...</div>
+        </div>
     </div>
+    
     <section class="papers-intro">
         <h2 class="onlibry">Previous Year – Practice & Prepare Better</h2>
         <p>
-            <span class="onlibry">Onlibry</span>’s Exam Papers section is your one-stop destination for all previous year question papers across different academic streams and competitive exams. These papers are carefully categorized to help students like you boost their preparation, understand question patterns, and improve time management during real exams. Whether you’re in school, college, or preparing for entrance exams like CUET or ICET, this section is designed to support your journey.
+            <span class="onlibry">Onlibry</span>'s Exam Papers section is your one-stop destination for all previous year question papers across different academic streams and competitive exams. These papers are carefully categorized to help students like you boost their preparation, understand question patterns, and improve time management during real exams.
         </p>
         
         <p>
-          We provide downloadable and viewable PDFs from past years, organized by subject, year, and type of exam. You can directly open any file in your browser, or download it for offline reading. Please note that if any file takes a few seconds to load, it’s likely due to large file size or high-quality scanned pages. Be patient and let the full document load before accessing it smoothly. We recommend using a stable internet connection for the best experience.
+          We provide downloadable and viewable PDFs from past years, organized by subject, year, and type of exam. You can directly open any file in your browser, or download it for offline reading.
         </p>
-        
-        <p>
-          To make your navigation easier, papers are sorted by:
-          
-            <p><strong>Year-wise:</strong> Access papers from the last 5 to 10 years.</p>
-            <p><strong>Subject-wise:</strong> Jump directly to your required subject.</p>
-            <p><strong>Exam Type:</strong> Board exams, college finals, and competitive papers.</p>
-          
-          Use the built-in search feature to instantly find specific papers or keywords.
-        </p>
-      
-        <p>
-          If you don’t find a paper you’re looking for, don’t worry! We’re building this archive with help from our users. Join our <a href="https://t.me/onlibry" class="onlibry">Telegram group</a> to request specific papers, suggest additions, or talk to other learners. You can also get notified whenever we upload new materials.
-        </p>
-        
-        <p>
-          Support us by spreading the word. If you find our platform helpful, consider donating your exam papers and other resources via our <a href="https://t.me/onlibry" class="onlibry">Telegram</a> to help us continue improving and adding more free content. Follow us on <a href="https://instagram.com/onlibry_xyz" class="onlibry">Instagram</a> and <a href="https://www.facebook.com/profile.php?id=61575232301910" class="onlibry">Facebook</a> for motivational updates, revision strategies, and exclusive sneak peeks.
-        </p>
-
-        <p>
-          Don’t forget to check out our daily blogs — we post fresh updates including <strong>current affairs, productivity tips, and educational articles</strong> that can really sharpen your preparation. Bookmark this page and stay connected with Onlibry for everything you need in one place.
-        </p>
-      </section>
+    </section>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const apiUrl = "https://script.google.com/macros/s/AKfycbz6fx1Ltgft8B7ceWJ7agAQ_SmrGhqmtYeSNoKu1WO1JSFA3eYkzCCDmoiJDTFHKZPS/exec";
-    const tableBody = document.getElementById("table-body");
-    const filterButton = document.getElementById("search-filter");
-    const clearButton = document.getElementById("show-all-clear-filter");
-    const searchBar = document.getElementById("search-bar");
+        document.addEventListener("DOMContentLoaded", function () {
+            const apiUrl = "https://script.google.com/macros/s/AKfycbz6fx1Ltgft8B7ceWJ7agAQ_SmrGhqmtYeSNoKu1WO1JSFA3eYkzCCDmoiJDTFHKZPS/exec";
+            const papersContainer = document.getElementById("papers-container");
+            const filterButton = document.getElementById("search-filter");
+            const clearButton = document.getElementById("show-all-clear-filter");
+            const searchBar = document.getElementById("search-bar");
 
-    const universityDropdown = document.getElementById("university");
-    const courseDropdown = document.getElementById("course");
-    const subjectDropdown = document.getElementById("subject");
-    const paperDropdown = document.getElementById("paper");
+            const universityDropdown = document.getElementById("university");
+            const courseDropdown = document.getElementById("course");
+            const subjectDropdown = document.getElementById("subject");
+            const paperDropdown = document.getElementById("paper");
+            
+            let allPapers = []; // Store all papers for filtering
 
-    // Fetch data from API
-    async function fetchData() {
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            renderTable(data);
-            updateDropdowns(data);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    }
+            // Fetch data from API
+            async function fetchData() {
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    allPapers = data; // Store all papers
+                    renderPapers(data);
+                    updateDropdowns(data);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    papersContainer.innerHTML = `<div class="alert alert-danger">Error loading papers. Please try again later.</div>`;
+                }
+            }
 
- // Populate dropdowns dynamically
-function updateDropdowns(data) {
-    let universities = new Set(["ALL"]);
-    let courses = new Set(["ALL"]);
-    let subjects = new Set(["ALL"]);
-    let papers = new Set(["ALL"]);
+            // Populate dropdowns dynamically
+            function updateDropdowns(data) {
+                let universities = new Set(["ALL"]);
+                let courses = new Set(["ALL"]);
+                let subjects = new Set(["ALL"]);
+                let papers = new Set(["ALL"]);
 
-    data.forEach(row => {
-        universities.add(row.UNIVERSITY);
-        courses.add(row.COURSE);
-        subjects.add(row.SUBJECT);
-        papers.add(row.PAPER);
-    });
+                data.forEach(row => {
+                    if (row.UNIVERSITY) universities.add(row.UNIVERSITY);
+                    if (row.COURSE) courses.add(row.COURSE);
+                    if (row.SUBJECT) subjects.add(row.SUBJECT);
+                    if (row.PAPER) papers.add(row.PAPER);
+                });
 
-    populateDropdown(universityDropdown, [...universities].sort());
-    populateDropdown(courseDropdown, [...courses].sort());
-    populateDropdown(subjectDropdown, [...subjects].sort());
-    populateDropdown(paperDropdown, [...papers].sort());
+                populateDropdown(universityDropdown, Array.from(universities).sort());
+                populateDropdown(courseDropdown, Array.from(courses).sort());
+                populateDropdown(subjectDropdown, Array.from(subjects).sort());
+                populateDropdown(paperDropdown, Array.from(papers).sort());
 
-    // Ensure 'ALL' is selected by default
-    universityDropdown.value = "ALL";
-    courseDropdown.value = "ALL";
-    subjectDropdown.value = "ALL";
-    paperDropdown.value = "ALL";
-}
+                // Ensure 'ALL' is selected by default
+                universityDropdown.value = "ALL";
+                courseDropdown.value = "ALL";
+                subjectDropdown.value = "ALL";
+                paperDropdown.value = "ALL";
+            }
 
-// Function to populate a dropdown
-function populateDropdown(dropdown, items) {
-    dropdown.innerHTML = "";
-    items.forEach(item => {
-        let option = document.createElement("option");
-        option.value = item;
-        option.textContent = item;
-        dropdown.appendChild(option);
-    });
-}
+            // Function to populate a dropdown
+            function populateDropdown(dropdown, items) {
+                dropdown.innerHTML = "";
+                items.forEach(item => {
+                    let option = document.createElement("option");
+                    option.value = item;
+                    option.textContent = item;
+                    dropdown.appendChild(option);
+                });
+            }
 
+            function getFileId(url) {
+                if (!url) return null;
+                let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                return match ? match[1] : null;
+            }
 
-  
-    function getFileId(url) {
-        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        return match ? match[1] : null;
-    }
+            // Render papers as cards
+            function renderPapers(data) {
+                papersContainer.innerHTML = "";
+                
+                if (data.length === 0) {
+                    papersContainer.innerHTML = `<div class="alert alert-info">No papers found matching your filters.</div>`;
+                    return;
+                }
+                
+                data.forEach(paper => {
+                    let fileId = getFileId(paper.LINK);
+                    let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : (paper.LINK || "#");
+                    
+                    let paperCard = document.createElement("div");
+                    paperCard.className = "paper-card";
+                    paperCard.setAttribute("data-university", paper.UNIVERSITY || '');
+                    paperCard.setAttribute("data-course", paper.COURSE || '');
+                    paperCard.setAttribute("data-subject", paper.SUBJECT || '');
+                    paperCard.setAttribute("data-paper", paper.PAPER || '');
+                    
+                    paperCard.innerHTML = `
+                        <div class="paper-title">${paper.SUBJECT || 'Exam Paper'}</div>
+                        <div class="paper-meta"><strong>University:</strong> ${paper.UNIVERSITY || 'N/A'}</div>
+                        <div class="paper-meta"><strong>Course:</strong> ${paper.COURSE || 'N/A'}</div>
+                        <div class="paper-meta"><strong>Year:</strong> ${paper.YEAR || 'N/A'}</div>
+                        <div class="paper-meta"><strong>Month:</strong> ${paper.MONTH || 'N/A'}</div>
+                        <div class="paper-meta"><strong>Type:</strong> ${paper.EXAM_TYPE || 'N/A'}</div>
+                        <a href="${viewerLink}" class="paper-link" target="_blank">
+                            ${paper.PAPER || 'View Paper'}
+                        </a>
+                    `;
+                    
+                    papersContainer.appendChild(paperCard);
+                });
+            }
 
-    // Render table dynamically
-    function renderTable(data) {
-        const tableBody = document.getElementById("table-body");
-        tableBody.innerHTML = "";
+            // Filter papers based on selected values
+            function filterPapers() {
+                const university = universityDropdown.value;
+                const course = courseDropdown.value;
+                const subject = subjectDropdown.value;
+                const paperType = paperDropdown.value;
+                const searchText = searchBar.value.toLowerCase();
 
-        data.forEach(row => {
-            let tr = document.createElement("tr");
-            let fileId = getFileId(row.LINK);
-            let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : "#";
-            let paperLink = fileId ? `<a href="${viewerLink}" target="_blank">${row.PAPER}</a>` : row.PAPER;
+                // First filter the allPapers array
+                const filteredData = allPapers.filter(paper => {
+                    const matchesUniversity = university === "ALL" || 
+                        (paper.UNIVERSITY && paper.UNIVERSITY.toLowerCase() === university.toLowerCase());
+                    
+                    const matchesCourse = course === "ALL" || 
+                        (paper.COURSE && paper.COURSE.toLowerCase() === course.toLowerCase());
+                    
+                    const matchesSubject = subject === "ALL" || 
+                        (paper.SUBJECT && paper.SUBJECT.toLowerCase() === subject.toLowerCase());
+                    
+                    const matchesPaperType = paperType === "ALL" || 
+                        (paper.PAPER && paper.PAPER.toLowerCase() === paperType.toLowerCase());
+                    
+                    const matchesSearch = searchText === "" || 
+                        JSON.stringify(paper).toLowerCase().includes(searchText);
+                    
+                    return matchesUniversity && matchesCourse && matchesSubject && matchesPaperType && matchesSearch;
+                });
+                
+                // Then render the filtered results
+                renderPapers(filteredData);
+            }
 
-            tr.innerHTML = `
-                <td>${row.UNIVERSITY}</td>
-                <td>${row.EXAM_TYPE}</td>
-                <td>${row.YEAR}</td>
-                <td>${row.MONTH}</td>
-                <td>${row.COURSE}</td>
-                <td>${row.SUBJECT}</td>
-                <td>${paperLink}</td>
-                <td>${row.CODE}</td>
-            `;
-            tableBody.appendChild(tr);
+            // Event listeners
+            filterButton.addEventListener("click", filterPapers);
+            searchBar.addEventListener("input", filterPapers);
+
+            clearButton.addEventListener("click", function () {
+                universityDropdown.value = "ALL";
+                courseDropdown.value = "ALL";
+                subjectDropdown.value = "ALL";
+                paperDropdown.value = "ALL";
+                searchBar.value = "";
+                renderPapers(allPapers); // Show all papers
+            });
+
+            // Initial fetch
+            fetchData();
         });
-    }
-
-    // Filter table based on selected values
-    function filterTable() {
-        let university = universityDropdown.value.toLowerCase();
-        let course = courseDropdown.value.toLowerCase();
-        let subject = subjectDropdown.value.toLowerCase();
-        let paper = paperDropdown.value.toLowerCase();
-        let searchText = searchBar.value.toLowerCase();
-
-        document.querySelectorAll("#table-body tr").forEach(row => {
-            let rowUniversity = row.cells[0].textContent.toLowerCase();
-            let rowCourse = row.cells[4].textContent.toLowerCase();
-            let rowSubject = row.cells[5].textContent.toLowerCase();
-            let rowPaper = row.cells[6].textContent.toLowerCase();
-            let rowText = row.textContent.toLowerCase();
-
-            let match = (university === "all" || rowUniversity.includes(university)) &&
-                        (course === "all" || rowCourse.includes(course)) &&
-                        (subject === "all" || rowSubject.includes(subject)) &&
-                        (paper === "all" || rowPaper.includes(paper)) &&
-                        (searchText === "" || rowText.includes(searchText));
-
-            row.style.display = match ? "" : "none";
-        });
-    }
-
-    // Event listeners
-    filterButton.addEventListener("click", filterTable);
-    searchBar.addEventListener("input", filterTable);
-
-    clearButton.addEventListener("click", function () {
-        universityDropdown.value = "ALL";
-        courseDropdown.value = "ALL";
-        subjectDropdown.value = "ALL";
-        paperDropdown.value = "ALL";
-        searchBar.value = "";
-        filterTable();
-    });
-
-    // Initial fetch
-    fetchData();
-});
-</script>
-<footer>
-    <div class="fnav">
-        <a href="about.html" class="fitem">About Us</a>
-        <a href="privacy.html" class="fitem">Privacy Policy</a>
-        <a href="feedback.html" class="fitem">Contact Us</a>
-      </div>
-      <div class="fcopy">
-        <p>&copy; 2025 <span class="onlibry">Onlibry.xyz</span>. All rights reserved.</p>
-      </div>
-</footer>
+    </script>
+    <footer>
+        <div class="fnav">
+            <a href="about.html" class="fitem">About Us</a>
+            <a href="privacy.html" class="fitem">Privacy Policy</a>
+            <a href="contact.html" class="fitem">Contact Us</a>
+        </div>
+        <div class="fcopy">
+            <p>&copy; 2025 <span class="onlibry">Onlibry.xyz</span>. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
