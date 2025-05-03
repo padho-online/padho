@@ -333,6 +333,37 @@ footer{
         .onlibry a{
             color: green;
         }
+ .col-md-4:target {
+            transform: scale(1.05); /* Scale animation */
+            background-color: #110303; /* Dark background for highlight */
+            border: 2px dotted #ff0000; /* Dotted red border */
+            animation: pulseBorder 2s infinite; /* Animation for border */
+            transition: all 0.5s ease-in-out; /* Smooth transition for scale */
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); /* Red glow effect */
+        }
+    
+        /* Border pulse animation */
+        @keyframes pulseBorder {
+            0% {
+                border-color: #ff0000;
+                transform: scale(1.05);
+            }
+            50% {
+                border-color: #ffff00; /* Change to yellow */
+                transform: scale(1.08); /* Scale up slightly more */
+            }
+            100% {
+                border-color: #ff0000; /* Back to red */
+                transform: scale(1.05); /* Reset to original scale */
+            }
+        }
+    
+        /* Smooth scrolling behavior for targeted element */
+        html {
+            scroll-behavior: smooth;
+        }
     
         @media (max-width: 768px) {
             header {
