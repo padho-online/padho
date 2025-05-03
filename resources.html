@@ -42,17 +42,117 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6893553072614021"
      crossorigin="anonymous"></script>
 
+ <style>
+    /* Base styles for all devices */
+.resources-container {
+  display: grid;
+  gap: 15px;
+  padding: 15px;
+  width: 100%;
+}
+
+.resource-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 15px;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+  break-inside: avoid;
+  text-align: center; /* Center all card content */
+}
+
+/* Title styling - centered and bold */
+.resource-title {
+  font-weight: 700; /* Bold */
+  text-align: center; /* Centered */
+  margin-bottom: 12px;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+/* Resource type styling - bold and green */
+.resource-type {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #28a745; /* Green color */
+  color: white;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-top: 12px;
+  text-decoration: none;
+  font-weight: 600; /* Bold */
+  transition: all 0.2s ease;
+}
+
+.resource-type:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: translateY(-2px);
+}
+
+/* Mobile devices (2 columns) */
+@media (max-width: 767px) {
+  .resources-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .resource-card {
+    padding: 12px;
+    min-width: 0;
+  }
+  
+  .resource-title {
+    font-size: 1rem; /* Slightly smaller on mobile */
+  }
+  
+  .resource-type {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Tablets (3 columns) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .resources-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Desktop (auto columns) */
+@media (min-width: 1024px) {
+  .resources-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+/* Very small mobile devices (1 column) */
+@media (max-width: 480px) {
+  .resources-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Meta information styling */
+.resource-meta {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 6px;
+  text-align: center; /* Centered meta info */
+}
+</style>
 </head>
 <body>  
     <header class="header">
         <div class="logo">
-            <span><a href="index.html" ><img src="logo transparent.png" alt="logo"></a></div>
+            <span><a href="index.html"><img src="logo transparent.png" alt="logo"></a></div>
         <nav role="navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="books.html">Books</a></li>
                 <li><a href="resources.html" class="active">Resources</a></li> 
-                <li><a href="papers.html" >Papers</a></li>
+                <li><a href="papers.html">Papers</a></li>
                 <li><a href="videos.html">Videos</a></li>
                 <li><a href="feedback.html">Feedback</a></li>
             </ul>
@@ -65,41 +165,28 @@
                 <label for="SUBJECT">SUBJECT</label>
                 <select id="SUBJECT" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="TOPICS">TOPICS</label>
                 <select id="TOPICS" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <label for="LEVEL">LEVEL</label>
                 <select id="LEVEL" class="form-control">
                     <option value="ALL">ALL</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label for="RESOURCE TYPE">RESOURCE TYPE</label>
-                <select id="RESOURCE TYPE" class="form-control">
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-<option value="Loading information...">Loading...</option>
-                    
+                <label for="RESOURCE_TYPE">RESOURCE TYPE</label>
+                <select id="RESOURCE_TYPE" class="form-control">
+                    <option value="ALL">ALL</option>
+                    <option value="Loading information...">Loading...</option>
                 </select>
             </div>
             <div class="col-md-3 d-flex align-items-end">
@@ -111,47 +198,24 @@
             </div>
         </div>
     </div>
-    <div class="table-section">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>SUBJECT</th>
-                    <th>TOPIC</th>
-                    <th>SUB-TOPIC</th>
-                    <th>TITLE</th>
-                    <th>COURSE-LEVEL</th>
-                    <th>RESOURCE-TYPE<br> (Click here)</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <tr>
-                    <td class="subjects">Loading information...</td>
-                    <td class="topics">Loading information...</td>
-                    <td class="sub-topics">Loading information...</td>
-                    <td class="title">Loading information...</td>
-                    <td class="course-level">Loading information...</td>
-                    <td class="resource-type">Loading information...</td>
-                    
-                    </tr>
-                     <tr>
-                    <td class="subjects">Loading information...</td>
-                    <td class="topics">Loading information...</td>
-                    <td class="sub-topics">Loading information...</td>
-                    <td class="title">Loading information...</td>
-                    <td class="course-level">Loading information...</td>
-                    <td class="resource-type">Loading information...</td>
-                    
-                    </tr>
-                    
-                
-                 
-            </tbody>
-        </table>
+    
+    <div class="resources-container" id="resources-container">
+        <!-- Loading placeholders -->
+        <div class="loading-card">
+            <div>Loading resources...</div>
+        </div>
+        <div class="loading-card">
+            <div>Loading resources...</div>
+        </div>
+        <div class="loading-card">
+            <div>Loading resources...</div>
+        </div>
     </div>
+    
     <section class="resources-intro">
         <h2>All-in-One Resource Hub – Notes, PDFs, Tools & More</h2>
         <p>
-          Welcome to the Resources section of <span class="onlibry">Onlibry</span> — a place where you’ll find valuable study materials, useful digital tools, and downloadable content for every learner. Whether you're preparing for board exams, competitive tests, or want quick revision notes, our collection is regularly updated and curated to match your academic needs.
+          Welcome to the Resources section of <span class="onlibry">Onlibry</span> — a place where you'll find valuable study materials, useful digital tools, and downloadable content for every learner. Whether you're preparing for board exams, competitive tests, or want quick revision notes, our collection is regularly updated and curated to match your academic needs.
         </p>
         <p>
           If any file takes time to open, please wait a few seconds. Some PDFs or documents are large in size due to detailed content or scanned pages. Once fully loaded, you'll enjoy smooth access to all pages without errors. We recommend using a stable internet connection for the best experience.
@@ -175,19 +239,20 @@
       <section class="resources-intro">
         <h3 class="onlibry">Join the Onlibry Community</h3>
         <p>
-          Need a resource that’s missing? Want to request a specific topic or syllabus? Join our official <strong><span class="onlibry"><a href="https://t.me/onlibry">Telegram Group</a></span></strong> to connect with other learners and get help from the Onlibry team. We regularly take requests and post updates there.
+          Need a resource that's missing? Want to request a specific topic or syllabus? Join our official <strong><span class="onlibry"><a href="https://t.me/onlibry">Telegram Group</a></span></strong> to connect with other learners and get help from the Onlibry team. We regularly take requests and post updates there.
         </p>
         <p>
           Love our work? Support us by sharing Onlibry with your friends and contributing a small donation via our Telegram page. Every rupee helps us add more features and content for free!
         </p>
         <p>
-          Follow us on <strong><span class="onlibry"><a href="https://instagram.com/onlibry_xyz">Instagram</a></span></strong> and <strong>Facebook</strong> for updates, motivational tips, and sneak peeks of upcoming resources. We also publish <strong>daily blog posts</strong> including current affairs and productivity hacks — don’t miss out!
+          Follow us on <strong><span class="onlibry"><a href="https://instagram.com/onlibry_xyz">Instagram</a></span></strong> and <strong>Facebook</strong> for updates, motivational tips, and sneak peeks of upcoming resources. We also publish <strong>daily blog posts</strong> including current affairs and productivity hacks — don't miss out!
         </p>
       </section>
+      
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const apiUrl = "https://script.google.com/macros/s/AKfycbwX7m6uCiPMSQPFoMO2khxzEuUnjkFHzCiVfQwp-uG9umcpFB3EmTqlK8kpbQm11vWZ/exec";
-            const tableBody = document.getElementById("table-body");
+            const resourcesContainer = document.getElementById("resources-container");
             const filterButton = document.getElementById("search-filter");
             const clearButton = document.getElementById("show-all-clear-filter");
             const searchBar = document.getElementById("search-bar");
@@ -195,125 +260,145 @@
             const subjectDropdown = document.getElementById("SUBJECT");
             const topicDropdown = document.getElementById("TOPICS");
             const levelDropdown = document.getElementById("LEVEL");
-            const resourceDropdown = document.getElementById("RESOURCE TYPE");
-    
+            const resourceDropdown = document.getElementById("RESOURCE_TYPE");
+            
+            let allResources = []; // Store all resources for filtering
+
             // Fetch data from API
             async function fetchData() {
                 try {
                     const response = await fetch(apiUrl);
                     const data = await response.json();
-                    renderTable(data);
+                    allResources = data; // Store all resources
+                    renderResources(data);
                     updateDropdowns(data);
                 } catch (error) {
                     console.error("Error fetching data:", error);
+                    resourcesContainer.innerHTML = `<div class="alert alert-danger">Error loading resources. Please try again later.</div>`;
                 }
             }
-   // Populate dropdowns dynamically 
-   function updateDropdowns(data) {
-    let subjects = new Set(["ALL"]);
-    let topics = new Set(["ALL"]);
-    let levels = new Set(["ALL"]);
-    let resources = new Set(["ALL"]);
-
-    data.forEach(row => {
-        subjects.add(row.SUBJECT);
-        topics.add(row.TOPIC);
-        levels.add(row["COURSE LEVEL"]);
-        resources.add(row["RESOURCE TYPE"]);
-    });
-
-    populateDropdown(subjectDropdown, [...subjects].sort());
-    populateDropdown(topicDropdown, [...topics].sort());
-    populateDropdown(levelDropdown, [...levels].sort());
-    populateDropdown(resourceDropdown, [...resources].sort());
-
-    // Ensure 'ALL' is selected by default
-    subjectDropdown.value = "ALL";
-    topicDropdown.value = "ALL";
-    levelDropdown.value = "ALL";
-    resourceDropdown.value = "ALL";
-}
-
-
-// Function to populate a dropdown
-function populateDropdown(dropdown, items) {
-    dropdown.innerHTML = "";
-    items.forEach(item => {
-        let option = document.createElement("option");
-        option.value = item.toLowerCase();
-        option.textContent = item;
-        dropdown.appendChild(option);
-    });
-}
             
-function getFileId(url) {
-    let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    return match ? match[1] : null;
-}
+            // Populate dropdowns dynamically 
+            function updateDropdowns(data) {
+                let subjects = new Set(["ALL"]);
+                let topics = new Set(["ALL"]);
+                let levels = new Set(["ALL"]);
+                let resources = new Set(["ALL"]);
 
-// Render table dynamically
-function renderTable(data) {
-    tableBody.innerHTML = "";
-    
-    data.forEach(row => {
-        let tr = document.createElement("tr");
+                data.forEach(row => {
+                    if (row.SUBJECT) subjects.add(row.SUBJECT);
+                    if (row.TOPIC) topics.add(row.TOPIC);
+                    if (row["COURSE LEVEL"]) levels.add(row["COURSE LEVEL"]);
+                    if (row["RESOURCE TYPE"]) resources.add(row["RESOURCE TYPE"]);
+                });
 
-        // Google Drive File Handling
-        let fileId = getFileId(row.LINK);
-        let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : row.LINK;
-        let resourceLink = row.LINK.trim() !== "#" 
-            ? `<a href="${viewerLink}" target="_blank">${row["RESOURCE TYPE"]}</a>` 
-            : row["RESOURCE TYPE"];
+                populateDropdown(subjectDropdown, Array.from(subjects).sort());
+                populateDropdown(topicDropdown, Array.from(topics).sort());
+                populateDropdown(levelDropdown, Array.from(levels).sort());
+                populateDropdown(resourceDropdown, Array.from(resources).sort());
 
-        tr.innerHTML = `
-            <td class="subjects">${row.SUBJECT}</td>
-            <td class="topics">${row.TOPIC}</td>
-            <td class="sub-topics">${row["SUB-TOPIC"]}</td>
-            <td class="title">${row.TITLE}</td>
-            <td class="course-level">${row["COURSE LEVEL"]}</td>
-            <td class="resource-type">${resourceLink}</td>
-        `;
+                // Ensure 'ALL' is selected by default
+                subjectDropdown.value = "ALL";
+                topicDropdown.value = "ALL";
+                levelDropdown.value = "ALL";
+                resourceDropdown.value = "ALL";
+            }
 
-        tableBody.appendChild(tr);
-    });
-}
-    
-            // Filter table based on selected values
-            function filterTable() {
-                let subject = subjectDropdown.value.toLowerCase();
-                let topic = topicDropdown.value.toLowerCase();
-                let level = levelDropdown.value.toLowerCase();
-                let resourceType = resourceDropdown.value.toLowerCase();
-                let searchText = searchBar.value.toLowerCase();
-    
-                document.querySelectorAll("#table-body tr").forEach(row => {
-                    let rowSubject = row.querySelector(".subjects").textContent.toLowerCase();
-                    let rowTopic = row.querySelector(".topics").textContent.toLowerCase();
-                    let rowLevel = row.querySelector(".course-level").textContent.toLowerCase();
-                    let rowResourceType = row.querySelector(".resource-type").textContent.toLowerCase();
-                    let rowText = row.textContent.toLowerCase();
-    
-                    let match = (subject === "all" || rowSubject.includes(subject)) &&
-                                (topic === "all" || rowTopic.includes(topic)) &&
-                                (level === "all" || rowLevel.includes(level)) &&
-                                (resourceType === "all" || rowResourceType.includes(resourceType)) &&
-                                (searchText === "" || rowText.includes(searchText));
-    
-                    row.style.display = match ? "" : "none";
+            // Function to populate a dropdown
+            function populateDropdown(dropdown, items) {
+                dropdown.innerHTML = "";
+                items.forEach(item => {
+                    let option = document.createElement("option");
+                    option.value = item;
+                    option.textContent = item;
+                    dropdown.appendChild(option);
+                });
+            }
+            
+            function getFileId(url) {
+                if (!url) return null;
+                let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                return match ? match[1] : null;
+            }
+
+            // Render resources as cards
+            function renderResources(data) {
+                resourcesContainer.innerHTML = "";
+                
+                if (data.length === 0) {
+                    resourcesContainer.innerHTML = `<div class="alert alert-info">No resources found matching your filters.</div>`;
+                    return;
+                }
+                
+                data.forEach(row => {
+                    let fileId = getFileId(row.LINK);
+                    let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : (row.LINK || "#");
+                    
+                    let resourceCard = document.createElement("div");
+                    resourceCard.className = "resource-card";
+                    resourceCard.setAttribute("data-subject", row.SUBJECT || '');
+                    resourceCard.setAttribute("data-topic", row.TOPIC || '');
+                    resourceCard.setAttribute("data-level", row["COURSE LEVEL"] || '');
+                    resourceCard.setAttribute("data-resource-type", row["RESOURCE TYPE"] || '');
+                    
+                    resourceCard.innerHTML = `
+                        <div class="resource-title">${row.TITLE || 'Untitled Resource'}</div>
+                        <div class="resource-meta"><strong>Subject:</strong> ${row.SUBJECT || 'N/A'}</div>
+                        <div class="resource-meta"><strong>Topic:</strong> ${row.TOPIC || 'N/A'}</div>
+                        <div class="resource-meta"><strong>Sub-topic:</strong> ${row["SUB-TOPIC"] || 'N/A'}</div>
+                        <div class="resource-meta"><strong>Level:</strong> ${row["COURSE LEVEL"] || 'N/A'}</div>
+                        <a href="${viewerLink}" class="resource-type" target="_blank">
+                            ${row["RESOURCE TYPE"] || 'Resource'}
+                        </a>
+                    `;
+                    
+                    resourcesContainer.appendChild(resourceCard);
                 });
             }
     
+            // Filter resources based on selected values
+            function filterResources() {
+                const subject = subjectDropdown.value;
+                const topic = topicDropdown.value;
+                const level = levelDropdown.value;
+                const resourceType = resourceDropdown.value;
+                const searchText = searchBar.value.toLowerCase();
+    
+                // First filter the allResources array
+                const filteredData = allResources.filter(resource => {
+                    const matchesSubject = subject === "ALL" || 
+                        (resource.SUBJECT && resource.SUBJECT.toLowerCase() === subject.toLowerCase());
+                    
+                    const matchesTopic = topic === "ALL" || 
+                        (resource.TOPIC && resource.TOPIC.toLowerCase() === topic.toLowerCase());
+                    
+                    const matchesLevel = level === "ALL" || 
+                        (resource["COURSE LEVEL"] && resource["COURSE LEVEL"].toLowerCase() === level.toLowerCase());
+                    
+                    const matchesResourceType = resourceType === "ALL" || 
+                        (resource["RESOURCE TYPE"] && resource["RESOURCE TYPE"].toLowerCase() === resourceType.toLowerCase());
+                    
+                    const matchesSearch = searchText === "" || 
+                        JSON.stringify(resource).toLowerCase().includes(searchText);
+                    
+                    return matchesSubject && matchesTopic && matchesLevel && matchesResourceType && matchesSearch;
+                });
+                
+                // Then render the filtered results
+                renderResources(filteredData);
+            }
+    
             // Event listeners
-            filterButton.addEventListener("click", filterTable);
-            searchBar.addEventListener("input", filterTable);
+            filterButton.addEventListener("click", filterResources);
+            searchBar.addEventListener("input", filterResources);
     
             clearButton.addEventListener("click", function () {
-                subjectDropdown.value = "all";
-                topicDropdown.value = "all";
-                levelDropdown.value = "all";
-                resourceDropdown.value = "all";
+                subjectDropdown.value = "ALL";
+                topicDropdown.value = "ALL";
+                levelDropdown.value = "ALL";
+                resourceDropdown.value = "ALL";
                 searchBar.value = "";
-                filterTable();
+                renderResources(allResources); // Show all resources
             });
     
             // Initial fetch
@@ -324,13 +409,11 @@ function renderTable(data) {
         <div class="fnav">
             <a href="about.html" class="fitem">About Us</a>
             <a href="privacy.html" class="fitem">Privacy Policy</a>
-            <a href="feedback.html" class="fitem">Contact Us</a>
+            <a href="contact.html" class="fitem">Contact Us</a>
           </div>
           <div class="fcopy">
             <p>&copy; 2025 <span class="onlibry">Onlibry.xyz</span>. All rights reserved.</p>
           </div>
     </footer>
-    
-       </body>
-       </html>
-       
+</body>
+</html>
