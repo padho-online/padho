@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onlibry Admin Portal</title>
+  <link rel="stylesheet" href="task.css">
+</head>
+<body>
+  <div class="login-container" id="login-container">
+    <h2>Admin Login</h2>
+    <input type="email" id="email" placeholder="Your email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div class="dashboard" id="dashboard">
+    <header>
+      <h1>Welcome, <span id="admin-name"></span></h1>
+      <button onclick="logout()">Logout</button>
+    </header>
+
+    <!-- Notice Board Section -->
+    <section class="notice-section">
+      <!-- ONLIBRY INFO (Visible to all, editable only by superadmin) -->
+      <div class="notice-card" id="onlibry-info">
+        <h3>ONLIBRY INFO</h3>
+        <div id="onlibry-info-content">Loading information...</div>
+        <small id="onlibry-info-time"></small>
+        <div class="notice-form" id="onlibry-info-form">
+          <textarea id="onlibry-info-input" placeholder="Enter ONLIBRY information..."></textarea>
+          <button onclick="updateNotice('superadmin')">Update ONLIBRY INFO</button>
+        </div>
+      </div>
+      
+      <!-- Admin Notice (Editable by all admins) -->
+      <div class="notice-card" id="admin-notice">
+        <h3>Admin Notice</h3>
+        <div id="admin-notice-content">Loading notice...</div>
+        <small id="admin-notice-time"></small>
+        <div class="notice-form" id="admin-notice-form">
+          <textarea id="admin-notice-input" placeholder="Enter admin notice..."></textarea>
+          <button onclick="updateNotice('admin')">Update Admin Notice</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global Tasks Section -->
+    <section class="task-section">
+      <h2>Global Tasks</h2>
+      <div class="task-controls">
+        <input type="text" id="global-task-input" placeholder="New global task">
+        <button id="add-global-task-btn">Add Task</button>
+      </div>
+      <div id="global-tasks-list" class="tasks-list"></div>
+    </section>
+
+    <!-- Personal Tasks Section -->
+    <section class="task-section">
+      <h2>Your Personal Tasks</h2>
+      <div class="task-controls">
+        <input type="text" id="personal-task-input" placeholder="New personal task">
+        <button id="add-personal-task-btn">Add Task</button>
+      </div>
+      <div id="personal-tasks-list" class="tasks-list"></div>
+    </section>
+  </div>
+
+  <script>
+    // Replace with your Apps Script URL
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzkY1rcc_E2PLDn7Gq-3JO9BvuyoTVU3lr6vLMy5s8ApVTtMpe2lVNacyDV9sPj3b9J/exec';
+    let currentUser = null;
+
+    function init() {
+      const savedUser = localStorage.getItem('adminData');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showDashboard();
+        loadAllData();
+      }
+      
+      // Add event listeners properly
+      document.getElementById('add-global-task-btn').addEventListener('click', addGlobalTask);
+      document.getElementById('add-personal-task-btn').addEventListener('click', addPersonalTask);
+    }
+
+    async function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'login',
+            email: email,
+            password: password
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) throw new Error(data.error);
+        
+        currentUser = {
+          email: email,
+          name: data.name,
+          role: data.role
+        };
+        
+        localStorage.setItem('adminData', JSON.stringify(currentUser));
+        showDashboard();
+        loadAllData();
+        
+      } catch(error) {
+        alert('Login failed: ' + error.message);
+        console.error('Login error:', error);
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('adminData');
+      location.reload();
+    }
+
+    function showDashboard() {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('admin-name').textContent = currentUser.name;
+      
+      // Show notice edit forms based on role
+      document.getElementById('onlibry-info-form').style.display = 
+        currentUser.role === 'superadmin' ? 'block' : 'none';
+      document.getElementById('admin-notice-form').style.display = 'block';
+    }
+
+    async function loadAllData() {
+      await loadNotices();
+      await loadTasks();
+    }
+
+    async function loadNotices() {
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'getNotices',
+            userRole: currentUser.role
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.notices) {
+          renderNotices(data.notices);
+        } else {
+          showMessage('No notices found', 'info');
+        }
+      } catch(error) {
+        console.error('Error loading notices:', error);
+        showMessage('Failed to load notices', 'error');
+      }
+    }
+
+    function renderNotices(notices) {
+      // Clear existing notices
+      document.getElementById('onlibry-info-content').textContent = '';
+      document.getElementById('admin-notice-content').textContent = '';
+      
+      // Find and display notices
+      const onlibryInfo = notices.find(n => n[3] === 'superadmin');
+      const adminNotice = notices.find(n => n[3] === 'admin');
+      
+      if (onlibryInfo) {
+        document.getElementById('onlibry-info-content').textContent = onlibryInfo[0];
+        document.getElementById('onlibry-info-time').textContent = 
+          `Last updated by ${onlibryInfo[2]} on ${new Date(onlibryInfo[1]).toLocaleString()}`;
+      }
+      
+      if (adminNotice) {
+        document.getElementById('admin-notice-content').textContent = adminNotice[0];
+        document.getElementById('admin-notice-time').textContent = 
+          `Last updated by ${adminNotice[2]} on ${new Date(adminNotice[1]).toLocaleString()}`;
+      }
+    }
+
+    async function updateNotice(noticeType) {
+      const inputId = `${noticeType === 'superadmin' ? 'onlibry-info' : 'admin-notice'}-input`;
+      const noticeText = document.getElementById(inputId).value.trim();
+      
+      if (!noticeText) {
+        showMessage('Please enter notice text', 'warning');
+        return;
+      }
+
+      try {
+        showMessage('Updating notice...', 'loading');
+        
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'updateNotice',
+            notice: noticeText,
+            user: currentUser.email,
+            noticeType: noticeType
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          document.getElementById(inputId).value = '';
+          showMessage('Notice updated successfully!', 'success');
+          loadNotices();
+        } else {
+          showMessage('Failed to update notice', 'error');
+        }
+      } catch(error) {
+        console.error('Error updating notice:', error);
+        showMessage('Error updating notice', 'error');
+      }
+    }
+
+    async function loadTasks() {
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'getTasks'
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.tasks) {
+          renderTasks(data.tasks);
+        } else {
+          document.getElementById('global-tasks-list').innerHTML = '<div class="no-tasks">No tasks found</div>';
+        }
+      } catch(error) {
+        console.error('Error loading tasks:', error);
+        showMessage('Failed to load tasks', 'error');
+      }
+    }
+
+    function renderTasks(tasks) {
+      const container = document.getElementById('global-tasks-list');
+      container.innerHTML = '';
+      
+      if (!tasks || tasks.length === 0) {
+        container.innerHTML = '<div class="no-tasks">No tasks found</div>';
+        return;
+      }
+      
+      tasks.forEach((task, index) => {
+        const taskElement = document.createElement('div');
+        taskElement.className = `task ${task[2].toLowerCase()}`;
+        
+        taskElement.innerHTML = `
+          <div class="task-info">
+            <div class="task-name">${task[0]}</div>
+            <div class="task-meta">
+              <span>Added by ${task[3].split('@')[0]} on ${new Date(task[1]).toLocaleString()}</span>
+              ${task[2] === 'Completed' ? 
+                `<span>Completed by ${task[4].split('@')[0]} on ${new Date(task[5]).toLocaleString()}</span>` : ''}
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="delete-task-btn" data-index="${index}">Delete</button>
+            ${task[2] !== 'Completed' ? 
+              `<button class="complete-task-btn" data-index="${index}">Complete</button>` : 
+              '<span class="completed-badge">Completed</span>'}
+          </div>
+        `;
+        
+        container.appendChild(taskElement);
+      });
+
+      // Add event listeners to all task buttons
+      document.querySelectorAll('.delete-task-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          deleteTask(parseInt(this.getAttribute('data-index')));
+        });
+      });
+
+      document.querySelectorAll('.complete-task-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          completeTask(parseInt(this.getAttribute('data-index')));
+        });
+      });
+    }
+
+    async function addGlobalTask() {
+      const taskText = document.getElementById('global-task-input').value.trim();
+      if (!taskText) {
+        showMessage('Please enter task text', 'warning');
+        return;
+      }
+      
+      try {
+        showMessage('Adding task...', 'loading');
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'addTask',
+            task: taskText,
+            user: currentUser.email,
+            isPersonal: false
+          })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('global-task-input').value = '';
+          showMessage('Task added successfully!', 'success');
+          loadTasks();
+        } else {
+          showMessage('Failed to add task', 'error');
+        }
+      } catch(error) {
+        console.error('Error adding task:', error);
+        showMessage('Error adding task', 'error');
+      }
+    }
+
+    async function addPersonalTask() {
+      const taskText = document.getElementById('personal-task-input').value.trim();
+      if (!taskText) {
+        showMessage('Please enter task text', 'warning');
+        return;
+      }
+      
+      try {
+        showMessage('Adding personal task...', 'loading');
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'addTask',
+            task: taskText,
+            user: currentUser.email,
+            isPersonal: true
+          })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          document.getElementById('personal-task-input').value = '';
+          showMessage('Personal task added successfully!', 'success');
+          loadTasks();
+        } else {
+          showMessage('Failed to add personal task', 'error');
+        }
+      } catch(error) {
+        console.error('Error adding personal task:', error);
+        showMessage('Error adding personal task', 'error');
+      }
+    }
+
+    async function completeTask(index) {
+      try {
+        showMessage('Completing task...', 'loading');
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'updateTaskStatus',
+            rowIndex: index,
+            user: currentUser.email
+          })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          showMessage('Task marked as completed!', 'success');
+          loadTasks();
+        } else {
+          showMessage('Failed to complete task', 'error');
+        }
+      } catch(error) {
+        console.error('Error completing task:', error);
+        showMessage('Error completing task', 'error');
+      }
+    }
+
+    async function deleteTask(index) {
+      if (!confirm('Are you sure you want to delete this task?')) return;
+      
+      try {
+        showMessage('Deleting task...', 'loading');
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'removeTask',
+            rowIndex: index
+          })
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          showMessage('Task deleted successfully!', 'success');
+          loadTasks();
+        } else {
+          showMessage('Failed to delete task', 'error');
+        }
+      } catch(error) {
+        console.error('Error deleting task:', error);
+        showMessage('Error deleting task', 'error');
+      }
+    }
+
+    // Notification system
+    function showMessage(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 500);
+      }, 3000);
+    }
+
+    // Initialize on load
+    window.onload = init;
+  </script>
+</body>
+</html>
