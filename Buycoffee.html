@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Buy Me a Coffee ☕</title>
+  <title>Support Onlibry ☕</title>
   <style>
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
@@ -272,7 +272,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Copy UPI ID functionality
+      // UPI ID Copy Functionality
       const copyBtn = document.getElementById('copyBtn');
       const upiIdElement = document.getElementById('upiId');
       const copyMessage = document.getElementById('copyMessage');
@@ -297,7 +297,7 @@
         });
       });
   
-      // Download QR Code functionality
+      // QR Code Download Functionality
       const downloadBtn = document.getElementById('downloadQrBtn');
       const qrImage = document.getElementById('qrCodeImg');
   
@@ -307,42 +307,36 @@
         link.download = 'Onlibry_UPI_QR.jpg';
         link.click();
       });
-  
-      // Handle form submit
+
+      // Form submission handler (existing functionality)
       document.getElementById("supporter-form").addEventListener("submit", function (event) {
         event.preventDefault();
-  
-        const formData = {
-          name: document.getElementById("name").value.trim(),
-          email: document.getElementById("email").value.trim(),
-          message: document.getElementById("message").value.trim()
-        };
-  
-        fetch("https://script.google.com/macros/s/AKfycbzDKFToLk7to2-Bau_vwbCvFFN6KuyDcdEbGwSioE72sQb5uNb44Z0QGfejDxIwscAm/exec", {
+    
+        const formData = new FormData(this); // Using FormData instead of manual object
+        
+        // Convert FormData to URL-encoded string
+        const urlEncodedData = new URLSearchParams(formData).toString();
+        
+        console.log("Sending data:", urlEncodedData);
+    
+        fetch("https://script.google.com/macros/s/AKfycbwD5znETSGIrBfH51qR2C1cWsVHvl_S0IomD5HNWcRZFjWbLbhbY7H2ZdGR8ZWQnfnY/exec", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/x-www-form-urlencoded"
           },
-          body: JSON.stringify(formData)
+          body: urlEncodedData,
+          mode: 'no-cors' // Important for Google Apps Script
         })
-          .then(res => res.json())
-          .then(response => {
-            if (response.result === "success") {
-              document.getElementById("supporter-form").reset();
-              document.getElementById("thank-you").style.display = "block";
-            } else {
-              alert("Something went wrong. Please try again.");
-            }
-          })
-          .catch(error => {
-            console.error("Error!", error.message);
-            alert("Form submission failed. Please try again later.");
-          });
-  
+        .then(() => { // We can't check response with no-cors, so we assume success
+          document.getElementById("supporter-form").reset();
+          document.getElementById("thank-you").style.display = "block";
+        })
+        .catch(error => {
+          console.error("Fetch error:", error);
+          alert("Error! Could not submit. Please try again.");
+        });
       });
     });
   </script>
-  
-  
 </body>
 </html>
