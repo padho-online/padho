@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buy Me a Coffee ☕</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #d0eafc 0%, #ffffff 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      color: #0077cc;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .coffee-img {
+      width: 120px;
+      height: 120px;
+      margin: 20px 0;
+      filter: drop-shadow(0 4px 8px rgba(0, 119, 204, 0.2));
+      transition: transform 0.3s ease;
+    }
+
+    .coffee-img:hover {
+      transform: scale(1.05);
+    }
+
+    .support-text {
+      font-size: 1.1rem;
+      margin: 10px 0 25px;
+      color: #444;
+    }
+
+    .qr-card {
+      background: #f8f8f8;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin: 25px auto;
+      width: 90%;
+      max-width: 280px;
+    }
+
+    .qr-code {
+      width: 200px;
+      height: 200px;
+      border: 4px solid #fff;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .upi-id {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      color: #0077cc;
+      background: #e9f5ff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      display: inline-block;
+      word-break: break-all;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .copy-btn, .download-btn {
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .copy-btn:hover, .download-btn:hover {
+      background: #0062a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 119, 204, 0.2);
+    }
+
+    .copy-btn:active, .download-btn:active {
+      transform: translateY(0);
+    }
+
+    .copy-message {
+      display: none;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #28a745;
+      font-weight: 600;
+      animation: fadeInOut 2s ease;
+    }
+
+    .btn {
+      background: #0077cc;
+      color: white;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+      margin-top: 15px;
+    }
+
+    .btn:hover {
+      background: #0062a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 119, 204, 0.25);
+    }
+
+    .form-group {
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      font-family: inherit;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #0077cc;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.1);
+    }
+
+    .thank-you {
+      display: none;
+      margin-top: 20px;
+      color: #28a745;
+      font-weight: 600;
+      font-size: 1.1rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px dashed #ccc;
+      margin: 40px 0 30px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; display: none; }
+      10% { opacity: 0; display: block; }
+      30% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        margin: 20px auto;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      .support-text {
+        font-size: 1rem;
+      }
+      
+      .qr-card {
+        padding: 20px;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Support Onlibry ☕</h1>
+    <p class="support-text">
+      If Onlibry has helped you learn or grow in any way, consider supporting us. Your contribution keeps us motivated to continue providing free educational resources.
+    </p>
+
+    <img src="https://cdn-icons-png.flaticon.com/512/2935/2935413.png" alt="Coffee" class="coffee-img">
+
+    <div class="qr-card">
+      <img src="https://onlibry.xyz/UPIQR.jpg" class="qr-code" alt="UPI QR Code" id="qrCodeImg">
+      <div class="upi-id" id="upiId">onlibry@kotak</div>
+      <div class="action-buttons">
+        <button class="copy-btn" id="copyBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          Copy UPI ID
+        </button>
+        <button class="download-btn" id="downloadQrBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download QR
+        </button>
+      </div>
+      <div class="copy-message" id="copyMessage">UPI ID copied to clipboard!</div>
+    </div>
+
+    <hr>
+    <h3>Let us know you supported! 🙌</h3>
+    <form id="supporter-form">
+      <div class="form-group">
+        <label for="name">Your Name (Optional)</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="email">Email (Optional)</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="message">Message (Optional)</label>
+        <textarea id="message" name="message" rows="4" placeholder="Say something nice!"></textarea>
+      </div>
+      <button type="submit" class="btn">Submit</button>
+    </form>
+    <p id="thank-you" class="thank-you">Thanks a ton for your support! It boosts our energy and passion to keep helping you grow. 😊</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Copy UPI ID functionality
+      const copyBtn = document.getElementById('copyBtn');
+      const upiIdElement = document.getElementById('upiId');
+      const copyMessage = document.getElementById('copyMessage');
+  
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(upiIdElement.textContent).then(() => {
+          copyMessage.style.display = 'block';
+          setTimeout(() => { copyMessage.style.display = 'none'; }, 2000);
+        }).catch(err => {
+          const textArea = document.createElement('textarea');
+          textArea.value = upiIdElement.textContent;
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            copyMessage.style.display = 'block';
+            setTimeout(() => { copyMessage.style.display = 'none'; }, 2000);
+          } catch (err) {
+            console.error('Fallback copy failed:', err);
+          }
+          document.body.removeChild(textArea);
+        });
+      });
+  
+      // Download QR Code functionality
+      const downloadBtn = document.getElementById('downloadQrBtn');
+      const qrImage = document.getElementById('qrCodeImg');
+  
+      downloadBtn.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.href = qrImage.src;
+        link.download = 'Onlibry_UPI_QR.jpg';
+        link.click();
+      });
+  
+      // Handle form submit
+      document.getElementById("supporter-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+  
+        const formData = {
+          name: document.getElementById("name").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          message: document.getElementById("message").value.trim()
+        };
+  
+        fetch("https://script.google.com/macros/s/AKfycbzDKFToLk7to2-Bau_vwbCvFFN6KuyDcdEbGwSioE72sQb5uNb44Z0QGfejDxIwscAm/exec", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        })
+          .then(res => res.json())
+          .then(response => {
+            if (response.result === "success") {
+              document.getElementById("supporter-form").reset();
+              document.getElementById("thank-you").style.display = "block";
+            } else {
+              alert("Something went wrong. Please try again.");
+            }
+          })
+          .catch(error => {
+            console.error("Error!", error.message);
+            alert("Form submission failed. Please try again later.");
+          });
+  
+      });
+    });
+  </script>
+  
+  
+</body>
+</html>
