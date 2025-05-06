@@ -252,6 +252,31 @@ overflow: hidden;
         position: relative;
         top: 10px;
         }
+.coffee-support {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.coffee-support a {
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-block;
+}
+
+.coffee-support a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
 
     @media (max-width: 768px) {
         header {
