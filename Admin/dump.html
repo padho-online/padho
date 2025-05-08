@@ -6,7 +6,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <base target="_top">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="security.js"></script>
   <style>
+    /* ===== PIN PROTECTION STYLES ===== */
+    .pin-protection {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
+    }
+    .pin-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
+    }
+    .pin-container h1 {
+      color: #4285F4;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    .pin-input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .pin-submit {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .pin-submit:hover {
+      background-color: #3367d6;
+    }
+    .pin-error {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .three-dots {
+      font-size: 24px;
+      margin: 20px 0;
+      color: #555;
+    }
+    .hidden-content {
+      display: none;
+    }
+
+    /* ===== ORIGINAL STYLES ===== */
     body {
       font-family: 'Roboto', Arial, sans-serif;
       margin: 0;
@@ -50,7 +118,7 @@
     .file-card {
       border: 1px solid #e0e0e0;
       border-radius: 8px;
-      padding: 15px;
+      padding: 8px;
       position: relative;
       background-color: white;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -70,9 +138,9 @@
       margin-bottom: 10px;
     }
     .dropdown {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+      position: relative;
+      display: inline-block;
+      width: 100%;
     }
     .dropdown-btn {
       background: none;
@@ -86,34 +154,41 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      float: right;
     }
     .dropdown-btn:hover {
       background-color: #f1f1f1;
     }
+    
+    /* Updated dropdown content styles */
     .dropdown-content {
       display: none;
-      position: absolute;
-      right: 0;
+      width: 100%;
       background-color: white;
-      min-width: 180px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       border-radius: 4px;
-      z-index: 3;
+      margin-top: 10px;
+      clear: both;
+    }
+    .dropdown.active .dropdown-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 5px 0;
     }
     .dropdown-content a {
       color: #333;
-      padding: 10px 15px;
+      padding: 8px 12px;
       text-decoration: none;
-      display: block;
-      font-size: 14px;
-      z-index: 4;
-      
+      display: inline-block;
+      font-size: 13px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      margin: 2px;
+      flex-grow: 1;
+      text-align: center;
     }
     .dropdown-content a:hover {
-      background-color: #f1f1f1;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
+      background-color: #e0e0e0;
     }
     .loading {
       text-align: center;
@@ -147,26 +222,65 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Onlibry File Search</h1>
-    
-    <div class="search-container">
-      <input type="text" id="filename-search" class="search-box" placeholder="Search by file name...">
-      <input type="text" id="folder-search" class="search-box" placeholder="Search by folder name...">
-    </div>
-    
-    <div id="loading" class="loading">
-      <p>Loading files from Google Sheet...</p>
-    </div>
-    
-    <div id="file-container" class="file-grid" style="display: none;">
-      <!-- Files will be inserted here by JavaScript -->
+  <!-- ===== PIN PROTECTION SCREEN ===== -->
+  <div class="pin-protection" id="pinProtection">
+    <div class="pin-container">
+      <h1>Enter PIN to Continue</h1>
+      <div class="three-dots">...</div>
+      <input type="password" id="pinInput" class="pin-input" placeholder="Enter 4-digit PIN" maxlength="4">
+      <button class="pin-submit" onclick="checkPin()">Submit</button>
+      <p id="pinError" class="pin-error"></p>
     </div>
   </div>
-  
-  <div id="toast" class="toast"></div>
-  
+
+  <!-- ===== ORIGINAL CONTENT (HIDDEN UNTIL PIN ENTERED) ===== -->
+  <div id="mainContent" class="hidden-content">
+    <div class="container">
+      <h1>Onlibry File Search</h1>
+      
+      <div class="search-container">
+        <input type="text" id="filename-search" class="search-box" placeholder="Search by file name...">
+        <input type="text" id="folder-search" class="search-box" placeholder="Search by folder name...">
+      </div>
+      
+      <div id="loading" class="loading">
+        <p>Loading files from Google Sheet...</p>
+      </div>
+      
+      <div id="file-container" class="file-grid" style="display: none;">
+        <!-- Files will be inserted here by JavaScript -->
+      </div>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+  </div>
+
   <script>
+    // ===== PIN PROTECTION LOGIC =====
+    const CORRECT_PIN = "1234"; // Change this to your desired PIN
+    
+    function checkPin() {
+      const enteredPin = document.getElementById("pinInput").value;
+      const errorMsg = document.getElementById("pinError");
+      
+      if (enteredPin === CORRECT_PIN) {
+        document.getElementById("pinProtection").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+        // Load content after PIN is entered
+        loadFileData();
+      } else {
+        errorMsg.textContent = "Incorrect PIN! Try again.";
+      }
+    }
+    
+    // Allow pressing Enter to submit PIN
+    document.getElementById("pinInput").addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        checkPin();
+      }
+    });
+
+    // ===== ORIGINAL FILE SEARCH FUNCTIONALITY =====
     const fileContainer = document.getElementById('file-container');
     const filenameSearch = document.getElementById('filename-search');
     const folderSearch = document.getElementById('folder-search');
@@ -175,47 +289,51 @@
 
     let allFiles = [];
 
-    document.addEventListener('DOMContentLoaded', function() {
-  // Use your specific Apps Script URL with json parameter
-  const scriptUrl = "https://script.google.com/macros/s/AKfycbyjnaXu6uRlKdK2C0U8upO0NCeDIRrY46WS5JEcEeI-llGcpG-e7yDdRL_sVys2tW_WYA/exec?format=json";
-  
-  // Add timestamp to avoid caching issues
-  const timestamp = new Date().getTime();
-  const urlWithCacheBust = `${scriptUrl}&_=${timestamp}`;
-  
-  fetch(urlWithCacheBust)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    // Add click outside handler for dropdowns
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.dropdown') && !e.target.classList.contains('dropdown-btn')) {
+        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+          dropdown.style.display = 'none';
+        });
+        document.querySelectorAll('.dropdown').forEach(dropdown => {
+          dropdown.classList.remove('active');
+        });
       }
-      return response.json();
-    })
-    .then(data => {
-      if (data && data.files) {
-        allFiles = data.files;
-        renderFiles(allFiles);
-        loadingElement.style.display = 'none';
-        fileContainer.style.display = 'grid';
-      } else {
-        throw new Error('Invalid data format received');
-      }
-    })
-    .catch(error => {
-      console.error('Error loading data:', error);
-      loadingElement.innerHTML = `
-        <p>Error loading data. Please try:</p>
-        <ol>
-          <li>Refreshing the page</li>
-          <li>Checking your internet connection</li>
-          <li>Making sure the Apps Script is deployed correctly</li>
-        </ol>
-        <p>Error details: ${error.message}</p>
-      `;
     });
 
-  filenameSearch.addEventListener('input', filterFiles);
-  folderSearch.addEventListener('input', filterFiles);
-});
+    function loadFileData() {
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbyjnaXu6uRlKdK2C0U8upO0NCeDIRrY46WS5JEcEeI-llGcpG-e7yDdRL_sVys2tW_WYA/exec?format=json";
+      const timestamp = new Date().getTime();
+      const urlWithCacheBust = `${scriptUrl}&_=${timestamp}`;
+      
+      fetch(urlWithCacheBust)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.files) {
+            allFiles = data.files;
+            renderFiles(allFiles);
+            loadingElement.style.display = 'none';
+            fileContainer.style.display = 'grid';
+          } else {
+            throw new Error('Invalid data format received');
+          }
+        })
+        .catch(error => {
+          console.error('Error loading data:', error);
+          loadingElement.innerHTML = `
+            <p>Error loading data. Please try:</p>
+            <ol>
+              <li>Refreshing the page</li>
+              <li>Checking your internet connection</li>
+              <li>Making sure the Apps Script is deployed correctly</li>
+            </ol>
+            <p>Error details: ${error.message}</p>
+          `;
+        });
+
+      filenameSearch.addEventListener('input', filterFiles);
+      folderSearch.addEventListener('input', filterFiles);
+    }
 
     function filterFiles() {
       const filenameTerm = filenameSearch.value.toLowerCase();
@@ -249,12 +367,31 @@
             <button class="dropdown-btn">⋮</button>
             <div class="dropdown-content">
               <a href="#" class="view-file">View File</a>
-              <a href="#" class="copy-link">Copy Onlibry Link</a>
-              <a href="#" class="copy-name-link">Copy Name + Link</a>
-              <a href="#" class="copy-id">Copy File ID</a>
+              <a href="#" class="copy-link">Copy Link</a>
+              <a href="#" class="copy-name-link">Name + Link</a>
+              <a href="#" class="copy-id">File ID</a>
             </div>
           </div>
         `;
+
+        const dropdownBtn = fileCard.querySelector('.dropdown-btn');
+        const dropdownContent = fileCard.querySelector('.dropdown-content');
+        const dropdown = fileCard.querySelector('.dropdown');
+
+        dropdownBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // Close all other dropdowns first
+          document.querySelectorAll('.dropdown-content').forEach(d => {
+            if (d !== dropdownContent) d.style.display = 'none';
+          });
+          document.querySelectorAll('.dropdown').forEach(d => {
+            if (d !== dropdown) d.classList.remove('active');
+          });
+          
+          // Toggle current dropdown
+          dropdownContent.style.display = dropdownContent.style.display === 'flex' ? 'none' : 'flex';
+          dropdown.classList.toggle('active');
+        });
 
         fileCard.querySelector('.view-file').addEventListener('click', (e) => {
           e.preventDefault();
@@ -264,19 +401,25 @@
         fileCard.querySelector('.copy-link').addEventListener('click', (e) => {
           e.preventDefault();
           copyToClipboard(file.viewerLink);
-          showToast('Onlibry link copied!');
+          showToast('Link copied!');
+          dropdownContent.style.display = 'none';
+          dropdown.classList.remove('active');
         });
 
         fileCard.querySelector('.copy-name-link').addEventListener('click', (e) => {
           e.preventDefault();
           copyToClipboard(`${file.name}\n${file.viewerLink}`);
           showToast('Name and link copied!');
+          dropdownContent.style.display = 'none';
+          dropdown.classList.remove('active');
         });
 
         fileCard.querySelector('.copy-id').addEventListener('click', (e) => {
           e.preventDefault();
           copyToClipboard(file.id);
           showToast('File ID copied!');
+          dropdownContent.style.display = 'none';
+          dropdown.classList.remove('active');
         });
 
         fileContainer.appendChild(fileCard);
