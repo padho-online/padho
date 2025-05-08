@@ -252,9 +252,9 @@
         </p>
       </section>
       
-    <script>
+   <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const apiUrl = "https://script.google.com/macros/s/AKfycbwX7m6uCiPMSQPFoMO2khxzEuUnjkFHzCiVfQwp-uG9umcpFB3EmTqlK8kpbQm11vWZ/exec";
+            const apiUrl = "https://script.google.com/macros/s/AKfycbzdZpZTrhcSNboIBFD6l1PHcM0Fn8rX6pBDzP9Mdw_V1o9iAc1R_-6k0oQCiJ_KV9T4/exec";
             const resourcesContainer = document.getElementById("resources-container");
             const filterButton = document.getElementById("search-filter");
             const clearButton = document.getElementById("show-all-clear-filter");
@@ -264,50 +264,20 @@
             const topicDropdown = document.getElementById("TOPICS");
             const levelDropdown = document.getElementById("LEVEL");
             const resourceDropdown = document.getElementById("RESOURCE_TYPE");
-            
-            let allResources = []; // Store all resources for filtering
-
-            // Fetch data from API
-            async function fetchData() {
-                try {
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-                    allResources = data; // Store all resources
-                    renderResources(data);
-                    updateDropdowns(data);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                    resourcesContainer.innerHTML = `<div class="alert alert-danger">Error loading resources. Please try again later.</div>`;
-                }
+    
+            let allResources = [];
+    
+            function getQueryParam(key) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(key);
             }
-            
-            // Populate dropdowns dynamically 
-            function updateDropdowns(data) {
-                let subjects = new Set(["ALL"]);
-                let topics = new Set(["ALL"]);
-                let levels = new Set(["ALL"]);
-                let resources = new Set(["ALL"]);
-
-                data.forEach(row => {
-                    if (row.SUBJECT) subjects.add(row.SUBJECT);
-                    if (row.TOPIC) topics.add(row.TOPIC);
-                    if (row["COURSE LEVEL"]) levels.add(row["COURSE LEVEL"]);
-                    if (row["RESOURCE TYPE"]) resources.add(row["RESOURCE TYPE"]);
-                });
-
-                populateDropdown(subjectDropdown, Array.from(subjects).sort());
-                populateDropdown(topicDropdown, Array.from(topics).sort());
-                populateDropdown(levelDropdown, Array.from(levels).sort());
-                populateDropdown(resourceDropdown, Array.from(resources).sort());
-
-                // Ensure 'ALL' is selected by default
-                subjectDropdown.value = "ALL";
-                topicDropdown.value = "ALL";
-                levelDropdown.value = "ALL";
-                resourceDropdown.value = "ALL";
+    
+            function getFileId(url) {
+                if (!url) return null;
+                let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                return match ? match[1] : null;
             }
-
-            // Function to populate a dropdown
+    
             function populateDropdown(dropdown, items) {
                 dropdown.innerHTML = "";
                 items.forEach(item => {
@@ -317,33 +287,50 @@
                     dropdown.appendChild(option);
                 });
             }
-            
-            function getFileId(url) {
-                if (!url) return null;
-                let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                return match ? match[1] : null;
+    
+            function updateDropdowns(data) {
+                let subjects = new Set(["ALL"]);
+                let topics = new Set(["ALL"]);
+                let levels = new Set(["ALL"]);
+                let resources = new Set(["ALL"]);
+    
+                data.forEach(row => {
+                    if (row.SUBJECT) subjects.add(row.SUBJECT);
+                    if (row.TOPIC) topics.add(row.TOPIC);
+                    if (row["COURSE LEVEL"]) levels.add(row["COURSE LEVEL"]);
+                    if (row["RESOURCE TYPE"]) resources.add(row["RESOURCE TYPE"]);
+                });
+    
+                populateDropdown(subjectDropdown, Array.from(subjects).sort());
+                populateDropdown(topicDropdown, Array.from(topics).sort());
+                populateDropdown(levelDropdown, Array.from(levels).sort());
+                populateDropdown(resourceDropdown, Array.from(resources).sort());
+    
+                subjectDropdown.value = "ALL";
+                topicDropdown.value = "ALL";
+                levelDropdown.value = "ALL";
+                resourceDropdown.value = "ALL";
             }
-
-            // Render resources as cards
+    
             function renderResources(data) {
                 resourcesContainer.innerHTML = "";
-                
+    
                 if (data.length === 0) {
                     resourcesContainer.innerHTML = `<div class="alert alert-info">No resources found matching your filters.</div>`;
                     return;
                 }
-                
+    
                 data.forEach(row => {
                     let fileId = getFileId(row.LINK);
                     let viewerLink = fileId ? `viewer.html?fileId=${fileId}` : (row.LINK || "#");
-                    
+    
                     let resourceCard = document.createElement("div");
                     resourceCard.className = "resource-card";
                     resourceCard.setAttribute("data-subject", row.SUBJECT || '');
                     resourceCard.setAttribute("data-topic", row.TOPIC || '');
                     resourceCard.setAttribute("data-level", row["COURSE LEVEL"] || '');
                     resourceCard.setAttribute("data-resource-type", row["RESOURCE TYPE"] || '');
-                    
+    
                     resourceCard.innerHTML = `
                         <div class="resource-title">${row.TITLE || 'Untitled Resource'}</div>
                         <div class="resource-meta"><strong>Subject:</strong> ${row.SUBJECT || 'N/A'}</div>
@@ -354,12 +341,11 @@
                             ${row["RESOURCE TYPE"] || 'Resource'}
                         </a>
                     `;
-                    
+    
                     resourcesContainer.appendChild(resourceCard);
                 });
             }
     
-            // Filter resources based on selected values
             function filterResources() {
                 const subject = subjectDropdown.value;
                 const topic = topicDropdown.value;
@@ -367,45 +353,82 @@
                 const resourceType = resourceDropdown.value;
                 const searchText = searchBar.value.toLowerCase();
     
-                // First filter the allResources array
                 const filteredData = allResources.filter(resource => {
-                    const matchesSubject = subject === "ALL" || 
-                        (resource.SUBJECT && resource.SUBJECT.toLowerCase() === subject.toLowerCase());
-                    
-                    const matchesTopic = topic === "ALL" || 
-                        (resource.TOPIC && resource.TOPIC.toLowerCase() === topic.toLowerCase());
-                    
-                    const matchesLevel = level === "ALL" || 
-                        (resource["COURSE LEVEL"] && resource["COURSE LEVEL"].toLowerCase() === level.toLowerCase());
-                    
-                    const matchesResourceType = resourceType === "ALL" || 
-                        (resource["RESOURCE TYPE"] && resource["RESOURCE TYPE"].toLowerCase() === resourceType.toLowerCase());
-                    
-                    const matchesSearch = searchText === "" || 
-                        JSON.stringify(resource).toLowerCase().includes(searchText);
-                    
+                    const matchesSubject = subject === "ALL" || (resource.SUBJECT && resource.SUBJECT.toLowerCase() === subject.toLowerCase());
+                    const matchesTopic = topic === "ALL" || (resource.TOPIC && resource.TOPIC.toLowerCase() === topic.toLowerCase());
+                    const matchesLevel = level === "ALL" || (resource["COURSE LEVEL"] && resource["COURSE LEVEL"].toLowerCase() === level.toLowerCase());
+                    const matchesResourceType = resourceType === "ALL" || (resource["RESOURCE TYPE"] && resource["RESOURCE TYPE"].toLowerCase() === resourceType.toLowerCase());
+                    const matchesSearch = searchText === "" || JSON.stringify(resource).toLowerCase().includes(searchText);
+    
                     return matchesSubject && matchesTopic && matchesLevel && matchesResourceType && matchesSearch;
                 });
-                
-                // Then render the filtered results
+    
                 renderResources(filteredData);
+            }
+    
+            function highlightAndScroll(fileIdOrTitle) {
+                const cards = document.querySelectorAll(".resource-card");
+                for (let card of cards) {
+                    const link = card.querySelector("a").href;
+                    const title = card.querySelector(".resource-title").textContent.trim().toLowerCase();
+    
+                    if ((link.includes(fileIdOrTitle)) || title.includes(fileIdOrTitle.toLowerCase())) {
+                        card.scrollIntoView({ behavior: "smooth", block: "center" });
+                        card.style.transition = "background-color 0.4s ease";
+                        card.style.backgroundColor = "#fff176";
+                        setTimeout(() => {
+                            card.style.backgroundColor = "";
+                        }, 1500);
+                        break;
+                    }
+                }
+            }
+    
+            async function fetchData() {
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    allResources = data;
+                    renderResources(data);
+                    updateDropdowns(data);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    resourcesContainer.innerHTML = `<div class="alert alert-danger">Error loading resources. Please try again later.</div>`;
+                }
+            }
+    
+            async function enhancedStart() {
+                await fetchData();
+    
+                const searchParam = getQueryParam("search");
+                const highlightParam = getQueryParam("highlight");
+    
+                if (searchParam) {
+                    searchBar.value = searchParam;
+                    filterResources();
+                }
+    
+                if (highlightParam) {
+                    setTimeout(() => {
+                        highlightAndScroll(highlightParam);
+                    }, 400);
+                }
             }
     
             // Event listeners
             filterButton.addEventListener("click", filterResources);
             searchBar.addEventListener("input", filterResources);
-    
             clearButton.addEventListener("click", function () {
                 subjectDropdown.value = "ALL";
                 topicDropdown.value = "ALL";
                 levelDropdown.value = "ALL";
                 resourceDropdown.value = "ALL";
                 searchBar.value = "";
-                renderResources(allResources); // Show all resources
+                renderResources(allResources);
             });
     
-            // Initial fetch
-            fetchData();
+            // Start everything
+            enhancedStart();
         });
     </script>
     <footer>
