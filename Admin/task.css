@@ -7,13 +7,13 @@ body {
     color: #333;
   }
  .dump{
-    border: #333 2px solid;
-    padding: 10px;
+    border: #333 1px solid;
+    padding: 5px;
     border-radius: 25px;
     text-decoration: none;
     background-color: #2ecc71;
-    font-weight: bolder;
     color: black;
+     display:flex;
 
 
    }
