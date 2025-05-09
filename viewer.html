@@ -42,14 +42,19 @@
         
         <!-- For Google Drive files -->
         <iframe id="pdfViewer" style="display:none;"></iframe>
-        
-        <!-- Download button container (commented out for now) -->
-        <!--
-        <div class="download-btn-container">
-            <a id="download-btn" class="download-btn" href="#" target="_blank">Download PDF</a>
-        </div>
-        -->
     </div>
+
+    <footer>
+        <div class="fnav">
+            <a href="#" class="fitem">About</a>
+            <a href="#" class="fitem">Contact</a>
+            <a href="#" class="fitem">Privacy Policy</a>
+            <a href="#" class="fitem">Terms of Service</a>
+        </div>
+        <div class="fcopy">
+            <p>&copy; 2023 Onlibry. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -57,7 +62,6 @@
         const fileParam = params.get("fileId") || params.get("fileUrl") || '';
         const pdfViewer = document.getElementById("pdfViewer");
         const loadingMessage = document.getElementById("loading-message");
-        // const downloadBtn = document.getElementById("download-btn");
 
         function showError(message, details = '') {
             loadingMessage.innerHTML = `
@@ -79,17 +83,11 @@
             return;
         }
 
-        // Check if it's a Google Drive ID
         if (isGoogleDriveId(fileParam)) {
-            // Handle Google Drive file
             pdfViewer.style.display = "block";
             const driveUrl = `https://drive.google.com/file/d/${fileParam}/preview?embedded=true&toolbar=0&navpanes=0`;
             pdfViewer.src = driveUrl;
             
-            // Set download link (commented out for now)
-            // downloadBtn.href = `https://drive.google.com/uc?export=download&id=${fileParam}`;
-            
-            // Set timeout for loading detection
             const loadTimeout = setTimeout(() => {
                 showError("Google Drive is taking too long to load", "Please check your internet connection");
             }, 15000);
