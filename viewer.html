@@ -22,76 +22,216 @@
      crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="viewer.css">
+<style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+           
+        }
+        .top-bar {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover {
+            border-bottom: 2px solid #4285f4;
+            color: #4285f4;
+        }
+        #viewer-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        #pdfViewer {
+            width: 100%;
+            height: calc(100vh - 120px);
+            border: 1px solid #ddd;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .error-message {
+            text-align: center;
+            margin: 50px auto;
+            max-width: 600px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .error-message h2 {
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+        .error-message p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .loading {
+            text-align: center;
+            margin: 50px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4285f4;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .retry-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .retry-button:hover {
+            background-color: #3367d6;
+        }
+        /* Hide Google Drive's download button */
+        .ndfHFb-c4YZDc-Wrql6b {
+            display: none !important;
+        }
+        /* Download button styles (commented out for now) */
+        /*
+        .download-btn-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .download-btn {
+            padding: 10px 20px;
+            background-color: #34a853;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .download-btn:hover {
+            background-color: #2d8e47;
+        }
+        */
+    </style>
 </head>
 <body>
     <div class="top-bar">
         <ul class="nav-links">
-            <li><a href="index.html" target="_blank">Home</a></li>
-            <li><a href="books.html" target="_blank">Books</a></li>
-            <li><a href="resources.html" target="_blank">Resources</a></li>
-            <li><a href="papers.html" target="_blank">Papers</a></li>
-            <li><a href="videos.html" target="_blank">Videos</a></li>
-            <li><a href="feedback.html" target="_blank">Feedback</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="papers.html">Papers</a></li>
+            <li><a href="videos.html">Videos</a></li>
         </ul>
-        <button id="downloadBtn" class="download-btn" onclick="downloadFile()">Download</button>
     </div>
-    <p>please wait until the files gets loaded...</p>
-    <div class="pdf-container">
-        <iframe id="pdfViewer" src="" title="Onlibry PDF Viewer" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>
-    </div>
-    <script>
-    let fileId = null;
     
-    function getFileId(url) {
-        let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        return match ? match[1] : null;
-    }
+    <div id="viewer-container">
+        <div id="loading-message" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading document, please wait...</p>
+        </div>
+        
+        <!-- For Google Drive files -->
+        <iframe id="pdfViewer" style="display:none;"></iframe>
+        
+        <!-- Download button container (commented out for now) -->
+        <!--
+        <div class="download-btn-container">
+            <a id="download-btn" class="download-btn" href="#" target="_blank">Download PDF</a>
+        </div>
+        -->
+    </div>
 
+    <script>
     document.addEventListener("DOMContentLoaded", function() {
         const params = new URLSearchParams(window.location.search);
-        fileId = params.get("fileId");
+        const fileParam = params.get("fileId") || params.get("fileUrl") || '';
         const pdfViewer = document.getElementById("pdfViewer");
-        const downloadBtn = document.getElementById("downloadBtn");
+        const loadingMessage = document.getElementById("loading-message");
+        // const downloadBtn = document.getElementById("download-btn");
 
-        if (fileId) {
-            document.title = "Onlibry | File Viewer";
-            pdfViewer.src = `https://drive.google.com/file/d/${fileId}/preview#toolbar=0`;
-            downloadBtn.style.display = "block";
+        function showError(message, details = '') {
+            loadingMessage.innerHTML = `
+                <h2>Error Loading Document</h2>
+                <p>${message}</p>
+                ${details ? `<p><small>${details}</small></p>` : ''}
+                <button class="retry-button" onclick="window.location.reload()">Try Again</button>
+                <button class="retry-button" onclick="history.back()" style="background-color: #666; margin-left: 10px;">Go Back</button>
+            `;
+            pdfViewer.style.display = "none";
+        }
 
-            // **Google Analytics Event for PDF View**
-            gtag('event', 'pdf_view', {
-                'event_category': 'Engagement',
-                'event_label': fileId
-            });
+        function isGoogleDriveId(id) {
+            return /^[a-zA-Z0-9_-]{25,}$/.test(id);
+        }
+
+        if (!fileParam) {
+            showError("No file specified in the URL", "Please check the link and try again");
+            return;
+        }
+
+        // Check if it's a Google Drive ID
+        if (isGoogleDriveId(fileParam)) {
+            // Handle Google Drive file
+            pdfViewer.style.display = "block";
+            const driveUrl = `https://drive.google.com/file/d/${fileParam}/preview?embedded=true&toolbar=0&navpanes=0`;
+            pdfViewer.src = driveUrl;
+            
+            // Set download link (commented out for now)
+            // downloadBtn.href = `https://drive.google.com/uc?export=download&id=${fileParam}`;
+            
+            // Set timeout for loading detection
+            const loadTimeout = setTimeout(() => {
+                showError("Google Drive is taking too long to load", "Please check your internet connection");
+            }, 15000);
+            
+            pdfViewer.onload = function() {
+                clearTimeout(loadTimeout);
+                loadingMessage.style.display = "none";
+            };
+            
+            pdfViewer.onerror = function() {
+                clearTimeout(loadTimeout);
+                showError("Failed to load Google Drive file", "The file may not exist or you may need permission");
+            };
         } else {
-            document.body.innerHTML = "<h2 class='error-message'>Invalid File ID</h2>";
+            showError("Invalid Google Drive file ID", "Please check the URL format and try again");
         }
     });
-
-    function downloadFile() {
-        if (fileId) {
-            let downloadLink = `https://drive.google.com/uc?export=download&id=${fileId}`;
-            window.open(downloadLink, "_blank");
-
-            // **Google Analytics Event for Download Click**
-            gtag('event', 'pdf_download', {
-                'event_category': 'Engagement',
-                'event_label': fileId
-            });
-        }
-    }
-</script>
-<footer>
-    <div class="fnav">
-        <a href="about.html" class="fitem">About Us</a>
-        <a href="privacy.html" class="fitem">P-Policy</a>
-        <a href="feedback.html" class="fitem">Contact</a>
-        <a href="Buycoffee.html" class="fitem">Support Us</a>
-      </div>
-      <div class="fcopy">
-        <p>&copy; 2025 Onlibry.xyz. All rights reserved.</p>
-      </div>
-</footer>
-
+    </script>
 </body>
 </html>
