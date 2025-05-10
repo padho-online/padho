@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://onlibry.xyz/sitemap.xml
-Disallow: /private/
-Disallow: /admin/
+Disallow: /Admin/
