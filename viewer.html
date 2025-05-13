@@ -303,9 +303,10 @@
         }
 
         if (isGoogleDriveId(fileParam)) {
-            pdfViewer.style.display = "block";
-            const driveUrl = `https://drive.google.com/file/d/${fileParam}/preview?embedded=true&toolbar=0&navpanes=0`;
-            pdfViewer.src = driveUrl;
+    pdfViewer.style.display = "block";
+    const driveUrl = `https://drive.google.com/file/d/${fileParam}/preview?embedded=true&rm=minimal&toolbar=0&navpanes=0`;
+    pdfViewer.src = driveUrl;
+  
             
             const loadTimeout = setTimeout(() => {
                 showError("Google Drive is taking too long to load", "Please check your internet connection");
