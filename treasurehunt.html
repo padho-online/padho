@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Onlibry Treasure Hunt 2025</title>
+  <style>
+  :root {
+    --primary: #00509e;
+    --primary-dark: #003f7d;
+    --bg: #f0f4f8;
+    --white: #fff;
+    --text: #222;
+    --radius: 12px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  header, section, footer {
+    background: var(--white);
+    margin: 20px auto;
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 800px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  h1, h2 {
+    color: var(--primary);
+    margin-top: 0;
+  }
+
+  p, li {
+    font-size: 1rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  input, button {
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+  }
+
+  input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 80, 158, 0.1);
+  }
+
+  button {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    font-weight: bold;
+  }
+
+  button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+  }
+
+  #formStatus, #prizeResult {
+    margin-top: 10px;
+    font-weight: 600;
+    color: green;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 600px) {
+    header, section, footer {
+      margin: 10px;
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    input, button {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <header>
+    <h1>Onlibry Treasure Hunt 2025</h1>
+    <p>Unlock the secrets. Win the rewards. Explore the Onlibry site and hunt for hidden codes. Be the first to submit and claim your prize!</p>
+    <p><strong>Event Timeline:</strong> Code drops: Monday–Saturday | Winner Announcement: Sunday</p>
+  </header>
+
+  <section>
+    <h2>Rules & Regulations</h2>
+    <ul>
+      <li>Submit the secret code along with your name and mobile number via the official form.</li>
+      <li>You must be a member/follower of Onlibry’s Telegram, Instagram, and WhatsApp groups.</li>
+      <li>First valid submission per code wins the prize. Multiple submissions allowed, but only the fastest wins.</li>
+      <li>One prize per person per week.</li>
+      <li>Fake entries or spam will be disqualified immediately.</li>
+      <li>Winners will be announced every Sunday on our platforms.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Submit Your Code</h2>
+    <form id="treasureForm">
+      <input type="text" name="code" placeholder="Enter Secret Code" required />
+      <input type="text" name="name" placeholder="Enter Your Name" required />
+      <input type="tel" name="mobile" placeholder="Enter Your Mobile Number" required />
+      <button type="submit">Submit Code</button>
+    </form>
+    <p id="formStatus"></p>
+  </section>
+
+  <section>
+    <h2>Check Prize for a Code</h2>
+    <input type="text" id="prizeCodeInput" placeholder="Enter a code to check prize" />
+    <button onclick="checkPrize()">Check Prize</button>
+    <p id="prizeResult"></p>
+  </section>
+
+  <footer>
+    <p>Visit: <a href="https://onlibry.xyz" target="_blank" rel="noopener">Onlibry.xyz</a></p>
+    <p>Join us on:
+      <a href="https://t.me/onlibry" target="_blank" rel="noopener">Telegram</a> |
+      <a href="https://www.instagram.com/onlibry_xyz" target="_blank" rel="noopener">Instagram</a> |
+      <a href="https://chat.whatsapp.com/CoSssFN5KtLEKLxCCafQAV" target="_blank" rel="noopener">WhatsApp</a> |
+      <a href="https://facebook.com/onlibry" target="_blank" rel="noopener">Facebook</a>
+    </p>
+  </footer>
+
+  <script>
+    // Handle form submission
+    document.getElementById("treasureForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const status = document.getElementById("formStatus");
+      status.textContent = "Submitting... ⏳";
+
+      fetch("https://script.google.com/macros/s/AKfycbx32poDkDnUWZqlUby9rqpU04diE1fxgfAvoFeUw0oX7Cgt_BJ9zMrVYwbdeVK5rcIRww/exec", {
+        method: "POST",
+        body: formData,
+      })
+      .then(res => res.text())
+      .then(data => {
+        status.textContent = "✅ Code submitted successfully!";
+        form.reset();
+      })
+      .catch(err => {
+        status.textContent = "❌ Submission failed. Try again later.";
+      });
+    });
+
+    // Check prize function
+    function checkPrize() {
+      const input = document.getElementById("prizeCodeInput");
+      const result = document.getElementById("prizeResult");
+      const code = input.value.trim();
+      if (!code) {
+        result.textContent = "Please enter a code.";
+        return;
+      }
+
+      result.textContent = "Checking prize... ⏳";
+
+      fetch(`https://script.google.com/macros/s/AKfycbx32poDkDnUWZqlUby9rqpU04diE1fxgfAvoFeUw0oX7Cgt_BJ9zMrVYwbdeVK5rcIRww/exec?code=${encodeURIComponent(code)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.prize) {
+            result.textContent = `🎁 Prize: ${data.prize}`;
+          } else {
+            result.textContent = "😕 No prize found for this code.";
+          }
+        })
+        .catch(() => {
+          result.textContent = "❌ Error checking prize. Try again later.";
+        });
+    }
+  </script>
+</body>
+</html>
