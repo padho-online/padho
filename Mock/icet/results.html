@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICET Mock Test - Results</title>
+    <link rel="icon" type="image/png" href="https://onlibry.xyz/logo transparent.png">
+    <script src="security.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH4N1LBHRQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NH4N1LBHRQ');
+</script>
+    <!-- Google AdSense Auto Ads Code -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6893553072614021"
+     crossorigin="anonymous"></script>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -67,14 +81,17 @@
         
         .question-result.correct {
             border-left: 5px solid #2ecc71;
+            background-color: #f8fff8;
         }
         
         .question-result.incorrect {
             border-left: 5px solid #e74c3c;
+            background-color: #fff8f8;
         }
         
         .question-result.unanswered {
             border-left: 5px solid #f39c12;
+            background-color: #fffcf5;
         }
         
         .question-text {
@@ -106,6 +123,11 @@
             border-color: #c3e6cb;
         }
         
+        .user-answer {
+            background-color: #e2f0fd;
+            border-color: #bbddfb;
+        }
+        
         .user-answer.correct {
             background-color: #d4edda;
             border-color: #c3e6cb;
@@ -119,9 +141,10 @@
         .explanation {
             margin-top: 10px;
             padding: 10px;
-            background-color: #e2e3e5;
+            background-color: #f8f9fa;
             border-radius: 5px;
             font-size: 14px;
+            border-left: 3px solid #6c757d;
         }
         
         .action-buttons {
@@ -165,13 +188,26 @@
             max-width: 500px;
             margin: 30px auto;
         }
+
+        .unanswered-status {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .incorrect-status {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .onlibry{
+            color: green;
+        }
     </style>
-    <!-- Chart.js for performance visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <h1 class="onlibry">Onlibry.xyz</h1>
             <h1>ICET Mock Test Results</h1>
             <p>Year: <strong id="examYear"></strong></p>
         </div>
@@ -192,6 +228,10 @@
             <div class="score-item">
                 <div class="score-value" id="incorrectAnswers">0</div>
                 <div class="score-label">Incorrect Answers</div>
+            </div>
+            <div class="score-item">
+                <div class="score-value" id="unansweredQuestions">0</div>
+                <div class="score-label">Unanswered</div>
             </div>
             <div class="score-item">
                 <div class="score-value" id="timeTaken">0</div>
@@ -216,192 +256,207 @@
         </div>
     </div>
     
-   <script>
-    // Make scriptUrl accessible
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjh8oxAQyWxsjPtKblUqr8Q5pLpI69iZRRZv3clTKVKzeyQXHxLPZ_MzpENWXDFaW-/exec'; // Replace with your deployed web app URL
-    let examQuestions = [];
+    <script>
+        // Make scriptUrl accessible
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjh8oxAQyWxsjPtKblUqr8Q5pLpI69iZRRZv3clTKVKzeyQXHxLPZ_MzpENWXDFaW-/exec'; // Replace with your deployed web app URL
+        let examQuestions = [];
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const results = JSON.parse(localStorage.getItem('examResults'));
-        if (!results) {
-            window.location.href = 'index.html';
-            return;
-        }
-
-        // Load the original exam questions
-        try {
-            const response = await fetch(`${scriptUrl}?operation=getExam&year=${results.year}`);
-            const data = await response.json();
-            
-            if (data.status === 'success') {
-                examQuestions = data.questions;
-                displayResults(results);
-                renderPerformanceChart(results);
-            } else {
-                throw new Error(data.message || 'Failed to load exam questions');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const results = JSON.parse(localStorage.getItem('examResults'));
+            if (!results) {
+                window.location.href = 'index.html';
+                return;
             }
-        } catch (error) {
-            console.error('Error loading questions:', error);
-            document.getElementById('questionsResults').innerHTML = 
-                `<p style="color:red">Error loading questions: ${error.message}</p>`;
-        }
 
-        // Download button functionality
-        document.getElementById('downloadBtn').addEventListener('click', () => {
-            downloadResults(results);
-        });
-    });
-
-    function displayResults(results) {
-        document.getElementById('examYear').textContent = results.year;
-        document.getElementById('scoreValue').textContent = `${results.score}/${results.totalQuestions}`;
-        document.getElementById('totalQuestions').textContent = results.totalQuestions;
-        document.getElementById('correctAnswers').textContent = results.score;
-        document.getElementById('incorrectAnswers').textContent = 
-            Object.values(results.answers).length - results.score;
-        document.getElementById('timeTaken').textContent = results.timeTaken.toFixed(1);
-
-        const questionsContainer = document.getElementById('questionsResults');
-        questionsContainer.innerHTML = '';
-
-        examQuestions.forEach((question, index) => {
-            const userAnswer = results.answers[index];
-            const isCorrect = userAnswer === question.correctAnswer;
-            const isAnswered = userAnswer !== undefined;
-    
-            const questionDiv = document.createElement('div');
-            questionDiv.className = `question-result ${isCorrect ? 'correct' : 
-                (isAnswered ? 'incorrect' : 'unanswered')}`;
-            
-            let questionHTML = `
-                <div class="question-text">Question ${index + 1}: ${question.question}</div>
-            `;
-            
-            if (question.imageUrl) {
-                questionHTML += `<img src="${question.imageUrl}" class="question-image" alt="Question image">`;
-            }
-            
-            questionHTML += '<div class="options">';
-            for (const [key, value] of Object.entries(question.options)) {
-                let optionClass = '';
-                if (key === question.correctAnswer) {
-                    optionClass = 'correct-answer';
-                } else if (key === userAnswer) {
-                    optionClass = isCorrect ? 'correct' : 'incorrect';
-                }
+            // Load the original exam questions
+            try {
+                const response = await fetch(`${scriptUrl}?operation=getExam&year=${results.year}`);
+                const data = await response.json();
                 
-                questionHTML += `
-                    <div class="option ${optionClass}">
-                        <strong>${key}.</strong> ${value}
-                        ${key === question.correctAnswer ? ' (Correct)' : ''}
-                        ${key === userAnswer ? ' (Your answer)' : ''}
-                    </div>
-                `;
-            }
-            questionHTML += '</div>';
-        
-            questionHTML += `
-                <div class="explanation">
-                    <strong>Correct Answer:</strong> ${question.correctAnswer}
-                </div>
-            `;
-            
-            questionDiv.innerHTML = questionHTML;
-            questionsContainer.appendChild(questionDiv);
-        });
-    }
-
-    function renderPerformanceChart(results) {
-        const ctx = document.getElementById('performanceChart').getContext('2d');
-        const correct = results.score;
-        const incorrect = Object.values(results.answers).length - results.score;
-        const unanswered = results.totalQuestions - (correct + incorrect);
-        
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Correct', 'Incorrect', 'Unanswered'],
-                datasets: [{
-                    data: [correct, incorrect, unanswered],
-                    backgroundColor: [
-                        '#2ecc71',
-                        '#e74c3c',
-                        '#f39c12'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Performance Summary',
-                        font: {
-                            size: 16
-                        }
-                    }
+                if (data.status === 'success') {
+                    examQuestions = data.questions;
+                    displayResults(results);
+                    renderPerformanceChart(results);
+                } else {
+                    throw new Error(data.message || 'Failed to load exam questions');
                 }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                document.getElementById('questionsResults').innerHTML = 
+                    `<p style="color:red">Error loading questions: ${error.message}</p>`;
             }
-        });
-    }
 
-    function downloadResults(results) {
-        try {
-            // Create a text version of the results
-            let resultText = `ICET Mock Test Results - Year ${results.year}\n`;
-            resultText += `========================================\n\n`;
-            resultText += `Score: ${results.score}/${results.totalQuestions}\n`;
-            resultText += `Correct Answers: ${results.score}\n`;
-            resultText += `Incorrect Answers: ${Object.values(results.answers).length - results.score}\n`;
-            resultText += `Unanswered Questions: ${results.totalQuestions - Object.values(results.answers).length}\n`;
-            resultText += `Time Taken: ${results.timeTaken.toFixed(1)} minutes\n\n`;
-            resultText += `Detailed Answers:\n\n`;
-            
-            // Add each question with answers
+            // Download button functionality
+            document.getElementById('downloadBtn').addEventListener('click', () => {
+                downloadResults(results);
+            });
+        });
+
+        function displayResults(results) {
+            document.getElementById('examYear').textContent = results.year;
+            document.getElementById('scoreValue').textContent = `${results.score}/${results.totalQuestions}`;
+            document.getElementById('totalQuestions').textContent = results.totalQuestions;
+            document.getElementById('correctAnswers').textContent = results.score;
+            document.getElementById('incorrectAnswers').textContent = 
+                (results.answeredCount - results.score);
+            document.getElementById('unansweredQuestions').textContent = results.unansweredCount;
+            document.getElementById('timeTaken').textContent = results.timeTaken.toFixed(1);
+
+            const questionsContainer = document.getElementById('questionsResults');
+            questionsContainer.innerHTML = '';
+
             examQuestions.forEach((question, index) => {
                 const userAnswer = results.answers[index];
                 const isCorrect = userAnswer === question.correctAnswer;
+                const isAnswered = userAnswer !== undefined;
+        
+                const questionDiv = document.createElement('div');
+                questionDiv.className = `question-result ${
+                    !isAnswered ? 'unanswered' : 
+                    isCorrect ? 'correct' : 'incorrect'
+                }`;
                 
-                resultText += `Question ${index + 1}: ${question.question}\n`;
+                let questionHTML = `
+                    <h3>Question ${index + 1}</h3>
+                    <div class="question-text">${question.question.replace(/\r?\n/g, "<br>")}</div>
+
+                `;
                 
-                // Add options
-                for (const [key, value] of Object.entries(question.options)) {
-                    let prefix = '   ';
-                    if (key === question.correctAnswer) prefix = '✓ ';
-                    if (key === userAnswer) prefix = isCorrect ? '✓ ' : '✗ ';
-                    
-                    resultText += `${prefix}${key}. ${value}\n`;
+                if (question.imageUrl) {
+                    questionHTML += `<img src="${question.imageUrl}" class="question-image" alt="Question image">`;
                 }
                 
-                resultText += `\nCorrect Answer: ${question.correctAnswer}\n`;
-                resultText += `Your Answer: ${userAnswer || 'Not attempted'}\n`;
-                resultText += `Status: ${isCorrect ? 'CORRECT' : (userAnswer ? 'INCORRECT' : 'NOT ATTEMPTED')}\n\n`;
-                resultText += `----------------------------------------\n\n`;
+                questionHTML += '<div class="options">';
+                for (const [key, value] of Object.entries(question.options)) {
+                    let optionClass = '';
+                    let indicators = [];
+                    
+                    // Correct answer styling
+                    if (key === question.correctAnswer) {
+                        optionClass = 'correct-answer';
+                        indicators.push('(Correct)');
+                    }
+                    
+                    // User's answer styling (only if answered)
+                    if (isAnswered && key === userAnswer) {
+                        optionClass = isCorrect ? 'correct-answer' : 'incorrect-answer';
+                        indicators.push('(Your answer)');
+                    }
+                    
+                    questionHTML += `
+                        <div class="option ${optionClass}">
+                            <strong>${key}.</strong> ${value}
+                            ${indicators.join(' ')}
+                        </div>
+                    `;
+                }
+                questionHTML += '</div>';
+            
+                // Add result explanation
+                questionHTML += `
+                    <div class="explanation">
+                        <strong>Correct Answer:</strong> ${question.correctAnswer}
+                        ${!isAnswered ? '<br><span class="unanswered-status">Not attempted</span>' : ''}
+                        ${isAnswered && !isCorrect ? '<br><span class="incorrect-status">Your answer was incorrect</span>' : ''}
+                    </div>
+                `;
+                
+                questionDiv.innerHTML = questionHTML;
+                questionsContainer.appendChild(questionDiv);
             });
-            
-            // Create download link
-            const blob = new Blob([resultText], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ICET_Results_${results.year}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            
-            // Clean up
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 100);
-        } catch (error) {
-            console.error('Download failed:', error);
-            alert('Failed to download results. Please try again.');
         }
-    }
-</script>
+
+        function renderPerformanceChart(results) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            const correct = results.score;
+            const incorrect = results.answeredCount - results.score;
+            const unanswered = results.unansweredCount;
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct', 'Incorrect', 'Unanswered'],
+                    datasets: [{
+                        data: [correct, incorrect, unanswered],
+                        backgroundColor: [
+                            '#2ecc71',
+                            '#e74c3c',
+                            '#f39c12'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Performance Summary',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function downloadResults(results) {
+            try {
+                // Create a text version of the results
+                let resultText = `ICET Mock Test Results - Year ${results.year}\n`;
+                resultText += `========================================\n\n`;
+                resultText += `Score: ${results.score}/${results.totalQuestions}\n`;
+                resultText += `Correct Answers: ${results.score}\n`;
+                resultText += `Incorrect Answers: ${results.answeredCount - results.score}\n`;
+                resultText += `Unanswered Questions: ${results.unansweredCount}\n`;
+                resultText += `Time Taken: ${results.timeTaken.toFixed(1)} minutes\n\n`;
+                resultText += `Detailed Answers:\n\n`;
+                
+                // Add each question with answers
+                examQuestions.forEach((question, index) => {
+                    const userAnswer = results.answers[index];
+                    const isCorrect = userAnswer === question.correctAnswer;
+                    
+                    resultText += `Question ${index + 1}: ${question.question}\n`;
+                    
+                    // Add options
+                    for (const [key, value] of Object.entries(question.options)) {
+                        let prefix = '   ';
+                        if (key === question.correctAnswer) prefix = '✓ ';
+                        if (userAnswer && key === userAnswer) prefix = isCorrect ? '✓ ' : '✗ ';
+                        
+                        resultText += `${prefix}${key}. ${value}\n`;
+                    }
+                    
+                    resultText += `\nCorrect Answer: ${question.correctAnswer}\n`;
+                    resultText += `Your Answer: ${userAnswer || 'Not attempted'}\n`;
+                    resultText += `Status: ${!userAnswer ? 'UNANSWERED' : isCorrect ? 'CORRECT' : 'INCORRECT'}\n\n`;
+                    resultText += `----------------------------------------\n\n`;
+                });
+                
+                // Create download link
+                const blob = new Blob([resultText], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ICET_Results_${results.year}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Failed to download results. Please try again.');
+            }
+        }
+    </script>
 </body>
 </html>
