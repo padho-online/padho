@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICET Mock Test - Exam</title>
+    <link rel="icon" type="image/png" href="https://onlibry.xyz/logo transparent.png">
+    <script src="security.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH4N1LBHRQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NH4N1LBHRQ');
+</script>
+    <!-- Google AdSense Auto Ads Code -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6893553072614021"
+     crossorigin="anonymous"></script>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -162,11 +176,71 @@
         .hidden {
             display: none;
         }
+        .onlibry{
+            color: cyan;
+        }
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .header h2 {
+        font-size: 18px;
+    }
+
+    .timer {
+        font-size: 16px;
+        align-self: flex-end;
+    }
+
+    .exam-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .question-section,
+    .navigation {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .question-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .nav-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+}
+
+
     </style>
 </head>
 <body>
     <div class="header">
-        <h2>ICET Mock Test - <span id="examYear"></span></h2>
+        <h2>ICET Mock Test - <span id="examYear"></span>  by<span class="onlibry"> Onlibry.xyz</span></h2>
         <div class="timer" id="timer">150:00</div>
     </div>
     
@@ -291,7 +365,8 @@
             // Build question HTML
             let questionHTML = `
                 <h3>Question ${index + 1}</h3>
-                <div class="question-text">${question.question}</div>
+                <div class="question-text">${question.question.replace(/\n/g, "<br>")}</div>
+
             `;
             
             // Add image if available
@@ -419,35 +494,43 @@
         }
         
         function submitExam() {
-            clearInterval(timerInterval);
-            
-            // Calculate score
-            let score = 0;
-            examData.forEach((question, index) => {
-                if (answers[index] && answers[index] === question.correctAnswer) {
-                    score++;
-                }
-            });
-            
-            // Store results
-            const results = {
-                year: localStorage.getItem('selectedYear'),
-                score: score,
-                totalQuestions: examData.length,
-                answers: answers,
-                correctAnswers: examData.reduce((acc, q, i) => {
-                    acc[i] = q.correctAnswer;
-                    return acc;
-                }, {}),
-                markedQuestions: markedQuestions,
-                timeTaken: (150 * 60 - timeLeft) / 60 // in minutes
-            };
-            
-            localStorage.setItem('examResults', JSON.stringify(results));
-            
-            // Redirect to results page
-            window.location.href = 'results.html';
+    clearInterval(timerInterval);
+    
+    // Calculate score and track answers
+    let score = 0;
+    let answeredQuestions = 0;
+    const userAnswers = {};
+    
+    examData.forEach((question, index) => {
+        if (answers[index] !== undefined) {
+            answeredQuestions++;
+            userAnswers[index] = answers[index];
+            if (answers[index] === question.correctAnswer) {
+                score++;
+            }
         }
+    });
+    
+    // Store results
+    const results = {
+        year: localStorage.getItem('selectedYear'),
+        score: score,
+        totalQuestions: examData.length,
+        answers: userAnswers, // Only store answered questions
+        correctAnswers: examData.reduce((acc, q, i) => {
+            acc[i] = q.correctAnswer;
+            return acc;
+        }, {}),
+        markedQuestions: markedQuestions,
+        timeTaken: (150 * 60 - timeLeft) / 60, // in minutes
+        answeredCount: answeredQuestions,
+        unansweredCount: examData.length - answeredQuestions
+    };
+    
+    localStorage.setItem('examResults', JSON.stringify(results));
+    window.location.href = 'results.html';
+}
+
     </script>
 </body>
 </html>
