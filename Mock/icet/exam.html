@@ -97,7 +97,8 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            height: fit-content;
+           max-height: 550px;
+            overflow-y: auto;
         }
         
         .question-nav {
@@ -264,12 +265,11 @@
         <div class="navigation">
             <h3>Question Navigation</h3>
             <p>Total Questions: <span id="totalQuestions">0</span></p>
-            <div class="question-nav" id="questionNav">
-                <!-- Navigation buttons will be added here -->
-            </div>
-            
             <div style="margin-top: 20px;">
                 <button id="submitBtn" class="btn btn-danger">Submit Test</button>
+            </div>
+            <div class="question-nav" id="questionNav">
+                <!-- Navigation buttons will be added here -->
             </div>
         </div>
     </div>
