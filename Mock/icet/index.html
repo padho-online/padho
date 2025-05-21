@@ -35,8 +35,8 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             padding: 30px;
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 800px;
             text-align: center;
         }
         
@@ -75,6 +75,97 @@
         .onlibry{
             color: green;
         }
+        
+        .rules-container {
+            max-width: 100%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            display: none;
+        }
+
+        .rules-container h2 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .rules-container hr {
+            border: none;
+            border-top: 2px solid #2980b9;
+            width: 60px;
+            margin: 10px auto 20px;
+        }
+
+        .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .rules-table th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .rules-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+
+        .rules-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .rules-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .rules-table .icon {
+            font-size: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .show-instructions-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        
+        .show-instructions-btn:hover {
+            background-color: #27ae60;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+                width: 95%;
+            }
+            
+            .rules-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .year-list {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
     </style>
 </head>
 <body>
@@ -90,13 +181,138 @@
         <div class="loading" id="loading">
             <p>Loading exam data...</p>
         </div>
+        
+        <button class="show-instructions-btn" id="showInstructionsBtn">📋 Show Instructions</button>
+        
+        <div class="rules-container" id="rulesContainer">
+            <h2>ICET Mock Test – Rules & Regulations</h2>
+            <hr />
+            
+            <table class="rules-table">
+                <tr>
+                    <th colspan="2">⏳ Test Duration & Structure</th>
+                </tr>
+                <tr>
+                    <td width="30%"><strong>Total Time</strong></td>
+                    <td>2 hours 30 minutes (150 minutes)</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Questions</strong></td>
+                    <td>200 (Multiple Choice Questions)</td>
+                </tr>
+                <tr>
+                    <td><strong>Sections</strong></td>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Analytical Ability – 75 questions</li>
+                            <li>Mathematical Ability – 75 questions</li>
+                            <li>Communication Ability – 50 questions</li>
+                        </ul>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th colspan="2">🧠 Instructions for Attempting</th>
+                </tr>
+                <tr>
+                    <td><strong>Marking Scheme</strong></td>
+                    <td>Each question carries 1 mark (No negative marking)</td>
+                </tr>
+                <tr>
+                    <td><strong>Question Types</strong></td>
+                    <td>Some questions may include images - observe carefully</td>
+                </tr>
+                
+                <tr>
+                    <th colspan="2">🔄 Navigation & Answering</th>
+                </tr>
+                <tr>
+                    <td><strong>Navigation</strong></td>
+                    <td>Free movement between questions</td>
+                </tr>
+                <tr>
+                    <td><strong>Review Feature</strong></td>
+                    <td>Use "Mark for Review" to revisit later</td>
+                </tr>
+                <tr>
+                    <td><strong>Answer Changes</strong></td>
+                    <td>You can change answers anytime before submission</td>
+                </tr>
+                
+                <tr>
+                    <th colspan="2">📋 Submission & Results</th>
+                </tr>
+                <tr>
+                    <td><strong>Submission</strong></td>
+                    <td>Click "Submit Test" when done (auto-submits when time ends)</td>
+                </tr>
+                <tr>
+                    <td><strong>Results</strong></td>
+                    <td>Instant display with:
+                        <ul style="margin: 5px 0 0 20px; padding-left: 15px;">
+                            <li>Your Score</li>
+                            <li>Selected vs Correct Answers</li>
+                        </ul>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th colspan="2">📵 Code of Conduct</th>
+                </tr>
+                <tr>
+                    <td><strong>Practice Test</strong></td>
+                    <td>No certificate or ranking issued</td>
+                </tr>
+                <tr>
+                    <td><strong>Important</strong></td>
+                    <td>Do not refresh or close tab - progress will be lost</td>
+                </tr>
+                
+                <tr>
+                    <th colspan="2">✅ Best Practices</th>
+                </tr>
+                <tr>
+                    <td><strong>Preparation</strong></td>
+                    <td>Keep notebook/calculator (non-digital) ready</td>
+                </tr>
+                <tr>
+                    <td><strong>Environment</strong></td>
+                    <td>Use full-screen mode for better focus</td>
+                </tr>
+                <tr>
+                    <td><strong>Internet</strong></td>
+                    <td>Ensure stable connection throughout the test</td>
+                </tr>
+            </table>
+            
+            <div style="background: #e8f6ff; border-left: 5px solid #3498db; padding: 12px 16px; border-radius: 8px; margin-top: 25px; font-style: italic; color: #2c3e50;">
+                🔥 <strong>Pro Tip:</strong> Practice different year papers regularly to improve speed & accuracy!
+            </div>
+        </div>
     </div>
+    
 
     <script>
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjh8oxAQyWxsjPtKblUqr8Q5pLpI69iZRRZv3clTKVKzeyQXHxLPZ_MzpENWXDFaW-/exec'; // Replace with your deployed web app URL
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjh8oxAQyWxsjPtKblUqr8Q5pLpI69iZRRZv3clTKVKzeyQXHxLPZ_MzpENWXDFaW-/exec';
     
     document.addEventListener('DOMContentLoaded', () => {
         fetchAvailableYears();
+        
+        // Add click event for instructions button
+        const showInstructionsBtn = document.getElementById('showInstructionsBtn');
+        const rulesContainer = document.getElementById('rulesContainer');
+        
+        showInstructionsBtn.addEventListener('click', () => {
+            if (rulesContainer.style.display === 'block') {
+                rulesContainer.style.display = 'none';
+                showInstructionsBtn.textContent = '📋 Show Instructions';
+            } else {
+                rulesContainer.style.display = 'block';
+                showInstructionsBtn.textContent = '❌ Hide Instructions';
+                // Scroll to instructions if they're long
+                rulesContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     });
     
     function fetchAvailableYears() {
@@ -141,9 +357,7 @@
     }
     
     function startExam(year) {
-        // Store the selected year in localStorage
         localStorage.setItem('selectedYear', year);
-        // Redirect to exam page (we'll create this next)
         window.location.href = 'exam.html';
     }
 </script>
