@@ -319,7 +319,7 @@
             
             pdfViewer.onerror = function() {
                 clearTimeout(loadTimeout);
-                showError("Failed to load Google Drive file", "The file may not exist or you may need permission");
+                showError("Failed to load Google Drive file", "The file may not {TH-CODE-18211}exist or you may need permission");
             };
         } else {
             showError("Invalid Google Drive file ID", "Please check the URL format and try again");
