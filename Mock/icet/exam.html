@@ -30,7 +30,7 @@
   });
 </script>
 
-    <style>
+   <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f5f5;
@@ -247,8 +247,6 @@
         flex-shrink: 0;
     }
 }
-
-
     </style>
 </head>
 <body>
@@ -310,6 +308,15 @@
         let timerInterval;
         let timeLeft = 150 * 60; // 150 minutes in seconds
         
+        // Disable refresh and back button
+        window.onload = function() {
+            window.history.forward();
+        };
+        
+        window.onbeforeunload = function() {
+            return "Are you sure you want to leave? Your progress will be saved but the timer will continue running.";
+        };
+        
         document.addEventListener('DOMContentLoaded', () => {
             const year = localStorage.getItem('selectedYear');
             if (!year) {
@@ -318,9 +325,34 @@
             }
             
             document.getElementById('examYear').textContent = year;
-            loadExamData(year);
+            
+            // Check if we're returning from submit attempt
+            const returningFromSubmit = localStorage.getItem('returningFromSubmit');
+            if (returningFromSubmit === 'true') {
+                localStorage.removeItem('returningFromSubmit');
+                resumeExam();
+            } else {
+                loadExamData(year);
+            }
+            
             startTimer();
         });
+        
+        function resumeExam() {
+            // Load saved state
+            const year = localStorage.getItem('selectedYear');
+            const savedTime = localStorage.getItem(`examTime_${year}`);
+            const savedAnswers = localStorage.getItem(`examAnswers_${year}`);
+            const savedMarked = localStorage.getItem(`markedQuestions_${year}`);
+            const savedCurrentQuestion = localStorage.getItem(`currentQuestion_${year}`);
+            
+            if (savedTime) timeLeft = parseInt(savedTime);
+            if (savedAnswers) answers = JSON.parse(savedAnswers);
+            if (savedMarked) markedQuestions = JSON.parse(savedMarked);
+            if (savedCurrentQuestion) currentQuestion = parseInt(savedCurrentQuestion);
+            
+            loadExamData(year);
+        }
         
         function loadExamData(year) {
             fetch(`${scriptUrl}?operation=getExam&year=${year}`)
@@ -346,19 +378,7 @@
             
             document.getElementById('totalQuestions').textContent = examData.length;
             createNavigationButtons();
-            showQuestion(0);
-            
-            // Load saved answers from localStorage if available
-            const savedAnswers = localStorage.getItem(`examAnswers_${localStorage.getItem('selectedYear')}`);
-            if (savedAnswers) {
-                answers = JSON.parse(savedAnswers);
-            }
-            
-            // Load saved marked questions
-            const savedMarked = localStorage.getItem(`markedQuestions_${localStorage.getItem('selectedYear')}`);
-            if (savedMarked) {
-                markedQuestions = JSON.parse(savedMarked);
-            }
+            showQuestion(currentQuestion);
             
             // Event listeners
             document.getElementById('prevBtn').addEventListener('click', () => {
@@ -379,6 +399,7 @@
             
             document.getElementById('submitBtn').addEventListener('click', () => {
                 if (confirm('Are you sure you want to submit the test?')) {
+                    localStorage.setItem('returningFromSubmit', 'true');
                     submitExam();
                 }
             });
@@ -389,11 +410,13 @@
             const question = examData[index];
             const questionContainer = document.getElementById('questionContainer');
             
+            // Save current question position
+            localStorage.setItem(`currentQuestion_${localStorage.getItem('selectedYear')}`, index);
+            
             // Build question HTML
             let questionHTML = `
                 <h3>Question ${index + 1}</h3>
                 <div class="question-text">${question.question.replace(/\n/g, "<br>")}</div>
-
             `;
             
             // Add image if available
@@ -427,7 +450,7 @@
         
         function selectOption(option) {
             answers[currentQuestion] = option;
-            localStorage.setItem(`examAnswers_${localStorage.getItem('selectedYear')}`, JSON.stringify(answers));
+            saveExamState();
             
             // Update UI
             const options = document.querySelectorAll('.option');
@@ -449,7 +472,7 @@
                 markedQuestions[currentQuestion] = true;
             }
             
-            localStorage.setItem(`markedQuestions_${localStorage.getItem('selectedYear')}`, JSON.stringify(markedQuestions));
+            saveExamState();
             
             document.getElementById('markBtn').textContent = 
                 markedQuestions[currentQuestion] ? 'Unmark Question' : 'Mark for Review';
@@ -504,6 +527,7 @@
             
             timerInterval = setInterval(() => {
                 timeLeft--;
+                saveExamState();
                 updateTimerDisplay();
                 
                 if (timeLeft <= 0) {
@@ -520,44 +544,58 @@
                 `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
         
-        function submitExam() {
-    clearInterval(timerInterval);
-    
-    // Calculate score and track answers
-    let score = 0;
-    let answeredQuestions = 0;
-    const userAnswers = {};
-    
-    examData.forEach((question, index) => {
-        if (answers[index] !== undefined) {
-            answeredQuestions++;
-            userAnswers[index] = answers[index];
-            if (answers[index] === question.correctAnswer) {
-                score++;
-            }
+        function saveExamState() {
+            const year = localStorage.getItem('selectedYear');
+            localStorage.setItem(`examAnswers_${year}`, JSON.stringify(answers));
+            localStorage.setItem(`markedQuestions_${year}`, JSON.stringify(markedQuestions));
+            localStorage.setItem(`examTime_${year}`, timeLeft.toString());
+            localStorage.setItem(`currentQuestion_${year}`, currentQuestion.toString());
         }
-    });
-    
-    // Store results
-    const results = {
-        year: localStorage.getItem('selectedYear'),
-        score: score,
-        totalQuestions: examData.length,
-        answers: userAnswers, // Only store answered questions
-        correctAnswers: examData.reduce((acc, q, i) => {
-            acc[i] = q.correctAnswer;
-            return acc;
-        }, {}),
-        markedQuestions: markedQuestions,
-        timeTaken: (150 * 60 - timeLeft) / 60, // in minutes
-        answeredCount: answeredQuestions,
-        unansweredCount: examData.length - answeredQuestions
-    };
-    
-    localStorage.setItem('examResults', JSON.stringify(results));
-    window.location.href = 'results.html';
-}
-
+        
+        function submitExam() {
+            clearInterval(timerInterval);
+            
+            // Calculate score and track answers
+            let score = 0;
+            let answeredQuestions = 0;
+            const userAnswers = {};
+            
+            examData.forEach((question, index) => {
+                if (answers[index] !== undefined) {
+                    answeredQuestions++;
+                    userAnswers[index] = answers[index];
+                    if (answers[index] === question.correctAnswer) {
+                        score++;
+                    }
+                }
+            });
+            
+            // Store results
+            const results = {
+                year: localStorage.getItem('selectedYear'),
+                score: score,
+                totalQuestions: examData.length,
+                answers: userAnswers, // Only store answered questions
+                correctAnswers: examData.reduce((acc, q, i) => {
+                    acc[i] = q.correctAnswer;
+                    return acc;
+                }, {}),
+                markedQuestions: markedQuestions,
+                timeTaken: (150 * 60 - timeLeft) / 60, // in minutes
+                answeredCount: answeredQuestions,
+                unansweredCount: examData.length - answeredQuestions
+            };
+            
+            // Clear exam state from localStorage
+            const year = localStorage.getItem('selectedYear');
+            localStorage.removeItem(`examAnswers_${year}`);
+            localStorage.removeItem(`markedQuestions_${year}`);
+            localStorage.removeItem(`examTime_${year}`);
+            localStorage.removeItem(`currentQuestion_${year}`);
+            
+            localStorage.setItem('examResults', JSON.stringify(results));
+            window.location.href = 'results.html';
+        }
     </script>
 </body>
 </html>
