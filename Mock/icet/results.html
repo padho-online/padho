@@ -198,70 +198,118 @@
             color: #e74c3c;
             font-weight: bold;
         }
-        .onlibry{
+        
+        .onlibry {
             color: green;
+        }
+        
+        /* Loading Animation Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-           <h1 class="onlibry"><a href="https://onlibry.xyz">Onlibry.xyz</a></h1>
-            <h1>ICET Mock Test Results</h1>
-            <p>Year: <strong id="examYear"></strong></p>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading Results...</div>
+    </div>
+    
+    <!-- Main Content (initially hidden) -->
+    <div id="mainContent" class="hidden">
+        <div class="container">
+            <div class="header">
+                <h1 class="onlibry">Onlibry.xyz</h1>
+                <h1>ICET Mock Test Results</h1>
+                <p>Year: <strong id="examYear"></strong></p>
+            </div>
+            
+            <div class="score-card">
+                <div class="score-item">
+                    <div class="score-value" id="scoreValue">0</div>
+                    <div class="score-label">Score</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="totalQuestions">0</div>
+                    <div class="score-label">Total Questions</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="correctAnswers">0</div>
+                    <div class="score-label">Correct Answers</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="incorrectAnswers">0</div>
+                    <div class="score-label">Incorrect Answers</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="unansweredQuestions">0</div>
+                    <div class="score-label">Unanswered</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="timeTaken">0</div>
+                    <div class="score-label">Time Taken (minutes)</div>
+                </div>
+            </div>
+            
+            <div class="performance-chart">
+                <canvas id="performanceChart"></canvas>
+            </div>
+            
+            <div class="results-summary">
+                <h2>Detailed Results</h2>
+                <div class="action-buttons">
+                    <a href="index.html" class="btn btn-primary">Take Another Test</a>
+                    <a href="#" id="downloadBtn" class="btn btn-secondary">Download Results</a>
+                    <a href="https://onlibry.xyz/feedback.html" class="btn btn-primary">Give feedback</a>
+                    <a href="https://onlibry.xyz/Buycoffee.html" class="btn btn-secondary">support Us</a>
+                </div>
+                <div id="questionsResults">
+                    <!-- Questions with answers will be loaded here -->
+                </div>
+            </div>
         </div>
-        
-        <div class="score-card">
-            <div class="score-item">
-                <div class="score-value" id="scoreValue">0</div>
-                <div class="score-label">Score</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value" id="totalQuestions">0</div>
-                <div class="score-label">Total Questions</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value" id="correctAnswers">0</div>
-                <div class="score-label">Correct Answers</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value" id="incorrectAnswers">0</div>
-                <div class="score-label">Incorrect Answers</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value" id="unansweredQuestions">0</div>
-                <div class="score-label">Unanswered</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value" id="timeTaken">0</div>
-                <div class="score-label">Time Taken (minutes)</div>
-            </div>
-        </div>
-        
-        <div class="performance-chart">
-            <canvas id="performanceChart"></canvas>
-        </div>
-        
-        <div class="results-summary">
-            <h2>Detailed Results</h2>
-            <div class="action-buttons">
-            <a href="index.html" class="btn btn-primary">Take Another Test</a>
-            <a href="#" id="downloadBtn" class="btn btn-secondary">Download Results</a>
-                <a href="https://onlibry.xyz/feedback.html" class="btn btn-primary">Give Feedback</a>
-                <a href="https://onlibry.xyz/Buycoffee.html"  class="btn btn-secondary">Support Us</a>
-        </div>
-            <div id="questionsResults">
-                <!-- Questions with answers will be loaded here -->
-            </div>
-        </div>
-        
-        
     </div>
     
     <script>
         // Make scriptUrl accessible
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjh8oxAQyWxsjPtKblUqr8Q5pLpI69iZRRZv3clTKVKzeyQXHxLPZ_MzpENWXDFaW-/exec'; // Replace with your deployed web app URL
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyjh8oxAQyWxsjPtKblUqr8Q5pLpI69iZRRZv3clTKVKzeyQXHxLPZ_MzpENWXDFaW-/exec';
         let examQuestions = [];
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -271,8 +319,12 @@
                 return;
             }
 
-            // Load the original exam questions
             try {
+                // Show loading overlay
+                document.getElementById('loadingOverlay').style.display = 'flex';
+                document.getElementById('mainContent').classList.add('hidden');
+
+                // Load the original exam questions
                 const response = await fetch(`${scriptUrl}?operation=getExam&year=${results.year}`);
                 const data = await response.json();
                 
@@ -280,13 +332,20 @@
                     examQuestions = data.questions;
                     displayResults(results);
                     renderPerformanceChart(results);
+                    
+                    // Hide loading overlay and show content
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                    document.getElementById('mainContent').classList.remove('hidden');
                 } else {
                     throw new Error(data.message || 'Failed to load exam questions');
                 }
             } catch (error) {
                 console.error('Error loading questions:', error);
-                document.getElementById('questionsResults').innerHTML = 
-                    `<p style="color:red">Error loading questions: ${error.message}</p>`;
+                document.getElementById('loadingOverlay').innerHTML = 
+                    `<div style="text-align: center; padding: 20px;">
+                        <p style="color:red; font-size: 18px;">Error loading results: ${error.message}</p>
+                        <button onclick="window.location.href='index.html'" class="btn btn-primary">Back to Home</button>
+                    </div>`;
             }
 
             // Download button functionality
@@ -322,7 +381,6 @@
                 let questionHTML = `
                     <h3>Question ${index + 1}</h3>
                     <div class="question-text">${question.question.replace(/\r?\n/g, "<br>")}</div>
-
                 `;
                 
                 if (question.imageUrl) {
